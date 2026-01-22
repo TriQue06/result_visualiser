@@ -29,24 +29,57 @@
     }
     header{
       display:flex;
-      gap:12px;
-      align-items:flex-start;
-      margin-bottom:12px;
+      flex-direction: column;
+      gap:16px;
+      margin-bottom:20px;
     }
+    .header-info{flex:1}
     h1{margin:0;font-size:26px;font-family:'ProductSans';}
     .note{font-size:13px;color:var(--muted)}
-    .controls{display:flex;gap:8px;align-items:center}
-    input[type=file]{padding:6px;font-family:'ProductSans'}
-    button{
-      padding:8px 12px;border-radius:8px;border:0;background:#111;color:#fff;cursor:pointer;
-      font-family:'ProductSans';
+    
+    .controls-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: rgba(0,0,0,0.04);
+      padding: 16px;
+      border-radius: 12px;
+      align-items: center;
     }
+    .control-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .divider {
+      width: 1px;
+      height: 30px;
+      background: #ccc;
+      margin: 0 8px;
+    }
+    
+    input[type=file], select {
+      padding:8px;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-family:'ProductSans';
+      background: #fff;
+    }
+    
+    button{
+      padding:8px 16px;border-radius:8px;border:0;background:#111;color:#fff;cursor:pointer;
+      font-family:'ProductSans';
+      transition: background 0.2s;
+    }
+    button:hover { background: #333; }
+    
     main{display:block}
     #previews{display:flex;flex-direction:column;gap:12px}
     .card{background:var(--card);border-radius:10px;padding:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);cursor:pointer}
     .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
     .meta strong{font-size:16px;font-family:'ProductSans'}
     .small{font-size:13px;color:var(--muted)}
+    
     #fsOverlay{
       display:none;
       position:fixed;inset:0;background:#fff;z-index:1200;
@@ -77,13 +110,29 @@
   <div id="backBtn" title="Geri dön">&larr;</div>
 
   <header>
-    <div style="flex:1">
+    <div class="header-info">
       <h1>Seçim Görselleştirici</h1>
-      <div class="note">results.txt yükle → Oluştur → Kartlara tıklayarak tam ekran görüntüle</div>
+      <div class="note">Dosya seçin veya mevcut sonuçlardan birini getirin.</div>
     </div>
-    <div class="controls">
-      <input id="fileTxt" type="file" accept=".txt" />
-      <button id="btnGen" type="button">Oluştur</button>
+    
+    <div class="controls-wrapper">
+      <div class="control-section">
+        <span class="small">Cihazdan:</span>
+        <input id="fileTxt" type="file" accept=".txt" />
+        <button id="btnGen" type="button">Oluştur</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="control-section">
+        <span class="small">Sunucudan:</span>
+        <select id="serverFiles">
+          <option value="">Dosya Seç...</option>
+          <option value="ocak2026#3.txt">Ocak 2026 (#3)</option>
+          <option value="subat2026#1.txt">Şubat 2026 (#1)</option>
+        </select>
+        <button id="btnFetch" type="button">Getir</button>
+      </div>
     </div>
   </header>
 
@@ -278,18 +327,13 @@ async function buildSVG(obj){
     ? `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${fontB64}) format('truetype');font-weight:700;font-style:normal;font-display:swap;}`
     : "@font-face{font-family:'ProductSans';src:url('ProductSans-Bold.ttf') format('truetype');}";
 
-  // SVG BAŞLANGIÇ
   let s = `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">\n<style>\n${fontStyle}\ntext{font-family:'ProductSans';}\n</style>\n<rect width="100%" height="100%" fill="#ffffff"/>\n`;
-  
-  // SİLÜET
   s += `<g transform="translate(40,30) scale(0.8)">\n${silInner}\n</g>\n`;
-  
-  // ŞEHİR BAŞLIĞI (Hata buradaydı, konumu netleştirdik)
   s += `<text x="360" y="90" font-size="64" font-weight="700" fill="#111">${escapeXML(obj.city)}</text>\n`;
 
   items.forEach((it, i)=>{
-    const rowTop = 160 + i * 64; // Satır başı
-    const rowCenterY = rowTop + 24; // Metin dikey hizası
+    const rowTop = 160 + i * 64; 
+    const rowCenterY = rowTop + 24; 
     const w = Math.round((it.v / shownTotal) * barMaxW);
     const pct = (it.v / totalVotes * 100);
     const pctStr = (isFinite(pct) ? pct.toFixed(2).replace('.',',') : '0,00');
@@ -297,24 +341,19 @@ async function buildSVG(obj){
     const label = PARTY_LABELS[it.p] || it.p;
     const seatsFor = alloc[it.p] || 0;
 
-    const labelX = 340; // Parti isminin sağ ucu
-    const barX = 360;   // Barın başlangıcı
-    const seatX = 1120; // Sandalye sayısının konumu
+    const labelX = 340; 
+    const barX = 360;   
+    const seatX = 1120; 
 
-    // PARTİ ADI
     s += `<text x="${labelX}" y="${rowCenterY}" font-size="32" text-anchor="end" fill="#111" dominant-baseline="middle">${escapeXML(label)}</text>\n`;
-    
-    // BAR
     s += `<rect x="${barX}" y="${rowTop}" width="${w}" height="48" rx="6" fill="${pc}"/>\n`;
     
-    // YÜZDE (%)
     if(pct < 18){
       s += `<text x="${barX + w + 12}" y="${rowCenterY}" font-size="22" fill="#111" text-anchor="start" dominant-baseline="middle">%${pctStr}</text>\n`;
     } else {
       s += `<text x="${barX + w - 12}" y="${rowCenterY}" font-size="22" fill="#fff" text-anchor="end" dominant-baseline="middle">%${pctStr}</text>\n`;
     }
 
-    // SANDALYE SAYISI
     s += `<text x="${seatX}" y="${rowCenterY}" font-size="34" font-weight="700" fill="#111" dominant-baseline="middle" text-anchor="middle">${seatsFor}</text>\n`;
   });
 
@@ -336,6 +375,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
   });
 
   const btn = document.getElementById('btnGen');
+  const btnFetch = document.getElementById('btnFetch');
+  const serverSelect = document.getElementById('serverFiles');
   const fileInput = document.getElementById('fileTxt');
   const previews = document.getElementById('previews');
   const fsOverlay = document.getElementById('fsOverlay');
@@ -352,34 +393,60 @@ document.addEventListener('DOMContentLoaded', ()=> {
     else window.location.href = '/';
   });
 
+  // Merkezi veri işleme fonksiyonu
+  async function generateFromText(txt) {
+    const data = parseResults(txt);
+    if(!data.length){ alert('Dosyadan bir sonuç çıkarılamadı.'); return; }
+    previews.innerHTML = '<p class="small">Görseller hazırlanıyor...</p>';
+    generated = [];
+    
+    const fragment = document.createDocumentFragment();
+    for(const c of data){
+      const svg = await buildSVG(c);
+      generated.push({city:c.city,seats:c.seats,svg});
+      
+      const card = document.createElement('div'); card.className = 'card';
+      const meta = document.createElement('div'); meta.className='meta';
+      meta.innerHTML = `<strong>${c.city}</strong><div class="small">${c.seats} sandalye</div>`;
+      card.appendChild(meta);
+      
+      const wrap = document.createElement('div');
+      wrap.style.overflow = 'hidden';
+      wrap.style.maxHeight = '320px';
+      wrap.innerHTML = svg;
+      card.appendChild(wrap);
+
+      const idx = generated.length - 1;
+      card.addEventListener('click', ()=> openFullscreen(idx));
+      fragment.appendChild(card);
+    }
+    previews.innerHTML = '';
+    previews.appendChild(fragment);
+  }
+
+  // Cihazdan dosya seçildiğinde
   btn.addEventListener('click', async ()=> {
     const f = fileInput.files[0];
-    if(!f){ alert('Lütfen bir results.txt dosyası seçin.'); return; }
+    if(!f){ alert('Lütfen bir .txt dosyası seçin.'); return; }
     try{
       const txt = await f.text();
-      const data = parseResults(txt);
-      if(!data.length){ alert('Dosyadan bir sonuç çıkarılamadı.'); return; }
-      previews.innerHTML = '';
-      generated = [];
-      for(const c of data){
-        const svg = await buildSVG(c);
-        generated.push({city:c.city,seats:c.seats,svg});
-        const card = document.createElement('div'); card.className = 'card';
-        const meta = document.createElement('div'); meta.className='meta';
-        meta.innerHTML = `<strong>${c.city}</strong><div class="small">${c.seats} sandalye</div>`;
-        card.appendChild(meta);
-        const wrap = document.createElement('div');
-        wrap.style.overflow = 'hidden';
-        wrap.style.maxHeight = '320px';
-        wrap.innerHTML = svg;
-        card.appendChild(wrap);
-
-        const idx = generated.length - 1;
-        card.addEventListener('click', ()=> openFullscreen(idx));
-        previews.appendChild(card);
-      }
+      await generateFromText(txt);
     }catch(err){
       alert('Hata: ' + err.message);
+    }
+  });
+
+  // Sunucudan getirildiğinde
+  btnFetch.addEventListener('click', async () => {
+    const fileName = serverSelect.value;
+    if(!fileName){ alert('Lütfen listeden bir dosya seçin.'); return; }
+    try {
+      const response = await fetch(fileName);
+      if(!response.ok) throw new Error('Dosya sunucuda bulunamadı.');
+      const txt = await response.text();
+      await generateFromText(txt);
+    } catch(err) {
+      alert('Dosya getirme hatası: ' + err.message);
     }
   });
 
