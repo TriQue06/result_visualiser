@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Seçim Görselleştirici — v3</title>
+  <style>
+    :root{
+      --bg:#f2f2f2;
+      --card:#ffffff;
+      --muted:#666;
+      --accent:#111;
+    }
+    @font-face{
+      font-family: 'ProductSans';
+      src: url('ProductSans-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    html,body{height:100%;margin:0;padding:0}
+    body{
+      margin:16px;
+      background:var(--bg);
+      color:var(--accent);
+      font-family:'ProductSans';
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    header{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:12px;
+    }
+    h1{margin:0;font-size:26px;font-family:'ProductSans';}
+    .note{font-size:13px;color:var(--muted)}
+    .controls{display:flex;gap:8px;align-items:center}
+    input[type=file]{padding:6px;font-family:'ProductSans'}
+    button{
+      padding:8px 12px;border-radius:8px;border:0;background:#111;color:#fff;cursor:pointer;
+      font-family:'ProductSans';
+    }
+    main{display:block}
+    #previews{display:flex;flex-direction:column;gap:12px}
+    .card{background:var(--card);border-radius:10px;padding:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);cursor:pointer}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .meta strong{font-size:16px;font-family:'ProductSans'}
+    .small{font-size:13px;color:var(--muted)}
+    #fsOverlay{
+      display:none;
+      position:fixed;inset:0;background:#fff;z-index:1200;
+      align-items:center;justify-content:center;padding:20px;
+      overflow:auto;
+    }
+    #fsContent{max-width:1400px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+    #fsInner{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+    .nav-zone{
+      position:fixed;top:0;bottom:0;width:20%;
+      z-index:1250; background:transparent; cursor:pointer;
+    }
+    #navLeft{left:0}
+    #navRight{right:0}
+    #backBtn{
+      position:fixed;left:8px;top:8px;z-index:1300;
+      width:36px;height:28px;border-radius:6px;border:0;background:rgba(0,0,0,0.08);
+      display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;font-family:'ProductSans';
+    }
+    @media (min-width:1000px){
+      .card{width:100%}
+    }
+    :focus{outline:none}
+    :focus-visible{outline:2px solid rgba(0,0,0,0.12)}
+  </style>
+</head>
+<body>
+  <div id="backBtn" title="Geri dön">&larr;</div>
+
+  <header>
+    <div style="flex:1">
+      <h1>Seçim Görselleştirici</h1>
+      <div class="note">results.txt yükle → Oluştur → Kartlara tıklayarak tam ekran görüntüle</div>
+    </div>
+    <div class="controls">
+      <input id="fileTxt" type="file" accept=".txt" />
+      <button id="btnGen" type="button">Oluştur</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="previews"></div>
+  </main>
+
+  <div id="fsOverlay" role="dialog" aria-modal="true">
+    <div id="fsContent">
+      <div id="fsInner" aria-hidden="false"></div>
+    </div>
+    <div id="navLeft" class="nav-zone"></div>
+    <div id="navRight" class="nav-zone"></div>
+  </div>
+
+<script>
+const PARTY_COLORS = {
+  'AKP':{base:'#f29118',majority:'#f5a746',leading:'#f8c07b'},
+  'CHP':{base:'#e60017',majority:'#eb3345',leading:'#f16d7a'},
+  'DEM':{base:'#9c11a6',majority:'#b041b8',leading:'#c677cc'},
+  'YRP':{base:'#1c8c38'},
+  'MHP':{base:'#a60042'},
+  'ANP':{base:'#0f4599'},
+  'ANAP':{base:'#ffcc00'},
+  'TİP':{base:'#e62274'},
+  'İYİ':{base:'#39b8e6'},
+  'BBP':{base:'#e64500'},
+  'GENÇ':{base:'#6ea100'},
+  'HAK':{base:'#007a99'},
+  'MYP':{base:'#4b2e83'},
+  'SOL':{base:'#1485cc'},
+  'DEFAULT':{base:'#cccccc'}
+};
+
+const PARTY_LABELS = {
+  'AKP':'AK Parti','CHP':'CHP','MHP':'MHP','İYİ':'İYİ Parti',
+  'YRP':'Yeniden Refah','BBP':'Büyük Birlik','DEM':'DEM Parti','TİP':'TİP','ANP':'A Parti',
+  'GENÇ':'Genç Parti','HAK':'HAK PAR','MYP':'Milli Yol','SOL':'SOL Parti','ANAP':'ANAP'
+};
+
+const ALLIANCES = {
+  'AKP':['AKP','HÜDA','DSP'],
+  'İYİ':['İYİ','ZP','BTP'],
+  'DEM':['DEM','EMEP'],
+  'YRP':['YRP','SP','DEVA','GP']
+};
+
+function mapParty(p){
+  for(const k in ALLIANCES) if(ALLIANCES[k].includes(p)) return k;
+  return p;
+}
+
+function parseNumber(s){
+  if(!s) return 0;
+  s = String(s).replace(/\./g,'').replace(/,/g,'').replace(/[^\d\-]/g,'').trim();
+  const n = parseInt(s,10);
+  return isNaN(n)?0:n;
+}
+
+function parseResults(txt){
+  const blocks = txt.split(/\n(?:-+\s*\n|\s*\n){1,}/).map(b=>b.trim()).filter(Boolean);
+  const out = [];
+  for(const b of blocks){
+    const lines = b.split(/\n/).map(l=>l.trim()).filter(Boolean);
+    if(lines.length === 0) continue;
+    let city = null, seats = 0;
+    const first = lines[0];
+    let m = first.match(/^(.+?)\s*[-:]\s*(\d+)/);
+    if(!m) m = first.match(/^(.+?)\s+(\d+)\s*$/);
+    if(!m) m = first.match(/^(.+?)\s*\((\d+)\)/);
+    if(m){
+      city = m[1].trim();
+      seats = parseNumber(m[2]);
+    } else {
+      city = first;
+      const sline = lines.slice(1).join(' ');
+      const mm = sline.match(/(\d{1,3})/);
+      if(mm) seats = parseNumber(mm[1]);
+    }
+    if(!city) continue;
+    if(!seats) seats = 1;
+    const votes = {};
+    for(let i=1;i<lines.length;i++){
+      const ln = lines[i];
+      let mm = ln.match(/^(.+?)[\s:–-]+([\d\.,]+)/);
+      if(!mm) mm = ln.match(/^(.+?)\s+(\d{1,})\b/);
+      if(!mm) continue;
+      let party = mm[1].trim().replace(/\s+/g,' ');
+      party = mapParty(party);
+      const v = parseNumber(mm[2]);
+      votes[party] = (votes[party]||0) + v;
+    }
+    out.push({city,seats,votes});
+  }
+  return out;
+}
+
+function dhondt(votes,seats){
+  const filtered = {};
+  Object.entries(votes).forEach(([p,v])=>{ if(v>0) filtered[p]=v; });
+  const ps = Object.keys(filtered);
+  const table = [];
+  ps.forEach(p=>{
+    for(let i=1;i<=seats;i++) table.push({p,q:filtered[p]/i});
+  });
+  table.sort((a,b)=>b.q-a.q);
+  const alloc = {};
+  ps.forEach(p=>alloc[p]=0);
+  table.slice(0,seats).forEach(x=>alloc[x.p]++);
+  return alloc;
+}
+
+async function fetchSilhouette(city){
+  const candidates = [
+    `svg/${encodeURIComponent(city)}.svg`,
+    `svg/${encodeURIComponent(city.toLowerCase())}.svg`,
+    `svg/${encodeURIComponent(city.replace(/\s+/g,'_'))}.svg`
+  ];
+  for(const url of candidates){
+    try{
+      const res = await fetch(url);
+      if(!res.ok) continue;
+      const txt = await res.text();
+      if(txt && txt.trim()) return txt;
+    }catch(e){}
+  }
+  return null;
+}
+
+let fontBase64Promise = null;
+function loadFontBase64Once(){
+  if(fontBase64Promise) return fontBase64Promise;
+  const url = 'ProductSans-Bold.ttf';
+  fontBase64Promise = fetch(url)
+    .then(r=>{
+      if(!r.ok) throw new Error('Font yüklenemedi');
+      return r.arrayBuffer();
+    })
+    .then(buf=>{
+      const b64 = arrayBufferToBase64(buf);
+      return b64;
+    })
+    .catch(err=>{
+      console.warn('Font hatası:', err);
+      return null;
+    });
+  return fontBase64Promise;
+}
+
+function arrayBufferToBase64(buffer){
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for(let i=0;i<len;i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+async function buildSVG(obj){
+  const W = 1365, H = 768;
+  const totalVotes = Object.values(obj.votes).reduce((a,b)=>a+b,0) || 1;
+  const items = Object.entries(obj.votes)
+    .filter(([,v])=>v>0)
+    .map(([p,v])=>({p,v}))
+    .sort((a,b)=>b.v-a.v)
+    .slice(0,9);
+
+  if(items.length === 0) items.push({p:'DEFAULT', v:0});
+
+  const votesForDhondt = {};
+  Object.entries(obj.votes).forEach(([p,v])=>{ if(v>0) votesForDhondt[p]=v; });
+  const alloc = dhondt(votesForDhondt, obj.seats);
+
+  const leader = items[0]?.p || 'DEFAULT';
+  const col = PARTY_COLORS[leader] || PARTY_COLORS.DEFAULT;
+  const silColor = (alloc[leader] > (obj.seats/2)) ? (col.majority||col.base) : (col.leading||col.base);
+
+  let sil = null;
+  try{ sil = await fetchSilhouette(obj.city); }catch(e){}
+  let silInner = '';
+  if(sil){
+    silInner = sil.replace(/<\s*svg[^>]*>/i,'').replace(/<\/svg\s*>/i,'');
+    silInner = `<g fill="${silColor}" stroke="none">${silInner}</g>`;
+  } else {
+    silInner = `<circle cx="220" cy="220" r="200" fill="${silColor}" />`;
+  }
+
+  const barMaxW = 700;
+  const shownTotal = items.reduce((a,b)=>a+b.v,0) || totalVotes;
+  const fontB64 = await loadFontBase64Once();
+
+  let fontStyle = fontB64 
+    ? `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${fontB64}) format('truetype');font-weight:700;font-style:normal;font-display:swap;}`
+    : "@font-face{font-family:'ProductSans';src:url('ProductSans-Bold.ttf') format('truetype');}";
+
+  // SVG BAŞLANGIÇ
+  let s = `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">\n<style>\n${fontStyle}\ntext{font-family:'ProductSans';}\n</style>\n<rect width="100%" height="100%" fill="#ffffff"/>\n`;
+  
+  // SİLÜET
+  s += `<g transform="translate(40,30) scale(0.8)">\n${silInner}\n</g>\n`;
+  
+  // ŞEHİR BAŞLIĞI (Hata buradaydı, konumu netleştirdik)
+  s += `<text x="360" y="90" font-size="64" font-weight="700" fill="#111">${escapeXML(obj.city)}</text>\n`;
+
+  items.forEach((it, i)=>{
+    const rowTop = 160 + i * 64; // Satır başı
+    const rowCenterY = rowTop + 24; // Metin dikey hizası
+    const w = Math.round((it.v / shownTotal) * barMaxW);
+    const pct = (it.v / totalVotes * 100);
+    const pctStr = (isFinite(pct) ? pct.toFixed(2).replace('.',',') : '0,00');
+    const pc = (PARTY_COLORS[it.p] && PARTY_COLORS[it.p].base) || PARTY_COLORS.DEFAULT.base;
+    const label = PARTY_LABELS[it.p] || it.p;
+    const seatsFor = alloc[it.p] || 0;
+
+    const labelX = 340; // Parti isminin sağ ucu
+    const barX = 360;   // Barın başlangıcı
+    const seatX = 1120; // Sandalye sayısının konumu
+
+    // PARTİ ADI
+    s += `<text x="${labelX}" y="${rowCenterY}" font-size="32" text-anchor="end" fill="#111" dominant-baseline="middle">${escapeXML(label)}</text>\n`;
+    
+    // BAR
+    s += `<rect x="${barX}" y="${rowTop}" width="${w}" height="48" rx="6" fill="${pc}"/>\n`;
+    
+    // YÜZDE (%)
+    if(pct < 18){
+      s += `<text x="${barX + w + 12}" y="${rowCenterY}" font-size="22" fill="#111" text-anchor="start" dominant-baseline="middle">%${pctStr}</text>\n`;
+    } else {
+      s += `<text x="${barX + w - 12}" y="${rowCenterY}" font-size="22" fill="#fff" text-anchor="end" dominant-baseline="middle">%${pctStr}</text>\n`;
+    }
+
+    // SANDALYE SAYISI
+    s += `<text x="${seatX}" y="${rowCenterY}" font-size="34" font-weight="700" fill="#111" dominant-baseline="middle" text-anchor="middle">${seatsFor}</text>\n`;
+  });
+
+  s += `</svg>`;
+  return s;
+}
+
+function escapeXML(s){
+  return String(s||'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&apos;"})[ch]);
+}
+
+document.addEventListener('DOMContentLoaded', ()=> {
+  loadFontBase64Once().then(b64=>{
+    if(b64){
+      const style = document.createElement('style');
+      style.textContent = `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${b64}) format('truetype');font-weight:700;font-style:normal;font-display:swap;} body, *{font-family:'ProductSans' !important;}`;
+      document.head.appendChild(style);
+    }
+  });
+
+  const btn = document.getElementById('btnGen');
+  const fileInput = document.getElementById('fileTxt');
+  const previews = document.getElementById('previews');
+  const fsOverlay = document.getElementById('fsOverlay');
+  const fsInner = document.getElementById('fsInner');
+  const navLeft = document.getElementById('navLeft');
+  const navRight = document.getElementById('navRight');
+  const backBtn = document.getElementById('backBtn');
+
+  let generated = [];
+  let currentIndex = -1;
+
+  backBtn.addEventListener('click', ()=> {
+    if(window.history.length > 1) window.history.back();
+    else window.location.href = '/';
+  });
+
+  btn.addEventListener('click', async ()=> {
+    const f = fileInput.files[0];
+    if(!f){ alert('Lütfen bir results.txt dosyası seçin.'); return; }
+    try{
+      const txt = await f.text();
+      const data = parseResults(txt);
+      if(!data.length){ alert('Dosyadan bir sonuç çıkarılamadı.'); return; }
+      previews.innerHTML = '';
+      generated = [];
+      for(const c of data){
+        const svg = await buildSVG(c);
+        generated.push({city:c.city,seats:c.seats,svg});
+        const card = document.createElement('div'); card.className = 'card';
+        const meta = document.createElement('div'); meta.className='meta';
+        meta.innerHTML = `<strong>${c.city}</strong><div class="small">${c.seats} sandalye</div>`;
+        card.appendChild(meta);
+        const wrap = document.createElement('div');
+        wrap.style.overflow = 'hidden';
+        wrap.style.maxHeight = '320px';
+        wrap.innerHTML = svg;
+        card.appendChild(wrap);
+
+        const idx = generated.length - 1;
+        card.addEventListener('click', ()=> openFullscreen(idx));
+        previews.appendChild(card);
+      }
+    }catch(err){
+      alert('Hata: ' + err.message);
+    }
+  });
+
+  function openFullscreen(index){
+    if(!generated[index]) return;
+    currentIndex = index;
+    fsInner.innerHTML = generated[index].svg;
+    fsOverlay.style.display = 'flex';
+    fsOverlay.focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFullscreen(){
+    fsOverlay.style.display = 'none';
+    fsInner.innerHTML = '';
+    currentIndex = -1;
+    document.body.style.overflow = '';
+  }
+
+  function showPrev(){ if(currentIndex > 0) openFullscreen(currentIndex - 1); }
+  function showNext(){ if(currentIndex < generated.length - 1) openFullscreen(currentIndex + 1); }
+
+  navLeft.addEventListener('click', (e)=> { e.stopPropagation(); showPrev(); });
+  navRight.addEventListener('click', (e)=> { e.stopPropagation(); showNext(); });
+
+  document.addEventListener('keydown', (e)=>{
+    if(fsOverlay.style.display === 'flex'){
+      if(e.key === 'ArrowLeft') showPrev();
+      else if(e.key === 'ArrowRight') showNext();
+      else if(e.key === 'Escape') closeFullscreen();
+    }
+  });
+
+  fsOverlay.addEventListener('click', (e)=>{ if(e.target === fsOverlay) closeFullscreen(); });
+});
+</script>
+</body>
+</html>
