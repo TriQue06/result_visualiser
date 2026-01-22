@@ -128,8 +128,8 @@
         <span class="small">Sunucudan:</span>
         <select id="serverFiles">
           <option value="">Dosya Seç...</option>
-          <option value="ocak2026#3.txt">Ocak 2026 (#3)</option>
-          <option value="subat2026#1.txt">Şubat 2026 (#1)</option>
+          <option value="ocak2026_3.txt">Ocak 2026 (#3)</option>
+          <option value="subat2026_1.txt">Şubat 2026 (#1)</option>
         </select>
         <button id="btnFetch" type="button">Getir</button>
       </div>
@@ -393,7 +393,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     else window.location.href = '/';
   });
 
-  // Merkezi veri işleme fonksiyonu
   async function generateFromText(txt) {
     const data = parseResults(txt);
     if(!data.length){ alert('Dosyadan bir sonuç çıkarılamadı.'); return; }
@@ -424,7 +423,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     previews.appendChild(fragment);
   }
 
-  // Cihazdan dosya seçildiğinde
   btn.addEventListener('click', async ()=> {
     const f = fileInput.files[0];
     if(!f){ alert('Lütfen bir .txt dosyası seçin.'); return; }
@@ -436,7 +434,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     }
   });
 
-  // Sunucudan getirildiğinde
   btnFetch.addEventListener('click', async () => {
     const fileName = serverSelect.value;
     if(!fileName){ alert('Lütfen listeden bir dosya seçin.'); return; }
