@@ -23,7 +23,7 @@
       margin:16px;
       background:var(--bg);
       color:var(--accent);
-      font-family:'ProductSans';
+      font-family:'ProductSans', sans-serif;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
@@ -34,7 +34,7 @@
       margin-bottom:20px;
     }
     .header-info{flex:1}
-    h1{margin:0;font-size:26px;font-family:'ProductSans';}
+    h1{margin:0;font-size:26px;}
     .note{font-size:13px;color:var(--muted)}
     
     .controls-wrapper {
@@ -77,7 +77,7 @@
     #previews{display:flex;flex-direction:column;gap:12px}
     .card{background:var(--card);border-radius:10px;padding:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);cursor:pointer}
     .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-    .meta strong{font-size:16px;font-family:'ProductSans'}
+    .meta strong{font-size:16px;}
     .small{font-size:13px;color:var(--muted)}
     
     #fsOverlay{
@@ -97,7 +97,7 @@
     #backBtn{
       position:fixed;left:8px;top:8px;z-index:1300;
       width:36px;height:28px;border-radius:6px;border:0;background:rgba(0,0,0,0.08);
-      display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;font-family:'ProductSans';
+      display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;
     }
     @media (min-width:1000px){
       .card{width:100%}
@@ -142,7 +142,7 @@
 
   <div id="fsOverlay" role="dialog" aria-modal="true">
     <div id="fsContent">
-      <div id="fsInner" aria-hidden="false"></div>
+      <div id="fsInner"></div>
     </div>
     <div id="navLeft" class="nav-zone"></div>
     <div id="navRight" class="nav-zone"></div>
@@ -272,11 +272,10 @@ function loadFontBase64Once(){
       return r.arrayBuffer();
     })
     .then(buf=>{
-      const b64 = arrayBufferToBase64(buf);
-      return b64;
+      return arrayBufferToBase64(buf);
     })
     .catch(err=>{
-      console.warn('Font hatası:', err);
+      console.warn('Font yüklenemedi, sistem fontuna dönülüyor:', err);
       return null;
     });
   return fontBase64Promise;
@@ -324,10 +323,10 @@ async function buildSVG(obj){
   const fontB64 = await loadFontBase64Once();
 
   let fontStyle = fontB64 
-    ? `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${fontB64}) format('truetype');font-weight:700;font-style:normal;font-display:swap;}`
-    : "@font-face{font-family:'ProductSans';src:url('ProductSans-Bold.ttf') format('truetype');}";
+    ? `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${fontB64}) format('truetype');font-weight:700;font-style:normal;}`
+    : "@font-face{font-family:'ProductSans';src:local('Arial Black');font-weight:bold;}";
 
-  let s = `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">\n<style>\n${fontStyle}\ntext{font-family:'ProductSans';}\n</style>\n<rect width="100%" height="100%" fill="#ffffff"/>\n`;
+  let s = `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">\n<style>\n${fontStyle}\ntext{font-family:'ProductSans', sans-serif;}\n</style>\n<rect width="100%" height="100%" fill="#ffffff"/>\n`;
   s += `<g transform="translate(40,30) scale(0.8)">\n${silInner}\n</g>\n`;
   s += `<text x="360" y="90" font-size="64" font-weight="700" fill="#111">${escapeXML(obj.city)}</text>\n`;
 
@@ -366,14 +365,6 @@ function escapeXML(s){
 }
 
 document.addEventListener('DOMContentLoaded', ()=> {
-  loadFontBase64Once().then(b64=>{
-    if(b64){
-      const style = document.createElement('style');
-      style.textContent = `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${b64}) format('truetype');font-weight:700;font-style:normal;font-display:swap;} body, *{font-family:'ProductSans' !important;}`;
-      document.head.appendChild(style);
-    }
-  });
-
   const btn = document.getElementById('btnGen');
   const btnFetch = document.getElementById('btnFetch');
   const serverSelect = document.getElementById('serverFiles');
@@ -395,18 +386,18 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
   async function generateFromText(txt) {
     const data = parseResults(txt);
-    if(!data.length){ alert('Dosyadan bir sonuç çıkarılamadı.'); return; }
-    previews.innerHTML = '<p class="small">Görseller hazırlanıyor...</p>';
+    if(!data.length){ alert('Veri işlenemedi.'); return; }
+    previews.innerHTML = '<p class="small">Görseller oluşturuluyor, lütfen bekleyin...</p>';
     generated = [];
     
     const fragment = document.createDocumentFragment();
     for(const c of data){
       const svg = await buildSVG(c);
-      generated.push({city:c.city,seats:c.seats,svg});
+      generated.push({city:c.city, svg});
       
       const card = document.createElement('div'); card.className = 'card';
       const meta = document.createElement('div'); meta.className='meta';
-      meta.innerHTML = `<strong>${c.city}</strong><div class="small">${c.seats} sandalye</div>`;
+      meta.innerHTML = `<strong>${c.city}</strong><div class="small">${c.seats} Sandalye</div>`;
       card.appendChild(meta);
       
       const wrap = document.createElement('div');
@@ -423,27 +414,26 @@ document.addEventListener('DOMContentLoaded', ()=> {
     previews.appendChild(fragment);
   }
 
+  // Cihazdan yükle
   btn.addEventListener('click', async ()=> {
     const f = fileInput.files[0];
-    if(!f){ alert('Lütfen bir .txt dosyası seçin.'); return; }
-    try{
-      const txt = await f.text();
-      await generateFromText(txt);
-    }catch(err){
-      alert('Hata: ' + err.message);
-    }
+    if(!f){ alert('Dosya seçilmedi.'); return; }
+    const txt = await f.text();
+    await generateFromText(txt);
   });
 
+  // Sunucudan getir
   btnFetch.addEventListener('click', async () => {
     const fileName = serverSelect.value;
     if(!fileName){ alert('Lütfen listeden bir dosya seçin.'); return; }
     try {
+      // index.html ile aynı klasörde oldukları varsayılıyor
       const response = await fetch(fileName);
-      if(!response.ok) throw new Error('Dosya sunucuda bulunamadı.');
+      if(!response.ok) throw new Error('Dosya bulunamadı.');
       const txt = await response.text();
       await generateFromText(txt);
     } catch(err) {
-      alert('Dosya getirme hatası: ' + err.message);
+      alert('Hata: ' + err.message);
     }
   });
 
@@ -452,7 +442,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     currentIndex = index;
     fsInner.innerHTML = generated[index].svg;
     fsOverlay.style.display = 'flex';
-    fsOverlay.focus();
     document.body.style.overflow = 'hidden';
   }
 
@@ -463,16 +452,19 @@ document.addEventListener('DOMContentLoaded', ()=> {
     document.body.style.overflow = '';
   }
 
-  function showPrev(){ if(currentIndex > 0) openFullscreen(currentIndex - 1); }
-  function showNext(){ if(currentIndex < generated.length - 1) openFullscreen(currentIndex + 1); }
-
-  navLeft.addEventListener('click', (e)=> { e.stopPropagation(); showPrev(); });
-  navRight.addEventListener('click', (e)=> { e.stopPropagation(); showNext(); });
+  navLeft.addEventListener('click', (e)=> { 
+    e.stopPropagation(); 
+    if(currentIndex > 0) openFullscreen(currentIndex - 1); 
+  });
+  navRight.addEventListener('click', (e)=> { 
+    e.stopPropagation(); 
+    if(currentIndex < generated.length - 1) openFullscreen(currentIndex + 1); 
+  });
 
   document.addEventListener('keydown', (e)=>{
     if(fsOverlay.style.display === 'flex'){
-      if(e.key === 'ArrowLeft') showPrev();
-      else if(e.key === 'ArrowRight') showNext();
+      if(e.key === 'ArrowLeft' && currentIndex > 0) openFullscreen(currentIndex - 1);
+      else if(e.key === 'ArrowRight' && currentIndex < generated.length - 1) openFullscreen(currentIndex + 1);
       else if(e.key === 'Escape') closeFullscreen();
     }
   });
