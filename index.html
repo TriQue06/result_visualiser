@@ -183,27 +183,22 @@ const PARTY_COLORS = {
   'DEM':{base:'#9c11a6',majority:'#b041b8',leading:'#c677cc'},
   'YRP':{base:'#1c8c38'}, 'MHP':{base:'#a60042'}, 'ANP':{base:'#0f4599'},
   'ANAP':{base:'#ffcc00'}, 'TİP':{base:'#e62274'}, 'İYİ':{base:'#39b8e6'},
-  'BBP':{base:'#e64500'}, 'GENÇ':{base:'#6ea100'}, 'HAK':{base:'#007a99'},
-  'MYP':{base:'#4b2e83'}, 'SOL':{base:'#1485cc'}, 'DEFAULT':{base:'#cccccc'}
+  'BBP':{base:'#e64500'}, 'GENÇ':{base:'#e64596'}, 'HAK':{base:'#007a99'},
+  'MYP':{base:'#4b2e83'}, 'SOL':{base:'#1485cc'}, 'HÜDA':{base:'#00993d'},
+  'DSP':{base:'#17cee6'}, 'ZP':{base:'#404040'}, 'BTP':{base:'#bf000a'},
+  'SP':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'GP':{base:'#0a6642'},
+  'AP':{base:'#401380'}, 'TKP':{base:'#bf131d'}, 'DP':{base:'#e61789'},
+  'DEFAULT':{base:'#cccccc'}
 };
 
 const PARTY_LABELS = {
   'AKP':'AK Parti','CHP':'CHP','MHP':'MHP','İYİ':'İYİ Parti',
   'YRP':'Yeniden Refah','BBP':'Büyük Birlik','DEM':'DEM Parti','TİP':'TİP','ANP':'A Parti',
-  'GENÇ':'Genç Parti','HAK':'HAK PAR','MYP':'Milli Yol','SOL':'SOL Parti','ANAP':'ANAP'
+  'GENÇ':'Genç Parti','HAK':'HAK PAR','MYP':'Milli Yol','SOL':'SOL Parti','ANAP':'ANAP',
+  'TEK':'TEK Parti','AB':'AB Parti','MİL':'Millet','VP':'Vatan Partisi',
+  'GP':'Gelecek','SP':'Saadet','ZP':'Zafer Partisi','HÜDA':'HÜDA PAR',
+  'DSP':'DSP','BTP':'BTP','DEVA':'DEVA','AP':'AP','TKP':'TKP','MP':'Memleket','DP':'Demokrat Parti'
 };
-
-const ALLIANCES = {
-  'AKP':['AKP','HÜDA','DSP'],
-  'İYİ':['İYİ','ZP','BTP'],
-  'DEM':['DEM','EMEP'],
-  'YRP':['YRP','SP','DEVA','GP']
-};
-
-function mapParty(p){
-  for(const k in ALLIANCES) if(ALLIANCES[k].includes(p)) return k;
-  return p;
-}
 
 function parseNumber(s){
   if(!s) return 0;
@@ -234,7 +229,6 @@ function parseResults(txt){
       if(!mm) mm = ln.match(/^(.+?)\s+(\d{1,})\b/);
       if(!mm) continue;
       let party = mm[1].trim().replace(/\s+/g,' ');
-      party = mapParty(party);
       const v = parseNumber(mm[2]);
       votes[party] = (votes[party]||0) + v;
     }
@@ -338,7 +332,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     previews.innerHTML = ''; 
     generated = new Array(data.length).fill(null);
 
-    // 1. ADIM: İskelet Yapıyı Hemen Oluştur (Saniyeler içinde)
     data.forEach((c, idx) => {
       const card = document.createElement('div');
       card.className = 'card loading';
@@ -351,12 +344,9 @@ document.addEventListener('DOMContentLoaded', ()=> {
       previews.appendChild(card);
     });
 
-    // 2. ADIM: Görselleri Sıra Sıra Arka Planda Oluştur
-    // Fontu bir kere en başta yükle ki her seferinde beklemesin
     await loadFontBase64Once();
 
     for(let i=0; i < data.length; i++) {
-        // Render işlemini bir sonraki frame'e atar, böylece UI donmaz
         await new Promise(r => setTimeout(r, 10)); 
         
         const svg = await buildSVG(data[i]);
