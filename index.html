@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Seçim Görselleştirici — v3</title>
+  <title>Seçim Görselleştirici — v3.1 (Hızlı)</title>
   <style>
     :root{
       --bg:#f2f2f2;
@@ -75,7 +75,39 @@
     
     main{display:block}
     #previews{display:flex;flex-direction:column;gap:12px}
-    .card{background:var(--card);border-radius:10px;padding:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);cursor:pointer}
+    
+    /* Kart ve Yükleme Stilleri */
+    .card{
+        background:var(--card);
+        border-radius:10px;
+        padding:10px;
+        box-shadow:0 6px 18px rgba(0,0,0,.08);
+        cursor:pointer;
+        min-height: 100px;
+        transition: opacity 0.3s;
+    }
+    .card.loading { opacity: 0.6; }
+    .card .svg-container {
+        overflow: hidden;
+        max-height: 320px;
+        background: #f9f9f9;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 180px;
+    }
+    /* Basit bir yükleme animasyonu */
+    .spinner {
+        width: 30px;
+        height: 30px;
+        border: 3px solid #eee;
+        border-top: 3px solid #111;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
     .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
     .meta strong{font-size:16px;}
     .small{font-size:13px;color:var(--muted)}
@@ -99,9 +131,7 @@
       width:36px;height:28px;border-radius:6px;border:0;background:rgba(0,0,0,0.08);
       display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;
     }
-    @media (min-width:1000px){
-      .card{width:100%}
-    }
+    @media (min-width:1000px){ .card{width:100%} }
     :focus{outline:none}
     :focus-visible{outline:2px solid rgba(0,0,0,0.12)}
   </style>
@@ -121,9 +151,7 @@
         <input id="fileTxt" type="file" accept=".txt" />
         <button id="btnGen" type="button">Oluştur</button>
       </div>
-
       <div class="divider"></div>
-
       <div class="control-section">
         <span class="small">Sunucudan:</span>
         <select id="serverFiles">
@@ -153,18 +181,10 @@ const PARTY_COLORS = {
   'AKP':{base:'#f29118',majority:'#f5a746',leading:'#f8c07b'},
   'CHP':{base:'#e60017',majority:'#eb3345',leading:'#f16d7a'},
   'DEM':{base:'#9c11a6',majority:'#b041b8',leading:'#c677cc'},
-  'YRP':{base:'#1c8c38'},
-  'MHP':{base:'#a60042'},
-  'ANP':{base:'#0f4599'},
-  'ANAP':{base:'#ffcc00'},
-  'TİP':{base:'#e62274'},
-  'İYİ':{base:'#39b8e6'},
-  'BBP':{base:'#e64500'},
-  'GENÇ':{base:'#6ea100'},
-  'HAK':{base:'#007a99'},
-  'MYP':{base:'#4b2e83'},
-  'SOL':{base:'#1485cc'},
-  'DEFAULT':{base:'#cccccc'}
+  'YRP':{base:'#1c8c38'}, 'MHP':{base:'#a60042'}, 'ANP':{base:'#0f4599'},
+  'ANAP':{base:'#ffcc00'}, 'TİP':{base:'#e62274'}, 'İYİ':{base:'#39b8e6'},
+  'BBP':{base:'#e64500'}, 'GENÇ':{base:'#6ea100'}, 'HAK':{base:'#007a99'},
+  'MYP':{base:'#4b2e83'}, 'SOL':{base:'#1485cc'}, 'DEFAULT':{base:'#cccccc'}
 };
 
 const PARTY_LABELS = {
@@ -203,15 +223,8 @@ function parseResults(txt){
     let m = first.match(/^(.+?)\s*[-:]\s*(\d+)/);
     if(!m) m = first.match(/^(.+?)\s+(\d+)\s*$/);
     if(!m) m = first.match(/^(.+?)\s*\((\d+)\)/);
-    if(m){
-      city = m[1].trim();
-      seats = parseNumber(m[2]);
-    } else {
-      city = first;
-      const sline = lines.slice(1).join(' ');
-      const mm = sline.match(/(\d{1,3})/);
-      if(mm) seats = parseNumber(mm[1]);
-    }
+    if(m){ city = m[1].trim(); seats = parseNumber(m[2]); }
+    else { city = first; const mm = lines.slice(1).join(' ').match(/(\d{1,3})/); if(mm) seats = parseNumber(mm[1]); }
     if(!city) continue;
     if(!seats) seats = 1;
     const votes = {};
@@ -235,9 +248,7 @@ function dhondt(votes,seats){
   Object.entries(votes).forEach(([p,v])=>{ if(v>0) filtered[p]=v; });
   const ps = Object.keys(filtered);
   const table = [];
-  ps.forEach(p=>{
-    for(let i=1;i<=seats;i++) table.push({p,q:filtered[p]/i});
-  });
+  ps.forEach(p=>{ for(let i=1;i<=seats;i++) table.push({p,q:filtered[p]/i}); });
   table.sort((a,b)=>b.q-a.q);
   const alloc = {};
   ps.forEach(p=>alloc[p]=0);
@@ -254,187 +265,125 @@ async function fetchSilhouette(city){
   for(const url of candidates){
     try{
       const res = await fetch(url);
-      if(!res.ok) continue;
-      const txt = await res.text();
-      if(txt && txt.trim()) return txt;
+      if(res.ok) return await res.text();
     }catch(e){}
   }
   return null;
 }
 
-let fontBase64Promise = null;
-function loadFontBase64Once(){
-  if(fontBase64Promise) return fontBase64Promise;
-  const url = 'ProductSans-Bold.ttf';
-  fontBase64Promise = fetch(url)
-    .then(r=>{
-      if(!r.ok) throw new Error('Font yüklenemedi');
-      return r.arrayBuffer();
-    })
-    .then(buf=>{
-      return arrayBufferToBase64(buf);
-    })
-    .catch(err=>{
-      console.warn('Font yüklenemedi, sistem fontuna dönülüyor:', err);
-      return null;
-    });
-  return fontBase64Promise;
-}
-
-function arrayBufferToBase64(buffer){
-  let binary = '';
-  const bytes = new Uint8Array(buffer);
-  const len = bytes.byteLength;
-  for(let i=0;i<len;i++) binary += String.fromCharCode(bytes[i]);
-  return btoa(binary);
+let fontBase64Cache = null;
+async function loadFontBase64Once(){
+  if(fontBase64Cache) return fontBase64Cache;
+  try {
+    const res = await fetch('ProductSans-Bold.ttf');
+    const buf = await res.arrayBuffer();
+    let binary = '';
+    const bytes = new Uint8Array(buf);
+    for(let i=0; i<bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+    fontBase64Cache = btoa(binary);
+    return fontBase64Cache;
+  } catch(e) { return null; }
 }
 
 async function buildSVG(obj){
   const W = 1365, H = 768;
   const totalVotes = Object.values(obj.votes).reduce((a,b)=>a+b,0) || 1;
-  const items = Object.entries(obj.votes)
-    .filter(([,v])=>v>0)
-    .map(([p,v])=>({p,v}))
-    .sort((a,b)=>b.v-a.v)
-    .slice(0,9);
+  const items = Object.entries(obj.votes).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,9);
+  if(items.length === 0) items.push(['DEFAULT', 0]);
 
-  if(items.length === 0) items.push({p:'DEFAULT', v:0});
-
-  const votesForDhondt = {};
-  Object.entries(obj.votes).forEach(([p,v])=>{ if(v>0) votesForDhondt[p]=v; });
-  const alloc = dhondt(votesForDhondt, obj.seats);
-
-  const leader = items[0]?.p || 'DEFAULT';
+  const alloc = dhondt(obj.votes, obj.seats);
+  const leader = items[0][0];
   const col = PARTY_COLORS[leader] || PARTY_COLORS.DEFAULT;
   const silColor = (alloc[leader] > (obj.seats/2)) ? (col.majority||col.base) : (col.leading||col.base);
 
-  let sil = null;
-  try{ sil = await fetchSilhouette(obj.city); }catch(e){}
-  let silInner = '';
-  if(sil){
-    silInner = sil.replace(/<\s*svg[^>]*>/i,'').replace(/<\/svg\s*>/i,'');
-    silInner = `<g fill="${silColor}" stroke="none">${silInner}</g>`;
-  } else {
-    silInner = `<circle cx="220" cy="220" r="200" fill="${silColor}" />`;
-  }
+  const sil = await fetchSilhouette(obj.city);
+  let silInner = sil ? sil.replace(/<\s*svg[^>]*>/i,'').replace(/<\/svg\s*>/i,'') : `<circle cx="220" cy="220" r="200" fill="${silColor}" />`;
+  if(sil) silInner = `<g fill="${silColor}" stroke="none">${silInner}</g>`;
 
-  const barMaxW = 700;
-  const shownTotal = items.reduce((a,b)=>a+b.v,0) || totalVotes;
   const fontB64 = await loadFontBase64Once();
+  let fontStyle = fontB64 ? `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${fontB64}) format('truetype');}` : "";
 
-  let fontStyle = fontB64 
-    ? `@font-face{font-family:'ProductSans';src:url(data:font/ttf;base64,${fontB64}) format('truetype');font-weight:700;font-style:normal;}`
-    : "@font-face{font-family:'ProductSans';src:local('Arial Black');font-weight:bold;}";
+  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><style>${fontStyle} text{font-family:'ProductSans',sans-serif;}</style><rect width="100%" height="100%" fill="#fff"/>`;
+  s += `<g transform="translate(40,30) scale(0.8)">${silInner}</g>`;
+  s += `<text x="360" y="90" font-size="64" font-weight="700" fill="#111">${escapeXML(obj.city)}</text>`;
 
-  let s = `<?xml version="1.0" encoding="UTF-8"?>\n<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">\n<style>\n${fontStyle}\ntext{font-family:'ProductSans', sans-serif;}\n</style>\n<rect width="100%" height="100%" fill="#ffffff"/>\n`;
-  s += `<g transform="translate(40,30) scale(0.8)">\n${silInner}\n</g>\n`;
-  s += `<text x="360" y="90" font-size="64" font-weight="700" fill="#111">${escapeXML(obj.city)}</text>\n`;
-
-  items.forEach((it, i)=>{
+  items.forEach(([p, v], i)=>{
     const rowTop = 160 + i * 64; 
-    const rowCenterY = rowTop + 24; 
-    const w = Math.round((it.v / shownTotal) * barMaxW);
-    const pct = (it.v / totalVotes * 100);
-    const pctStr = (isFinite(pct) ? pct.toFixed(2).replace('.',',') : '0,00');
-    const pc = (PARTY_COLORS[it.p] && PARTY_COLORS[it.p].base) || PARTY_COLORS.DEFAULT.base;
-    const label = PARTY_LABELS[it.p] || it.p;
-    const seatsFor = alloc[it.p] || 0;
-
-    const labelX = 340; 
-    const barX = 360;   
-    const seatX = 1120; 
-
-    s += `<text x="${labelX}" y="${rowCenterY}" font-size="32" text-anchor="end" fill="#111" dominant-baseline="middle">${escapeXML(label)}</text>\n`;
-    s += `<rect x="${barX}" y="${rowTop}" width="${w}" height="48" rx="6" fill="${pc}"/>\n`;
-    
-    if(pct < 18){
-      s += `<text x="${barX + w + 12}" y="${rowCenterY}" font-size="22" fill="#111" text-anchor="start" dominant-baseline="middle">%${pctStr}</text>\n`;
-    } else {
-      s += `<text x="${barX + w - 12}" y="${rowCenterY}" font-size="22" fill="#fff" text-anchor="end" dominant-baseline="middle">%${pctStr}</text>\n`;
-    }
-
-    s += `<text x="${seatX}" y="${rowCenterY}" font-size="34" font-weight="700" fill="#111" dominant-baseline="middle" text-anchor="middle">${seatsFor}</text>\n`;
+    const w = Math.round((v / (items.reduce((a,b)=>a+b[1],0)||totalVotes)) * 700);
+    const pct = (v / totalVotes * 100).toFixed(2).replace('.',',');
+    const pc = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
+    s += `<text x="340" y="${rowTop+24}" font-size="32" text-anchor="end" fill="#111" dominant-baseline="middle">${escapeXML(PARTY_LABELS[p]||p)}</text>`;
+    s += `<rect x="360" y="${rowTop}" width="${w}" height="48" rx="6" fill="${pc}"/>`;
+    s += `<text x="${w < 120 ? 360+w+12 : 360+w-12}" y="${rowTop+24}" font-size="22" fill="${w<120?'#111':'#fff'}" text-anchor="${w<120?'start':'end'}" dominant-baseline="middle">%${pct}</text>`;
+    s += `<text x="1120" y="${rowTop+24}" font-size="34" font-weight="700" fill="#111" text-anchor="middle" dominant-baseline="middle">${alloc[p]||0}</text>`;
   });
-
-  s += `</svg>`;
-  return s;
+  return s + `</svg>`;
 }
 
-function escapeXML(s){
-  return String(s||'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&apos;"})[ch]);
-}
+function escapeXML(s){ return String(s||'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&apos;"})[ch]); }
 
 document.addEventListener('DOMContentLoaded', ()=> {
-  const btn = document.getElementById('btnGen');
-  const btnFetch = document.getElementById('btnFetch');
-  const serverSelect = document.getElementById('serverFiles');
-  const fileInput = document.getElementById('fileTxt');
   const previews = document.getElementById('previews');
   const fsOverlay = document.getElementById('fsOverlay');
   const fsInner = document.getElementById('fsInner');
-  const navLeft = document.getElementById('navLeft');
-  const navRight = document.getElementById('navRight');
-  const backBtn = document.getElementById('backBtn');
-
+  const serverSelect = document.getElementById('serverFiles');
+  
   let generated = [];
   let currentIndex = -1;
 
-  backBtn.addEventListener('click', ()=> {
-    if(window.history.length > 1) window.history.back();
-    else window.location.href = '/';
-  });
-
   async function generateFromText(txt) {
     const data = parseResults(txt);
-    if(!data.length){ alert('Veri işlenemedi.'); return; }
-    previews.innerHTML = '<p class="small">Görseller oluşturuluyor, lütfen bekleyin...</p>';
-    generated = [];
-    
-    const fragment = document.createDocumentFragment();
-    for(const c of data){
-      const svg = await buildSVG(c);
-      generated.push({city:c.city, svg});
-      
-      const card = document.createElement('div'); card.className = 'card';
-      const meta = document.createElement('div'); meta.className='meta';
-      meta.innerHTML = `<strong>${c.city}</strong><div class="small">${c.seats} Sandalye</div>`;
-      card.appendChild(meta);
-      
-      const wrap = document.createElement('div');
-      wrap.style.overflow = 'hidden';
-      wrap.style.maxHeight = '320px';
-      wrap.innerHTML = svg;
-      card.appendChild(wrap);
+    if(!data.length){ alert('Veri bulunamadı.'); return; }
 
-      const idx = generated.length - 1;
-      card.addEventListener('click', ()=> openFullscreen(idx));
-      fragment.appendChild(card);
+    previews.innerHTML = ''; 
+    generated = new Array(data.length).fill(null);
+
+    // 1. ADIM: İskelet Yapıyı Hemen Oluştur (Saniyeler içinde)
+    data.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = 'card loading';
+      card.id = `card-${idx}`;
+      card.innerHTML = `
+        <div class="meta"><strong>${c.city}</strong><div class="small">${c.seats} Sandalye</div></div>
+        <div class="svg-container" id="svg-cont-${idx}"><div class="spinner"></div></div>
+      `;
+      card.addEventListener('click', () => { if(generated[idx]) openFullscreen(idx); });
+      previews.appendChild(card);
+    });
+
+    // 2. ADIM: Görselleri Sıra Sıra Arka Planda Oluştur
+    // Fontu bir kere en başta yükle ki her seferinde beklemesin
+    await loadFontBase64Once();
+
+    for(let i=0; i < data.length; i++) {
+        // Render işlemini bir sonraki frame'e atar, böylece UI donmaz
+        await new Promise(r => setTimeout(r, 10)); 
+        
+        const svg = await buildSVG(data[i]);
+        generated[i] = { city: data[i].city, svg: svg };
+        
+        const container = document.getElementById(`svg-cont-${i}`);
+        const card = document.getElementById(`card-${i}`);
+        if(container && card) {
+            container.innerHTML = svg;
+            card.classList.remove('loading');
+        }
     }
-    previews.innerHTML = '';
-    previews.appendChild(fragment);
   }
 
-  // Cihazdan yükle
-  btn.addEventListener('click', async ()=> {
-    const f = fileInput.files[0];
-    if(!f){ alert('Dosya seçilmedi.'); return; }
-    const txt = await f.text();
-    await generateFromText(txt);
+  document.getElementById('btnGen').addEventListener('click', async ()=> {
+    const f = document.getElementById('fileTxt').files[0];
+    if(f) generateFromText(await f.text());
   });
 
-  // Sunucudan getir
-  btnFetch.addEventListener('click', async () => {
+  document.getElementById('btnFetch').addEventListener('click', async () => {
     const fileName = serverSelect.value;
-    if(!fileName){ alert('Lütfen listeden bir dosya seçin.'); return; }
+    if(!fileName) return;
     try {
-      // index.html ile aynı klasörde oldukları varsayılıyor
-      const response = await fetch(fileName);
-      if(!response.ok) throw new Error('Dosya bulunamadı.');
-      const txt = await response.text();
-      await generateFromText(txt);
-    } catch(err) {
-      alert('Hata: ' + err.message);
-    }
+      const res = await fetch(fileName);
+      if(!res.ok) throw new Error();
+      generateFromText(await res.text());
+    } catch(e) { alert('Dosya yüklenemedi.'); }
   });
 
   function openFullscreen(index){
@@ -447,20 +396,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
   function closeFullscreen(){
     fsOverlay.style.display = 'none';
-    fsInner.innerHTML = '';
-    currentIndex = -1;
     document.body.style.overflow = '';
   }
 
-  navLeft.addEventListener('click', (e)=> { 
-    e.stopPropagation(); 
-    if(currentIndex > 0) openFullscreen(currentIndex - 1); 
-  });
-  navRight.addEventListener('click', (e)=> { 
-    e.stopPropagation(); 
-    if(currentIndex < generated.length - 1) openFullscreen(currentIndex + 1); 
-  });
-
+  document.getElementById('navLeft').addEventListener('click', (e)=> { e.stopPropagation(); if(currentIndex > 0) openFullscreen(currentIndex - 1); });
+  document.getElementById('navRight').addEventListener('click', (e)=> { e.stopPropagation(); if(currentIndex < generated.length - 1) openFullscreen(currentIndex + 1); });
+  fsOverlay.addEventListener('click', (e)=>{ if(e.target === fsOverlay) closeFullscreen(); });
   document.addEventListener('keydown', (e)=>{
     if(fsOverlay.style.display === 'flex'){
       if(e.key === 'ArrowLeft' && currentIndex > 0) openFullscreen(currentIndex - 1);
@@ -468,8 +409,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
       else if(e.key === 'Escape') closeFullscreen();
     }
   });
-
-  fsOverlay.addEventListener('click', (e)=>{ if(e.target === fsOverlay) closeFullscreen(); });
 });
 </script>
 </body>
