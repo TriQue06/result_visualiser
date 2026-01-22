@@ -97,7 +97,8 @@
         justify-content: center;
         min-height: 180px;
     }
-    /* Basit bir yükleme animasyonu */
+    .card .svg-container svg { width: 100%; height: auto; }
+
     .spinner {
         width: 30px;
         height: 30px;
@@ -115,29 +116,60 @@
     #fsOverlay{
       display:none;
       position:fixed;inset:0;background:#fff;z-index:1200;
-      align-items:center;justify-content:center;padding:20px;
+      align-items:center;justify-content:center;padding:10px;
       overflow:auto;
     }
     #fsContent{max-width:1400px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
     #fsInner{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+    #fsInner svg { max-width: 100%; max-height: 100%; height: auto; }
+
+    /* Navigasyon Alanları ve Butonları */
     .nav-zone{
-      position:fixed;top:0;bottom:0;width:20%;
+      position:fixed;top:0;bottom:0;width:15%;
       z-index:1250; background:transparent; cursor:pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
     }
+    .nav-zone:active { background: rgba(0,0,0,0.05); }
+    
+    .nav-btn-icon {
+      width: 44px; height: 44px; background: rgba(0,0,0,0.4);
+      color: #fff; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-size: 24px;
+      pointer-events: none; opacity: 0; transition: opacity 0.3s;
+    }
+    /* Mobilde butonları her zaman göster (hafif şeffaf) */
+    @media (max-width: 768px) { .nav-btn-icon { opacity: 0.6; } }
+
     #navLeft{left:0}
     #navRight{right:0}
+    
     #backBtn{
-      position:fixed;left:8px;top:8px;z-index:1300;
-      width:36px;height:28px;border-radius:6px;border:0;background:rgba(0,0,0,0.08);
-      display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;
+      position:fixed;left:16px;top:16px;z-index:1300;
+      width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,0.1);
+      display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;
+      transition: all 0.2s;
     }
+    #backBtn:hover { background: rgba(0,0,0,0.2); }
+
+    /* Mobil İyileştirmeler */
+    @media (max-width: 600px) {
+      body { margin: 12px; }
+      h1 { font-size: 22px; }
+      .controls-wrapper { padding: 12px; gap: 16px; }
+      .control-section { width: 100%; justify-content: space-between; }
+      .control-section input, .control-section select { flex: 1; min-width: 0; }
+      .divider { display: none; }
+      #backBtn { top: 10px; left: 10px; }
+    }
+
     @media (min-width:1000px){ .card{width:100%} }
     :focus{outline:none}
     :focus-visible{outline:2px solid rgba(0,0,0,0.12)}
   </style>
 </head>
 <body>
-  <div id="backBtn" title="Geri dön">&larr;</div>
+  <div id="backBtn" title="Geri dön" style="display:none;">&larr;</div>
 
   <header>
     <div class="header-info">
@@ -172,8 +204,8 @@
     <div id="fsContent">
       <div id="fsInner"></div>
     </div>
-    <div id="navLeft" class="nav-zone"></div>
-    <div id="navRight" class="nav-zone"></div>
+    <div id="navLeft" class="nav-zone"><div class="nav-btn-icon">&lsaquo;</div></div>
+    <div id="navRight" class="nav-zone"><div class="nav-btn-icon">&rsaquo;</div></div>
   </div>
 
 <script>
@@ -321,6 +353,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
   const fsOverlay = document.getElementById('fsOverlay');
   const fsInner = document.getElementById('fsInner');
   const serverSelect = document.getElementById('serverFiles');
+  const backBtn = document.getElementById('backBtn');
   
   let generated = [];
   let currentIndex = -1;
@@ -348,10 +381,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
     for(let i=0; i < data.length; i++) {
         await new Promise(r => setTimeout(r, 10)); 
-        
         const svg = await buildSVG(data[i]);
         generated[i] = { city: data[i].city, svg: svg };
-        
         const container = document.getElementById(`svg-cont-${i}`);
         const card = document.getElementById(`card-${i}`);
         if(container && card) {
@@ -381,17 +412,24 @@ document.addEventListener('DOMContentLoaded', ()=> {
     currentIndex = index;
     fsInner.innerHTML = generated[index].svg;
     fsOverlay.style.display = 'flex';
+    backBtn.style.display = 'flex'; // Geri dön butonunu göster
     document.body.style.overflow = 'hidden';
   }
 
   function closeFullscreen(){
     fsOverlay.style.display = 'none';
+    backBtn.style.display = 'none'; // Geri dön butonunu gizle
     document.body.style.overflow = '';
   }
 
+  // Geri butonu işlevi
+  backBtn.addEventListener('click', closeFullscreen);
+
   document.getElementById('navLeft').addEventListener('click', (e)=> { e.stopPropagation(); if(currentIndex > 0) openFullscreen(currentIndex - 1); });
   document.getElementById('navRight').addEventListener('click', (e)=> { e.stopPropagation(); if(currentIndex < generated.length - 1) openFullscreen(currentIndex + 1); });
+  
   fsOverlay.addEventListener('click', (e)=>{ if(e.target === fsOverlay) closeFullscreen(); });
+  
   document.addEventListener('keydown', (e)=>{
     if(fsOverlay.style.display === 'flex'){
       if(e.key === 'ArrowLeft' && currentIndex > 0) openFullscreen(currentIndex - 1);
