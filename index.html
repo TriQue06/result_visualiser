@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="tr">
+<html lang="tr" data-theme="auto">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Seçim Görselleştirici Pro v5</title>
+  <title>Seçim Görselleştirici Pro</title>
   <style>
     :root {
       --bg: #f0f2f5;
@@ -13,7 +13,28 @@
       --primary: #2563eb;
       --border: #e2e8f0;
       --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --hover-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 10px 10px -5px rgb(0 0 0 / 0.1);
+      --svg-bg: #ffffff;
     }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --muted: #94a3b8;
+      --accent: #f8fafc;
+      --border: #334155;
+      --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+      --hover-shadow: 0 25px 30px -5px rgb(0 0 0 / 0.6);
+      --svg-bg: #1e293b;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      [data-theme="auto"] {
+        --bg: #0f172a; --card: #1e293b; --muted: #94a3b8; --accent: #f8fafc;
+        --border: #334155; --svg-bg: #1e293b;
+      }
+    }
+
     @font-face {
       font-family: 'ProductSans';
       src: url('ProductSans-Bold.ttf') format('truetype');
@@ -23,118 +44,145 @@
       margin: 0; background: var(--bg); color: var(--accent);
       font-family: 'ProductSans', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
 
-    .container { max-width: 1440px; margin: 0 auto; padding: 30px 24px; }
-
-    header { margin-bottom: 30px; }
-    .header-main { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin-bottom: 25px; }
-    
-    .search-box {
-      padding: 12px 20px; border-radius: 14px; border: 1px solid var(--border);
-      width: 320px; font-family: inherit; font-size: 15px; outline: none;
-      box-shadow: var(--shadow);
+    /* Tema Butonu */
+    .theme-zone { position: fixed; top: 20px; right: 20px; z-index: 5000; }
+    .theme-btn {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; cursor: pointer; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); width: 44px; height: 44px; font-size: 20px;
     }
+    .theme-menu {
+      position: absolute; top: 50px; right: 0; background: var(--card);
+      border: 1px solid var(--border); border-radius: 12px; display: none;
+      box-shadow: var(--shadow); overflow: hidden; min-width: 150px;
+    }
+    .theme-menu button {
+      width: 100%; padding: 12px; border: none; background: none;
+      color: var(--accent); font-family: inherit; cursor: pointer;
+      text-align: left; transition: background 0.2s; display: flex; align-items: center; gap: 10px;
+    }
+    .theme-menu button:hover { background: rgba(0,0,0,0.1); }
 
-    /* Türkiye Geneli Bar */
+    /* Türkiye Geneli Bar - Hover Genişleme Kaldırıldı */
     .overall-stats {
-      background: #fff; padding: 25px; border-radius: 24px; margin-bottom: 30px;
+      background: var(--card); padding: 30px; border-radius: 28px; margin-bottom: 35px;
       box-shadow: var(--shadow); border: 1px solid var(--border);
     }
-    .overall-title { font-size: 18px; margin-bottom: 15px; font-weight: bold; }
+    .overall-title { font-size: 20px; margin-bottom: 20px; font-weight: bold; letter-spacing: -0.2px; }
     .overall-bar {
-      display: flex; height: 48px; border-radius: 14px; overflow: visible; background: #eee;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); position: relative;
+      display: flex; height: 60px; border-radius: 16px; overflow: visible; background: var(--border);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); position: relative;
     }
     .overall-segment {
-      height: 100%; position: relative; cursor: pointer; transition: transform 0.2s;
+      height: 100%; position: relative; cursor: pointer;
       display: flex; align-items: center; justify-content: center; color: white;
-      font-size: 12px; font-weight: bold; overflow: hidden; white-space: nowrap;
+      font-size: 13px; font-weight: bold; overflow: visible;
+      /* Küçük partiler için minimum genişlik desteği */
+      min-width: 15px; 
     }
-    .overall-segment:hover { transform: scaleY(1.1); z-index: 10; border-radius: 4px; }
 
-    /* Tooltip */
     .overall-segment .tooltip {
-      position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%);
-      background: #1e293b; color: white; padding: 12px 16px; border-radius: 12px;
-      font-size: 13px; white-space: nowrap; visibility: hidden; opacity: 0;
-      transition: 0.2s; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1); z-index: 100;
+      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(10px);
+      background: #1e293b; color: white; padding: 18px 24px; border-radius: 18px;
+      font-size: 15px; white-space: nowrap; visibility: hidden; opacity: 0;
+      transition: all 0.2s ease-out; pointer-events: none;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);
+      z-index: 1000; line-height: 1.6; letter-spacing: 0.3px;
     }
-    .overall-segment:hover .tooltip { visibility: visible; opacity: 1; bottom: 125%; }
+    .overall-segment .tooltip strong { font-weight: 700; }
+    .overall-segment .tooltip::after {
+      content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      border: 10px solid transparent; border-top-color: #1e293b;
+    }
+    .overall-segment:hover .tooltip { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* Kart Tasarımı */
+    .container { max-width: 1440px; margin: 0 auto; padding: 30px 24px; }
     #previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
     
-    .card {
-      background: var(--card); border-radius: 24px; padding: 24px;
-      box-shadow: var(--shadow); border: 1px solid transparent;
-      border-left: 8px solid transparent;
-      cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .card { 
+      background: var(--card); border-radius: 26px; padding: 26px; 
+      box-shadow: var(--shadow); border: 1px solid transparent; 
+      border-left: 10px solid transparent; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
     }
-    .card:hover { transform: translateY(-5px); border-color: var(--border); }
+    .card:hover { transform: translateY(-8px); border-color: var(--border); box-shadow: var(--hover-shadow); }
     
-    .city-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-    .city-name { font-size: 24px; margin: 0; line-height: 1.1; }
+    .city-info { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+    .city-name { font-size: 26px; margin: 0; line-height: 1; letter-spacing: -0.5px; }
     
-    .winner-badge {
-      font-size: 11px; font-weight: bold; color: white;
-      padding: 6px 14px; border-radius: 50px; width: fit-content;
-      text-transform: uppercase; letter-spacing: 0.5px;
+    .winner-badge { 
+      font-size: 11px; font-weight: bold; color: white; 
+      padding: 7px 16px; border-radius: 50px; text-transform: uppercase; 
+      letter-spacing: 0.8px; width: fit-content; 
     }
 
-    .mini-results { display: flex; flex-direction: column; gap: 10px; }
-    .mini-row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
-    .mini-label { width: 90px; font-weight: 700; color: #334155; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .mini-bar-bg { flex: 1; height: 8px; background: #f1f5f9; border-radius: 10px; }
+    .mini-results { display: flex; flex-direction: column; gap: 12px; }
+    .mini-row { display: flex; align-items: center; gap: 12px; font-size: 14px; transition: opacity 0.2s; }
+    .mini-row.no-seat { opacity: 0.45; }
+    .mini-label { width: 90px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mini-bar-bg { flex: 1; height: 10px; background: var(--border); border-radius: 10px; }
     .mini-bar-fill { height: 100%; border-radius: 10px; }
     .mini-mv { width: 45px; font-weight: 800; text-align: right; }
-    .mini-mv.zero { color: #cbd5e1; font-weight: 400; }
-    .mini-pct { width: 42px; text-align: right; color: var(--muted); font-weight: 700; }
 
-    /* Fullscreen Fix */
+    /* Tam Ekran Görünümü */
     #fsOverlay {
-      display:none; position:fixed; inset:0; background:#fff; z-index:2000;
+      display:none; position:fixed; inset:0; background:var(--bg); z-index:4000;
       flex-direction:column; align-items:center;
     }
-    .fs-top-bar { width: 100%; height: 14px; flex-shrink: 0; }
-    
-    .fs-header { 
-      display: flex; align-items: center; justify-content: center; gap: 20px; 
-      padding: 40px 20px 20px 20px; width: 100%; background: #fff;
+    .fs-window-bar {
+      width: 100%; height: 85px; background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 40px; 
+      box-sizing: border-box; flex-shrink: 0;
     }
-    .fs-city-title { font-size: clamp(30px, 5vw, 50px); font-weight: bold; margin: 0; }
+    .fs-window-title { display: flex; align-items: center; gap: 25px; }
+    .fs-city-title { font-size: 34px; font-weight: bold; margin: 0; color: var(--accent); letter-spacing: -1px; }
+    .fs-color-accent { width: 100%; height: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
 
-    .fs-tools { position: fixed; top: 25px; right: 25px; z-index: 2105; }
-    .btn { padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
+    .btn { padding: 12px 28px; border-radius: 12px; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
     .btn-red { background: #ef4444; color: white; }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-dark { background: #334155; color: white; }
-
-    #fsInner { 
-      flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; 
-      padding-bottom: 40px; overflow: hidden;
-    }
-    #fsInner svg { max-height: 100%; max-width: 95%; height: auto; }
-
-    .nav-zone { position: fixed; top: 0; bottom: 0; width: 8%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 60px; color: #cbd5e1; transition: 0.2s; user-select: none; z-index: 2050; }
-    .nav-zone:hover { color: var(--accent); background: rgba(0,0,0,0.02); }
     
-    .controls-wrapper { display:flex; gap:12px; flex-wrap:wrap; align-items:center; background:white; padding:15px; border-radius:18px; border:1px solid var(--border); }
-    select { padding: 10px; border-radius: 10px; border: 1px solid var(--border); font-family: inherit; }
+    #fsInner { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; padding: 40px; overflow: hidden; }
+    #fsInner svg { max-height: 100%; max-width: 95%; height: auto; background: var(--svg-bg); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+
+    .nav-zone { position: fixed; top: 85px; bottom: 0; width: 8%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 70px; color: var(--muted); transition: 0.2s; user-select: none; z-index: 4050; }
+    .nav-zone:hover { color: var(--accent); background: rgba(0,0,0,0.03); }
+
+    /* Kontroller */
+    header { margin-bottom: 30px; }
+    .header-main { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin-bottom: 25px; }
+    .search-box { padding: 14px 24px; border-radius: 16px; border: 1px solid var(--border); width: 340px; font-family: inherit; font-size: 15px; outline: none; box-shadow: var(--shadow); background: var(--card); color: var(--accent); }
+    .controls-wrapper { display:flex; gap:12px; flex-wrap:wrap; align-items:center; background:var(--card); padding:18px; border-radius:22px; border:1px solid var(--border); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-dark { background: var(--card); color: var(--accent); border: 1px solid var(--border); }
+    select { padding: 12px; border-radius: 12px; border: 1px solid var(--border); font-family: inherit; background: var(--card); color: var(--accent); }
   </style>
 </head>
 <body>
 
+<div class="theme-zone">
+  <button class="theme-btn" id="themeMainBtn">
+    <span id="themeIcon">⚙️</span>
+  </button>
+  <div class="theme-menu" id="themeMenu">
+    <button onclick="changeTheme('light', '☀️')">☀️ Açık Tema</button>
+    <button onclick="changeTheme('dark', '🌙')">🌙 Koyu Tema</button>
+    <button onclick="changeTheme('auto', '⚙️')">⚙️ Otomatik</button>
+  </div>
+</div>
+
 <div id="fsOverlay">
-  <div id="fsLine" class="fs-top-bar"></div>
-  <div class="fs-tools">
-    <button class="btn btn-red" id="closeBtn">Kapat (ESC)</button>
-  </div>
-  
-  <div class="fs-header">
+  <div class="fs-window-bar">
+    <div class="fs-window-title">
       <h2 id="fsCityName" class="fs-city-title">---</h2>
-      <div id="fsWinnerBadge" class="winner-badge" style="font-size: 16px; padding: 10px 20px;">---</div>
+      <div id="fsWinnerBadge" class="winner-badge" style="font-size: 15px; padding: 10px 22px;">---</div>
+    </div>
+    <button class="btn btn-red" id="closeBtn">Kapat</button>
   </div>
+  <div id="fsLine" class="fs-color-accent"></div>
 
   <div id="navL" class="nav-zone" style="left:0;">‹</div>
   <div id="fsInner"></div>
@@ -145,46 +193,69 @@
   <header>
     <div class="header-main">
       <div>
-        <h1 style="margin:0; font-size:32px;">Seçim Görselleştirici</h1>
-        <p id="cityCount" style="color:var(--muted); margin:5px 0;">Veri bekleniyor...</p>
+        <h1 style="margin:0; font-size:36px; letter-spacing:-1px;">Seçim Görselleştirici</h1>
+        <p id="cityCount" style="color:var(--muted); margin:5px 0; font-size:16px;">Veri bekleniyor...</p>
       </div>
       <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi ara...">
     </div>
-
     <div class="overall-stats" id="overallSection" style="display:none;">
       <div class="overall-title">Türkiye Geneli Tahmini Milletvekili Dağılımı</div>
       <div class="overall-bar" id="overallBar"></div>
     </div>
-
     <div class="controls-wrapper">
       <input id="fileTxt" type="file" accept=".txt">
       <button id="btnGen" class="btn btn-primary">Dosyayı Analiz Et</button>
-      <div style="width: 1px; height: 30px; background: #ddd; margin: 0 10px;"></div>
+      <div style="width: 1px; height: 40px; background: var(--border); margin: 0 10px;"></div>
       <select id="serverFiles">
-        <option value="">Arşivden Seç...</option>
-        <option value="ocak2026_3.txt">Ocak 2026 (#3)</option>
-        <option value="subat2026_1.txt">Şubat 2026 (#1)</option>
-      </select>
+  <option value="">Arşivden Seç...</option>
+  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/ocak2026_3.txt">Ocak 2026 (#3)</option>
+  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/subat2026_1.txt">Şubat 2026 (#1)</option>
+</select>
       <button id="btnFetch" class="btn btn-dark">Arşivden Getir</button>
     </div>
   </header>
-
   <main id="previews"></main>
 </div>
 
 <script>
+// TEMA SİSTEMİ
+function changeTheme(theme, icon) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('themeIcon').innerText = icon;
+  localStorage.setItem('pref-theme', theme);
+  localStorage.setItem('pref-icon', icon);
+  document.getElementById('themeMenu').style.display = 'none';
+}
+
+document.getElementById('themeMainBtn').onclick = (e) => {
+  const menu = document.getElementById('themeMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+};
+
+window.onclick = () => document.getElementById('themeMenu').style.display = 'none';
+
+const savedTheme = localStorage.getItem('pref-theme') || 'auto';
+const savedIcon = localStorage.getItem('pref-icon') || '⚙️';
+changeTheme(savedTheme, savedIcon);
+
 const PARTY_COLORS = {
   'AKP':{base:'#f29118'}, 'CHP':{base:'#e60017'}, 'DEM':{base:'#9c11a6'},
   'YRP':{base:'#1c8c38'}, 'MHP':{base:'#a60042'}, 'ANP':{base:'#0f4599'},
   'ANAP':{base:'#ffcc00'}, 'TİP':{base:'#e62274'}, 'İYİ':{base:'#39b8e6'},
   'BBP':{base:'#e64500'}, 'ZP':{base:'#404040'}, 'HÜDA':{base:'#00993d'},
   'SP':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'GP':{base:'#0a6642'},
-  'MP':{base:'#115ba6'}, 'DP':{base:'#e61789'}, 'DEFAULT':{base:'#cccccc'}
+  'MP':{base:'#115ba6'}, 'DP':{base:'#e61789'}, 'GENÇ':{base:'#f2499d'}, 'AP':{base:'#401380'}, 'DEFAULT':{base:'#cccccc'}
 };
 
 const PARTY_LABELS = {
-  'AKP':'AK Parti','CHP':'CHP','MHP':'MHP','İYİ':'İYİ Parti','DEM':'DEM Parti',
-  'YRP':'Yeniden Refah','BBP':'Büyük Birlik','ZP':'Zafer Partisi','TİP':'TİP','HÜDA':'HÜDA PAR'
+  'AKP': 'AK Parti', 'CHP': 'CHP', 'MHP': 'MHP', 'İYİ': 'İYİ Parti', 'BBP': 'Büyük Birlik',
+  'HÜDA': 'HÜDA PAR', 'DSP': 'DSP', 'DEM': 'DEM Parti', 'EMEP': 'EMEP', 'TİP': 'TİP',
+  'YRP': 'Yeniden Refah', 'SP': 'Saadet', 'DEVA': 'DEVA Partisi', 'GP': 'Gelecek Partisi',
+  'ANP': 'A Parti', 'ZP': 'Zafer Partisi', 'BTP': 'BTP', 'TKP': 'TKP', 'SOL': 'SOL Parti',
+  'TKH': 'TKH', 'AP': 'AP', 'GENÇ': 'Genç Parti', 'MP': 'Memleket', 'ANAP': 'ANAP',
+  'DP': 'DP', 'VP': 'Vatan Partisi', 'MİL': 'Millet', 'HAK': 'HAK PAR', 'AB': 'AB Parti',
+  'MYP': 'Milli Yol', 'ABP': 'ABP', 'DYP': 'DYP', 'GBP': 'GBP', 'YP': 'YP', 'YTP': 'YTP'
 };
 
 function trLower(s) { return s.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); }
@@ -201,23 +272,18 @@ async function renderDashboard(txt) {
   const previews = document.getElementById('previews');
   previews.innerHTML = '';
   document.getElementById('cityCount').innerText = `${data.length} seçim çevresi aktif.`;
-
   calculateOverall(data);
-
   for(let i=0; i<data.length; i++) {
     const item = data[i];
     const totalVotes = Object.values(item.votes).reduce((a,b)=>a+b,0) || 1;
     const sorted = Object.entries(item.votes).sort((a,b)=>b[1]-a[1]).slice(0,5);
     const alloc = dhondt(item.votes, item.seats);
-    
     const winnerCode = sorted[0][0];
     const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
     const winnerLabel = PARTY_LABELS[winnerCode] || winnerCode;
-
     const card = document.createElement('div');
     card.className = 'card';
     card.style.borderLeftColor = winnerColor;
-
     card.innerHTML = `
       <div class="city-info">
         <h3 class="city-name">${item.city}</h3>
@@ -229,11 +295,11 @@ async function renderDashboard(txt) {
           const pPct = (v/totalVotes*100).toFixed(1);
           const pMv = alloc[p] || 0;
           return `
-            <div class="mini-row">
+            <div class="mini-row ${pMv === 0 ? 'no-seat' : ''}">
               <span class="mini-label">${PARTY_LABELS[p]||p}</span>
               <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${pPct}%; background:${pColor}"></div></div>
               <span class="mini-pct">%${pPct}</span>
-              <span class="mini-mv ${pMv === 0 ? 'zero' : ''}">${pMv} MV</span>
+              <span class="mini-mv">${pMv} MV</span>
             </div>
           `;
         }).join('')}
@@ -255,33 +321,32 @@ function calculateOverall(data) {
       globalSeats += s;
     });
   });
+  
   const sortedTotals = Object.entries(totals).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
   const bar = document.getElementById('overallBar');
   bar.innerHTML = '';
-  
-  const barWidth = bar.offsetWidth || 1200; // Yaklaşık değer
 
+  // Erişilebilirlik için küçük partilere min-width sağlamak üzere flex kullanımı
   sortedTotals.forEach(([p, s]) => {
-    const percent = (s/globalSeats*100);
+    const weight = (s / globalSeats);
+    const percent = weight * 100;
     const pColor = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
     const pLabel = PARTY_LABELS[p] || p;
     
     const segment = document.createElement('div');
     segment.className = 'overall-segment';
-    segment.style.width = `${percent}%`;
+    
+    // Küçük partiler için görsel alan (min 8 MV genişliği simülasyonu)
+    const displayWeight = Math.max(s, 8); 
+    segment.style.flex = `${displayWeight} 1 0%`; 
     segment.style.background = pColor;
     
-    // Sığma kontrolü: segment genişliği 60px'den büyükse yazdır
-    const segmentPx = (percent / 100) * barWidth;
-    if(percent > 6) {
-        segment.innerHTML = `<span>${pLabel}: ${s}</span>`;
-    }
-
+    if (percent > 6) segment.innerHTML = `<span>${pLabel}: ${s}</span>`;
     segment.innerHTML += `
       <div class="tooltip">
-        <strong style="font-size:15px; display:block; margin-bottom:4px;">${pLabel}</strong>
-        <span>MV Sayısı: <strong>${s}</strong></span><br>
-        <span>Meclis Yüzdesi: <strong>%${percent.toFixed(1)}</strong></span>
+        <strong style="font-size:18px; display:block; margin-bottom:8px; color:#fff">${pLabel}</strong>
+        <div style="display:flex; justify-content:space-between; gap:20px;"><span>Milletvekili Sayısı:</span> <strong>${s}</strong></div>
+        <div style="display:flex; justify-content:space-between; gap:20px; margin-top:6px;"><span>Meclis Payı:</span> <strong>%${percent.toFixed(1)}</strong></div>
       </div>
     `;
     bar.appendChild(segment);
@@ -295,27 +360,28 @@ function openFullscreen(idx) {
   const sorted = Object.entries(item.votes).sort((a,b)=>b[1]-a[1]);
   const winnerCode = sorted[0][0];
   const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
-
   document.getElementById('fsCityName').innerText = item.city;
   const badge = document.getElementById('fsWinnerBadge');
   badge.innerText = PARTY_LABELS[winnerCode] || winnerCode;
   badge.style.background = winnerColor;
-  
   document.getElementById('fsLine').style.background = winnerColor;
   document.getElementById('fsInner').innerHTML = svgs[idx];
   document.getElementById('fsOverlay').style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  document.querySelector('.theme-zone').style.display = 'none';
 }
 
 function closeFullscreen() {
   document.getElementById('fsOverlay').style.display = 'none';
   document.body.style.overflow = '';
+  document.querySelector('.theme-zone').style.display = 'block';
 }
 
 document.getElementById('closeBtn').onclick = closeFullscreen;
-document.getElementById('navL').onclick = () => { if(currentIdx > 0) openFullscreen(currentIdx - 1); };
-document.getElementById('navR').onclick = () => { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); };
+document.getElementById('navL').onclick = (e) => { e.stopPropagation(); if(currentIdx > 0) openFullscreen(currentIdx - 1); };
+document.getElementById('navR').onclick = (e) => { e.stopPropagation(); if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); };
 
+// KLAVYE KONTROLLERİ GERİ EKLENDİ
 document.addEventListener('keydown', (e) => {
   if (document.getElementById('fsOverlay').style.display === 'flex') {
     if (e.key === "ArrowRight") { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); }
@@ -356,15 +422,15 @@ async function buildSVG(obj){
   const total = Object.values(obj.votes).reduce((a,b)=>a+b,0)||1;
   const items = Object.entries(obj.votes).sort((a,b)=>b[1]-a[1]).slice(0,9);
   const alloc = dhondt(obj.votes, obj.seats);
-  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#fff">`;
+  let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
   items.forEach(([p,v], i) => {
     const y = 60 + i*72;
     const w = (v/total) * 850;
     const color = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
-    s += `<text x="320" y="${y+32}" font-family="ProductSans" font-size="30" text-anchor="end" fill="#444">${PARTY_LABELS[p]||p}</text>`;
+    s += `<text x="320" y="${y+32}" font-family="ProductSans" font-size="30" text-anchor="end" fill="var(--accent)">${PARTY_LABELS[p]||p}</text>`;
     s += `<rect x="340" y="${y}" width="${w}" height="48" rx="8" fill="${color}" />`;
-    s += `<text x="${355+w}" y="${y+32}" font-family="ProductSans" font-size="26" font-weight="bold" fill="#111">%${(v/total*100).toFixed(2)}</text>`;
-    s += `<text x="1300" y="${y+40}" font-family="ProductSans" font-size="52" font-weight="bold" text-anchor="end">${alloc[p]||0}</text>`;
+    s += `<text x="${355+w}" y="${y+32}" font-family="ProductSans" font-size="26" font-weight="bold" fill="var(--accent)">%${(v/total*100).toFixed(2)}</text>`;
+    s += `<text x="1300" y="${y+40}" font-family="ProductSans" font-size="52" font-weight="bold" text-anchor="end" fill="var(--accent)">${alloc[p]||0}</text>`;
   });
   return s + `</svg>`;
 }
