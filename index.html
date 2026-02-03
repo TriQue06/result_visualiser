@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Seçim Görselleştirici</title>
+  <title>Seçim Görselleştirici Pro v5</title>
   <style>
     :root {
       --bg: #f0f2f5;
@@ -12,7 +12,7 @@
       --accent: #0f172a;
       --primary: #2563eb;
       --border: #e2e8f0;
-      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     }
     @font-face {
       font-family: 'ProductSans';
@@ -35,66 +35,107 @@
       width: 320px; font-family: inherit; font-size: 15px; outline: none;
       box-shadow: var(--shadow);
     }
-    .search-box:focus { border-color: var(--primary); }
 
+    /* Türkiye Geneli Bar */
     .overall-stats {
-      background: #fff; padding: 20px; border-radius: 20px; margin-bottom: 30px;
+      background: #fff; padding: 25px; border-radius: 24px; margin-bottom: 30px;
       box-shadow: var(--shadow); border: 1px solid var(--border);
     }
-    .overall-title { font-size: 18px; margin-bottom: 15px; display: flex; justify-content: space-between; font-weight: bold; }
+    .overall-title { font-size: 18px; margin-bottom: 15px; font-weight: bold; }
     .overall-bar {
-      display: flex; height: 40px; border-radius: 12px; overflow: hidden; background: #eee;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+      display: flex; height: 48px; border-radius: 14px; overflow: visible; background: #eee;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); position: relative;
     }
     .overall-segment {
-      height: 100%; display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 12px; font-weight: bold; transition: width 0.6s ease;
-      white-space: nowrap; cursor: help;
+      height: 100%; position: relative; cursor: pointer; transition: transform 0.2s;
+      display: flex; align-items: center; justify-content: center; color: white;
+      font-size: 12px; font-weight: bold; overflow: hidden; white-space: nowrap;
     }
+    .overall-segment:hover { transform: scaleY(1.1); z-index: 10; border-radius: 4px; }
 
-    #previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+    /* Tooltip */
+    .overall-segment .tooltip {
+      position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%);
+      background: #1e293b; color: white; padding: 12px 16px; border-radius: 12px;
+      font-size: 13px; white-space: nowrap; visibility: hidden; opacity: 0;
+      transition: 0.2s; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1); z-index: 100;
+    }
+    .overall-segment:hover .tooltip { visibility: visible; opacity: 1; bottom: 125%; }
+
+    #previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    
     .card {
-      background: var(--card); border-radius: 24px; padding: 20px;
+      background: var(--card); border-radius: 24px; padding: 24px;
       box-shadow: var(--shadow); border: 1px solid transparent;
-      cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; gap: 12px;
+      border-left: 8px solid transparent;
+      cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .card:hover { transform: translateY(-8px); border-color: var(--primary); }
-    .card-header { display: flex; justify-content: space-between; align-items: center; }
-    .city-name { font-size: 22px; margin: 0; }
-    .seat-badge { background: var(--bg); padding: 5px 12px; border-radius: 10px; font-size: 13px; font-weight: bold; }
+    .card:hover { transform: translateY(-5px); border-color: var(--border); }
+    
+    .city-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+    .city-name { font-size: 24px; margin: 0; line-height: 1.1; }
+    
+    .winner-badge {
+      font-size: 11px; font-weight: bold; color: white;
+      padding: 6px 14px; border-radius: 50px; width: fit-content;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
 
-    .svg-container {
-      width: 100%; aspect-ratio: 16/9; background: #f8fafc; border-radius: 16px;
-      display: flex; align-items: center; justify-content: center; border: 1px solid #f1f5f9; overflow: hidden;
-    }
-    .mini-results { display: flex; flex-direction: column; gap: 8px; }
-    .mini-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+    .mini-results { display: flex; flex-direction: column; gap: 10px; }
+    .mini-row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
     .mini-label { width: 90px; font-weight: 700; color: #334155; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .mini-bar-bg { flex: 1; height: 6px; background: #f1f5f9; border-radius: 10px; }
+    .mini-bar-bg { flex: 1; height: 8px; background: #f1f5f9; border-radius: 10px; }
     .mini-bar-fill { height: 100%; border-radius: 10px; }
-    .mini-pct { width: 40px; text-align: right; color: var(--muted); font-weight: 700; }
+    .mini-mv { width: 45px; font-weight: 800; text-align: right; }
+    .mini-mv.zero { color: #cbd5e1; font-weight: 400; }
+    .mini-pct { width: 42px; text-align: right; color: var(--muted); font-weight: 700; }
 
-    /* Fullscreen Overlay */
+    /* Fullscreen Fix */
     #fsOverlay {
-      display:none; position:fixed; inset:0; background:rgba(255,255,255,0.99); z-index:2000;
-      flex-direction:column; align-items:center; justify-content:center;
+      display:none; position:fixed; inset:0; background:#fff; z-index:2000;
+      flex-direction:column; align-items:center;
     }
-    .fs-tools { position: fixed; top: 20px; right: 20px; z-index: 2100; }
+    .fs-top-bar { width: 100%; height: 14px; flex-shrink: 0; }
+    
+    .fs-header { 
+      display: flex; align-items: center; justify-content: center; gap: 20px; 
+      padding: 40px 20px 20px 20px; width: 100%; background: #fff;
+    }
+    .fs-city-title { font-size: clamp(30px, 5vw, 50px); font-weight: bold; margin: 0; }
+
+    .fs-tools { position: fixed; top: 25px; right: 25px; z-index: 2105; }
     .btn { padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
     .btn-red { background: #ef4444; color: white; }
     .btn-primary { background: var(--primary); color: white; }
+    .btn-dark { background: #334155; color: white; }
 
-    #fsInner { width: 95vw; height: 85vh; display: flex; align-items: center; justify-content: center; }
-    .nav-zone { position: fixed; top: 0; bottom: 0; width: 10%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 60px; color: #cbd5e1; transition: 0.2s; user-select: none; }
+    #fsInner { 
+      flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; 
+      padding-bottom: 40px; overflow: hidden;
+    }
+    #fsInner svg { max-height: 100%; max-width: 95%; height: auto; }
+
+    .nav-zone { position: fixed; top: 0; bottom: 0; width: 8%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 60px; color: #cbd5e1; transition: 0.2s; user-select: none; z-index: 2050; }
     .nav-zone:hover { color: var(--accent); background: rgba(0,0,0,0.02); }
+    
+    .controls-wrapper { display:flex; gap:12px; flex-wrap:wrap; align-items:center; background:white; padding:15px; border-radius:18px; border:1px solid var(--border); }
+    select { padding: 10px; border-radius: 10px; border: 1px solid var(--border); font-family: inherit; }
   </style>
 </head>
 <body>
 
 <div id="fsOverlay">
+  <div id="fsLine" class="fs-top-bar"></div>
   <div class="fs-tools">
     <button class="btn btn-red" id="closeBtn">Kapat (ESC)</button>
   </div>
+  
+  <div class="fs-header">
+      <h2 id="fsCityName" class="fs-city-title">---</h2>
+      <div id="fsWinnerBadge" class="winner-badge" style="font-size: 16px; padding: 10px 20px;">---</div>
+  </div>
+
   <div id="navL" class="nav-zone" style="left:0;">‹</div>
   <div id="fsInner"></div>
   <div id="navR" class="nav-zone" style="right:0;">›</div>
@@ -107,30 +148,24 @@
         <h1 style="margin:0; font-size:32px;">Seçim Görselleştirici</h1>
         <p id="cityCount" style="color:var(--muted); margin:5px 0;">Veri bekleniyor...</p>
       </div>
-      <div class="search-container">
-        <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi veya il ara...">
-      </div>
+      <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi ara...">
     </div>
 
     <div class="overall-stats" id="overallSection" style="display:none;">
-      <div class="overall-title">
-        <span>Türkiye Geneli Tahmini Milletvekili Dağılımı</span>
-        <span id="totalSeatsLabel"></span>
-      </div>
+      <div class="overall-title">Türkiye Geneli Tahmini Milletvekili Dağılımı</div>
       <div class="overall-bar" id="overallBar"></div>
     </div>
 
-    <div style="display:flex; gap:15px; flex-wrap:wrap; align-items:center;">
+    <div class="controls-wrapper">
       <input id="fileTxt" type="file" accept=".txt">
       <button id="btnGen" class="btn btn-primary">Dosyayı Analiz Et</button>
-      <div style="display:flex; gap:8px;">
-        <select id="serverFiles" style="padding:10px; border-radius:10px; border:1px solid var(--border);">
-          <option value="">Arşivden Seç...</option>
-          <option value="ocak2026_3.txt">Ocak 2026 (#3)</option>
-          <option value="subat2026_1.txt">Şubat 2026 (#1)</option>
-        </select>
-        <button id="btnFetch" class="btn btn-dark" style="background:#334155; color:white;">Arşivden Getir</button>
-      </div>
+      <div style="width: 1px; height: 30px; background: #ddd; margin: 0 10px;"></div>
+      <select id="serverFiles">
+        <option value="">Arşivden Seç...</option>
+        <option value="ocak2026_3.txt">Ocak 2026 (#3)</option>
+        <option value="subat2026_1.txt">Şubat 2026 (#1)</option>
+      </select>
+      <button id="btnFetch" class="btn btn-dark">Arşivden Getir</button>
     </div>
   </header>
 
@@ -139,48 +174,19 @@
 
 <script>
 const PARTY_COLORS = {
-
-  'AKP':{base:'#f29118',majority:'#f5a746',leading:'#f8c07b'},
-
-  'CHP':{base:'#e60017',majority:'#eb3345',leading:'#f16d7a'},
-
-  'DEM':{base:'#9c11a6',majority:'#b041b8',leading:'#c677cc'},
-
+  'AKP':{base:'#f29118'}, 'CHP':{base:'#e60017'}, 'DEM':{base:'#9c11a6'},
   'YRP':{base:'#1c8c38'}, 'MHP':{base:'#a60042'}, 'ANP':{base:'#0f4599'},
-
   'ANAP':{base:'#ffcc00'}, 'TİP':{base:'#e62274'}, 'İYİ':{base:'#39b8e6'},
-
-  'BBP':{base:'#e64500'}, 'GENÇ':{base:'#e64596'}, 'MP':{base:'#115ba6'},
-
-  'MYP':{base:'#4b2e83'}, 'SOL':{base:'#1485cc'}, 'HÜDA':{base:'#00993d'},
-
-  'DSP':{base:'#17cee6'}, 'ZP':{base:'#404040'}, 'BTP':{base:'#bf000a'},
-
+  'BBP':{base:'#e64500'}, 'ZP':{base:'#404040'}, 'HÜDA':{base:'#00993d'},
   'SP':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'GP':{base:'#0a6642'},
-
-  'AP':{base:'#401380'}, 'TKP':{base:'#bf131d'}, 'DP':{base:'#e61789'},
-
-  'DEFAULT':{base:'#cccccc'}
-
+  'MP':{base:'#115ba6'}, 'DP':{base:'#e61789'}, 'DEFAULT':{base:'#cccccc'}
 };
-
-
 
 const PARTY_LABELS = {
-
-  'AKP':'AK Parti','CHP':'CHP','MHP':'MHP','İYİ':'İYİ Parti',
-
-  'YRP':'Yeniden Refah','BBP':'Büyük Birlik','DEM':'DEM Parti','TİP':'TİP','ANP':'A Parti',
-
-  'GENÇ':'Genç Parti','HAK':'HAK PAR','MYP':'Milli Yol','SOL':'SOL Parti','ANAP':'ANAP',
-
-  'TEK':'TEK Parti','AB':'AB Parti','MİL':'Millet','VP':'Vatan Partisi',
-
-  'GP':'Gelecek','SP':'Saadet','ZP':'Zafer Partisi','HÜDA':'HÜDA PAR',
-
-  'DSP':'DSP','BTP':'BTP','DEVA':'DEVA','AP':'AP','TKP':'TKP','MP':'Memleket','DP':'Demokrat Parti'
-
+  'AKP':'AK Parti','CHP':'CHP','MHP':'MHP','İYİ':'İYİ Parti','DEM':'DEM Parti',
+  'YRP':'Yeniden Refah','BBP':'Büyük Birlik','ZP':'Zafer Partisi','TİP':'TİP','HÜDA':'HÜDA PAR'
 };
+
 function trLower(s) { return s.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); }
 
 let currentData = [];
@@ -194,7 +200,7 @@ async function renderDashboard(txt) {
   svgs = [];
   const previews = document.getElementById('previews');
   previews.innerHTML = '';
-  document.getElementById('cityCount').innerText = `${data.length} seçim çevresi yüklendi.`;
+  document.getElementById('cityCount').innerText = `${data.length} seçim çevresi aktif.`;
 
   calculateOverall(data);
 
@@ -202,31 +208,40 @@ async function renderDashboard(txt) {
     const item = data[i];
     const totalVotes = Object.values(item.votes).reduce((a,b)=>a+b,0) || 1;
     const sorted = Object.entries(item.votes).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    const alloc = dhondt(item.votes, item.seats);
+    
+    const winnerCode = sorted[0][0];
+    const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
+    const winnerLabel = PARTY_LABELS[winnerCode] || winnerCode;
 
     const card = document.createElement('div');
     card.className = 'card';
+    card.style.borderLeftColor = winnerColor;
+
     card.innerHTML = `
-      <div class="card-header">
+      <div class="city-info">
         <h3 class="city-name">${item.city}</h3>
-        <span class="seat-badge">${item.seats} MV</span>
+        <div class="winner-badge" style="background:${winnerColor}">${winnerLabel}</div>
       </div>
-      <div class="svg-container" id="svg-cont-${i}"></div>
       <div class="mini-results">
-        ${sorted.map(([p,v]) => `
-          <div class="mini-row">
-            <span class="mini-label" title="${PARTY_LABELS[p]||p}">${PARTY_LABELS[p]||p}</span>
-            <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${(v/totalVotes*100)}%; background:${(PARTY_COLORS[p]||PARTY_COLORS.DEFAULT).base}"></div></div>
-            <span class="mini-pct">%${(v/totalVotes*100).toFixed(1)}</span>
-          </div>
-        `).join('')}
+        ${sorted.map(([p,v]) => {
+          const pColor = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
+          const pPct = (v/totalVotes*100).toFixed(1);
+          const pMv = alloc[p] || 0;
+          return `
+            <div class="mini-row">
+              <span class="mini-label">${PARTY_LABELS[p]||p}</span>
+              <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${pPct}%; background:${pColor}"></div></div>
+              <span class="mini-pct">%${pPct}</span>
+              <span class="mini-mv ${pMv === 0 ? 'zero' : ''}">${pMv} MV</span>
+            </div>
+          `;
+        }).join('')}
       </div>
     `;
     card.onclick = () => openFullscreen(i);
     previews.appendChild(card);
-
-    const svg = await buildSVG(item);
-    svgs.push(svg);
-    document.getElementById(`svg-cont-${i}`).innerHTML = svg;
+    svgs.push(await buildSVG(item));
   }
 }
 
@@ -240,49 +255,53 @@ function calculateOverall(data) {
       globalSeats += s;
     });
   });
-
   const sortedTotals = Object.entries(totals).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
   const bar = document.getElementById('overallBar');
   bar.innerHTML = '';
   
+  const barWidth = bar.offsetWidth || 1200; // Yaklaşık değer
+
   sortedTotals.forEach(([p, s]) => {
+    const percent = (s/globalSeats*100);
+    const pColor = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
+    const pLabel = PARTY_LABELS[p] || p;
+    
     const segment = document.createElement('div');
     segment.className = 'overall-segment';
-    const percent = (s/globalSeats*100);
     segment.style.width = `${percent}%`;
-    segment.style.background = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
-    if (percent > 8) segment.innerHTML = `<span>${PARTY_LABELS[p]||p}: ${s}</span>`;
-    else if (percent > 3) segment.innerHTML = `<span>${s}</span>`;
-    segment.title = `${PARTY_LABELS[p]||p}: ${s} MV`;
+    segment.style.background = pColor;
+    
+    // Sığma kontrolü: segment genişliği 60px'den büyükse yazdır
+    const segmentPx = (percent / 100) * barWidth;
+    if(percent > 6) {
+        segment.innerHTML = `<span>${pLabel}: ${s}</span>`;
+    }
+
+    segment.innerHTML += `
+      <div class="tooltip">
+        <strong style="font-size:15px; display:block; margin-bottom:4px;">${pLabel}</strong>
+        <span>MV Sayısı: <strong>${s}</strong></span><br>
+        <span>Meclis Yüzdesi: <strong>%${percent.toFixed(1)}</strong></span>
+      </div>
+    `;
     bar.appendChild(segment);
   });
-
   document.getElementById('overallSection').style.display = 'block';
-  document.getElementById('totalSeatsLabel').innerText = `Toplam: ${globalSeats} MV`;
 }
-
-// ARŞİV GETİRME DÜZELTİLDİ
-document.getElementById('btnFetch').onclick = async () => {
-  const file = document.getElementById('serverFiles').value;
-  if(!file) { alert("Lütfen arşivden bir dosya seçin."); return; }
-  try {
-    const response = await fetch(file);
-    if(!response.ok) throw new Error("Dosya bulunamadı.");
-    const txt = await response.text();
-    renderDashboard(txt);
-  } catch(e) { alert("Arşiv dosyası yüklenemedi: " + e.message); }
-};
-
-document.getElementById('citySearch').oninput = (e) => {
-  const query = trLower(e.target.value);
-  document.querySelectorAll('.card').forEach(card => {
-    const cityName = trLower(card.querySelector('.city-name').innerText);
-    card.style.display = cityName.includes(query) ? 'flex' : 'none';
-  });
-};
 
 function openFullscreen(idx) {
   currentIdx = idx;
+  const item = currentData[idx];
+  const sorted = Object.entries(item.votes).sort((a,b)=>b[1]-a[1]);
+  const winnerCode = sorted[0][0];
+  const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
+
+  document.getElementById('fsCityName').innerText = item.city;
+  const badge = document.getElementById('fsWinnerBadge');
+  badge.innerText = PARTY_LABELS[winnerCode] || winnerCode;
+  badge.style.background = winnerColor;
+  
+  document.getElementById('fsLine').style.background = winnerColor;
   document.getElementById('fsInner').innerHTML = svgs[idx];
   document.getElementById('fsOverlay').style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -297,7 +316,6 @@ document.getElementById('closeBtn').onclick = closeFullscreen;
 document.getElementById('navL').onclick = () => { if(currentIdx > 0) openFullscreen(currentIdx - 1); };
 document.getElementById('navR').onclick = () => { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); };
 
-// KLAVYE KONTROLLERİ (Sağ, Sol, ESC)
 document.addEventListener('keydown', (e) => {
   if (document.getElementById('fsOverlay').style.display === 'flex') {
     if (e.key === "ArrowRight") { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); }
@@ -339,15 +357,14 @@ async function buildSVG(obj){
   const items = Object.entries(obj.votes).sort((a,b)=>b[1]-a[1]).slice(0,9);
   const alloc = dhondt(obj.votes, obj.seats);
   let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#fff">`;
-  s += `<text x="40" y="80" font-family="ProductSans" font-size="60" font-weight="bold" fill="#111">${obj.city}</text>`;
   items.forEach(([p,v], i) => {
-    const y = 160 + i*65;
-    const w = (v/total) * 800;
+    const y = 60 + i*72;
+    const w = (v/total) * 850;
     const color = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
-    s += `<text x="320" y="${y+30}" font-family="ProductSans" font-size="28" text-anchor="end" fill="#444">${PARTY_LABELS[p]||p}</text>`;
-    s += `<rect x="340" y="${y}" width="${w}" height="45" rx="8" fill="${color}" />`;
-    s += `<text x="${350+w}" y="${y+30}" font-family="ProductSans" font-size="24" font-weight="bold" fill="#111">%${(v/total*100).toFixed(2)}</text>`;
-    s += `<text x="1250" y="${y+35}" font-family="ProductSans" font-size="45" font-weight="bold" text-anchor="end">${alloc[p]||0}</text>`;
+    s += `<text x="320" y="${y+32}" font-family="ProductSans" font-size="30" text-anchor="end" fill="#444">${PARTY_LABELS[p]||p}</text>`;
+    s += `<rect x="340" y="${y}" width="${w}" height="48" rx="8" fill="${color}" />`;
+    s += `<text x="${355+w}" y="${y+32}" font-family="ProductSans" font-size="26" font-weight="bold" fill="#111">%${(v/total*100).toFixed(2)}</text>`;
+    s += `<text x="1300" y="${y+40}" font-family="ProductSans" font-size="52" font-weight="bold" text-anchor="end">${alloc[p]||0}</text>`;
   });
   return s + `</svg>`;
 }
@@ -355,6 +372,23 @@ async function buildSVG(obj){
 document.getElementById('btnGen').onclick = async () => {
   const f = document.getElementById('fileTxt').files[0];
   if(f) renderDashboard(await f.text());
+};
+
+document.getElementById('btnFetch').onclick = async () => {
+  const fileName = document.getElementById('serverFiles').value;
+  if(!fileName) return;
+  try {
+    const res = await fetch(fileName);
+    renderDashboard(await res.text());
+  } catch(e) { alert("Dosya getirilemedi."); }
+};
+
+document.getElementById('citySearch').oninput = (e) => {
+  const query = trLower(e.target.value);
+  document.querySelectorAll('.card').forEach(card => {
+    const cityName = trLower(card.querySelector('.city-name').innerText);
+    card.style.display = cityName.includes(query) ? 'block' : 'none';
+  });
 };
 </script>
 </body>
