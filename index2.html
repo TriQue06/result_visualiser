@@ -47,7 +47,7 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* Tema Butonu */
+    /* Tema Butonu (Sağ Üst) */
     .theme-zone { position: fixed; top: 20px; right: 20px; z-index: 5000; }
     .theme-btn {
       background: var(--card); border: 1px solid var(--border);
@@ -67,7 +67,32 @@
     }
     .theme-menu button:hover { background: rgba(0,0,0,0.1); }
 
-    /* Türkiye Geneli Bar - Hover Genişleme Kaldırıldı */
+    /* YENİ: Filtre Butonu ve Menüsü (Sol Üst) */
+    .filter-zone { position: fixed; top: 20px; left: 20px; z-index: 5000; }
+    .filter-btn {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; cursor: pointer; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); width: 44px; height: 44px; font-size: 20px;
+    }
+    .filter-menu {
+      position: absolute; top: 50px; left: 0; background: var(--card);
+      border: 1px solid var(--border); border-radius: 12px; display: none;
+      box-shadow: var(--shadow); overflow-y: auto; max-height: 80vh; min-width: 280px;
+    }
+    .filter-item {
+      padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s; font-size: 14px; color: var(--accent);
+    }
+    .filter-item:hover { background: rgba(0,0,0,0.05); }
+    .filter-item.active { background: var(--primary); color: white; border-color: transparent; }
+    .filter-item.active .filter-party-rate { color: rgba(255,255,255,0.8); }
+    .filter-item:last-child { border-bottom: none; }
+    .filter-party-name { font-weight: bold; }
+    .filter-party-rate { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+    /* Türkiye Geneli Bar */
     .overall-stats {
       background: var(--card); padding: 30px; border-radius: 28px; margin-bottom: 35px;
       box-shadow: var(--shadow); border: 1px solid var(--border);
@@ -81,7 +106,6 @@
       height: 100%; position: relative; cursor: pointer;
       display: flex; align-items: center; justify-content: center; color: white;
       font-size: 13px; font-weight: bold; overflow: visible;
-      /* Küçük partiler için minimum genişlik desteği */
       min-width: 15px; 
     }
 
@@ -174,6 +198,15 @@
   </div>
 </div>
 
+<div class="filter-zone">
+  <button class="filter-btn" id="filterMainBtn" title="Partiye Göre Sırala">
+    <span>📊</span>
+  </button>
+  <div class="filter-menu" id="filterMenu">
+    <div style="padding:15px; text-align:center; color:var(--muted)">Veri bekleniyor...</div>
+  </div>
+</div>
+
 <div id="fsOverlay">
   <div class="fs-window-bar">
     <div class="fs-window-title">
@@ -207,10 +240,10 @@
       <button id="btnGen" class="btn btn-primary">Dosyayı Analiz Et</button>
       <div style="width: 1px; height: 40px; background: var(--border); margin: 0 10px;"></div>
       <select id="serverFiles">
-  <option value="">Arşivden Seç...</option>
-  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/ocak2026_3.txt">Ocak 2026 (#3)</option>
-  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/subat2026_1.txt">Şubat 2026 (#1)</option>
-</select>
+        <option value="">Arşivden Seç...</option>
+        <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/ocak2026_3.txt">Ocak 2026 (#3)</option>
+        <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/subat2026_1.txt">Şubat 2026 (#1)</option>
+      </select>
       <button id="btnFetch" class="btn btn-dark">Arşivden Getir</button>
     </div>
   </header>
@@ -233,7 +266,20 @@ document.getElementById('themeMainBtn').onclick = (e) => {
   e.stopPropagation();
 };
 
-window.onclick = () => document.getElementById('themeMenu').style.display = 'none';
+// Filtre Butonu Olayı
+document.getElementById('filterMainBtn').onclick = (e) => {
+  const menu = document.getElementById('filterMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  e.stopPropagation();
+};
+
+window.onclick = () => {
+  document.getElementById('themeMenu').style.display = 'none';
+  document.getElementById('filterMenu').style.display = 'none';
+};
+
+// Menüye tıklanınca kapanmasın
+document.getElementById('filterMenu').onclick = (e) => e.stopPropagation();
 
 const savedTheme = localStorage.getItem('pref-theme') || 'auto';
 const savedIcon = localStorage.getItem('pref-icon') || '⚙️';
@@ -244,7 +290,7 @@ const PARTY_COLORS = {
   'YRP':{base:'#1c8c38'}, 'MHP':{base:'#a60042'}, 'ANP':{base:'#0f4599'}, 'HAK':{base:'#d92121'},
   'ANAP':{base:'#ffcc00'}, 'TİP':{base:'#e62274'}, 'İYİ':{base:'#39b8e6'}, 'TKP':{base:'#bf131c'},
   'BBP':{base:'#e64500'}, 'ZP':{base:'#404040'}, 'HÜDA':{base:'#86bf0a'}, 'HKP':{base:'#f25524'},
-  'SP':{base:'#bf6a4d'}, 'SP1':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'DEVA1':{base:'#0064a6'}, 'GP':{base:'#0a6642'}, 'GP1':{base:'#0a6642'}, 'SOL':{base:'#006bb3'},
+  'SP':{base:'#bf6a4d'}, 'SP1':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'DEVA1':{base:'#0064a6'}, 'GP':{base:'#0b734b'}, 'GP1':{base:'#0b734b'}, 'SOL':{base:'#006bb3'},
   'MP':{base:'#115ba6'}, 'DP':{base:'#e61789'}, 'GENÇ':{base:'#f2499d'}, 'AP':{base:'#401380'}, 'DEFAULT':{base:'#cccccc'}
 };
 
@@ -261,19 +307,94 @@ const PARTY_LABELS = {
 
 function trLower(s) { return s.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); }
 
-let currentData = [];
+let originalData = []; // Orijinal veriyi saklar
+let currentData = [];  // Şu an gösterilen (sıralanmış olabilir)
 let svgs = [];
 let currentIdx = 0;
+let activeSortParty = null; // Şu an sıralama yapılan parti
 
 async function renderDashboard(txt) {
   const data = parseResults(txt); 
   if(!data.length) return;
-  currentData = data;
+  
+  originalData = data; // Yedeği al
+  currentData = data;  // Başlangıçta aynı
+  activeSortParty = null; // Sıfırla
+  
+  document.getElementById('cityCount').innerText = `${data.length} seçim çevresi aktif.`;
+  
+  calculateOverall(data);
+  updateFilterMenu(data); // Filtre menüsünü doldur
+  renderCards(data); // Kartları çiz
+}
+
+function updateFilterMenu(data) {
+  const menu = document.getElementById('filterMenu');
+  const totals = {};
+  let grandTotal = 0;
+
+  data.forEach(item => {
+    Object.entries(item.votes).forEach(([p, v]) => {
+      totals[p] = (totals[p] || 0) + v;
+      grandTotal += v;
+    });
+  });
+
+  const sortedParties = Object.entries(totals).sort((a,b) => b[1] - a[1]);
+
+  menu.innerHTML = '';
+  sortedParties.forEach(([p, v]) => {
+    const rate = ((v / grandTotal) * 100).toFixed(2);
+    const label = PARTY_LABELS[p] || p;
+    
+    const div = document.createElement('div');
+    div.className = 'filter-item';
+    div.id = 'filter-btn-' + p;
+    div.innerHTML = `
+      <span class="filter-party-name">${label}</span>
+      <span class="filter-party-rate">%${rate}</span>
+    `;
+    div.onclick = () => toggleSort(p);
+    menu.appendChild(div);
+  });
+}
+
+function toggleSort(pCode) {
+  // Görsel durum güncelle
+  const items = document.querySelectorAll('.filter-item');
+  items.forEach(el => el.classList.remove('active'));
+
+  if (activeSortParty === pCode) {
+    // Zaten bu partiye göre sıralıysa -> İPTAL ET
+    activeSortParty = null;
+    currentData = [...originalData]; // Orijinal sıraya dön
+  } else {
+    // Yeni sıralama uygula
+    activeSortParty = pCode;
+    const btn = document.getElementById('filter-btn-' + pCode);
+    if(btn) btn.classList.add('active');
+
+    // Sıralama Mantığı: O partinin yüzdesine göre (Çoktan aza)
+    currentData = [...originalData].sort((a, b) => {
+      const totalA = Object.values(a.votes).reduce((x,y)=>x+y,0) || 1;
+      const totalB = Object.values(b.votes).reduce((x,y)=>x+y,0) || 1;
+      
+      const pctA = (a.votes[pCode] || 0) / totalA;
+      const pctB = (b.votes[pCode] || 0) / totalB;
+      
+      return pctB - pctA; // Büyükten küçüğe
+    });
+  }
+  
+  // Yeniden çiz
+  renderCards(currentData);
+}
+
+async function renderCards(data) {
   svgs = [];
   const previews = document.getElementById('previews');
   previews.innerHTML = '';
-  document.getElementById('cityCount').innerText = `${data.length} seçim çevresi aktif.`;
-  calculateOverall(data);
+
   for(let i=0; i<data.length; i++) {
     const item = data[i];
     const totalVotes = Object.values(item.votes).reduce((a,b)=>a+b,0) || 1;
@@ -282,6 +403,7 @@ async function renderDashboard(txt) {
     const winnerCode = sorted[0][0];
     const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
     const winnerLabel = PARTY_LABELS[winnerCode] || winnerCode;
+    
     const card = document.createElement('div');
     card.className = 'card';
     card.style.borderLeftColor = winnerColor;
@@ -327,7 +449,6 @@ function calculateOverall(data) {
   const bar = document.getElementById('overallBar');
   bar.innerHTML = '';
 
-  // Erişilebilirlik için küçük partilere min-width sağlamak üzere flex kullanımı
   sortedTotals.forEach(([p, s]) => {
     const weight = (s / globalSeats);
     const percent = weight * 100;
@@ -337,7 +458,6 @@ function calculateOverall(data) {
     const segment = document.createElement('div');
     segment.className = 'overall-segment';
     
-    // Küçük partiler için görsel alan (min 8 MV genişliği simülasyonu)
     const displayWeight = Math.max(s, 8); 
     segment.style.flex = `${displayWeight} 1 0%`; 
     segment.style.background = pColor;
@@ -370,19 +490,20 @@ function openFullscreen(idx) {
   document.getElementById('fsOverlay').style.display = 'flex';
   document.body.style.overflow = 'hidden';
   document.querySelector('.theme-zone').style.display = 'none';
+  document.querySelector('.filter-zone').style.display = 'none'; // Filtreyi de gizle
 }
 
 function closeFullscreen() {
   document.getElementById('fsOverlay').style.display = 'none';
   document.body.style.overflow = '';
   document.querySelector('.theme-zone').style.display = 'block';
+  document.querySelector('.filter-zone').style.display = 'block'; // Filtreyi geri getir
 }
 
 document.getElementById('closeBtn').onclick = closeFullscreen;
 document.getElementById('navL').onclick = (e) => { e.stopPropagation(); if(currentIdx > 0) openFullscreen(currentIdx - 1); };
 document.getElementById('navR').onclick = (e) => { e.stopPropagation(); if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); };
 
-// KLAVYE KONTROLLERİ GERİ EKLENDİ
 document.addEventListener('keydown', (e) => {
   if (document.getElementById('fsOverlay').style.display === 'flex') {
     if (e.key === "ArrowRight") { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); }
