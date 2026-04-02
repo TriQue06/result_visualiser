@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Seçim Görselleştirici Pro v2</title>
+  <title>PGM Analiz - Seçim Çevresi Arayüzü</title>
   <style>
     :root {
       --bg: #f0f2f5;
@@ -85,16 +85,6 @@
       padding-bottom: 10px;
     }
 
-    .filter-header {
-      padding: 12px; border-bottom: 1px solid var(--border);
-      display: flex; gap: 10px; background: var(--bg);
-    }
-    .mode-switch {
-      flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border);
-      background: var(--card); color: var(--accent); font-size: 13px; font-weight: bold; cursor: pointer;
-    }
-    .mode-switch.active { background: var(--primary); color: white; border-color: var(--primary); }
-
     .filter-item {
       padding: 10px 14px; border-bottom: 1px solid var(--border);
       display: flex; align-items: center; gap: 12px;
@@ -122,10 +112,6 @@
     .filter-content { flex: 1; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     .filter-party-name { font-weight: bold; }
     .filter-party-rate { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .filter-proximity-tag { 
-        font-size: 11px; padding: 2px 6px; border-radius: 4px; 
-        background: var(--muted); color: white; display: none;
-    }
 
     /* Türkiye Geneli Bar */
     .overall-stats {
@@ -166,10 +152,6 @@
     
     .city-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
     .city-name { font-size: 26px; margin: 0; line-height: 1; letter-spacing: -0.5px; }
-    .proximity-badge {
-      font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 6px;
-      background: var(--muted); color: white; display: none;
-    }
     
     .winner-badge { 
       font-size: 11px; font-weight: bold; color: white; 
@@ -206,7 +188,28 @@
     .search-box { padding: 14px 24px; border-radius: 16px; border: 1px solid var(--border); width: 340px; font-family: inherit; font-size: 15px; outline: none; box-shadow: var(--shadow); background: var(--card); color: var(--accent); }
     .controls-wrapper { display:flex; gap:12px; flex-wrap:wrap; align-items:center; background:var(--card); padding:18px; border-radius:22px; border:1px solid var(--border); }
     .btn-primary { background: var(--primary); color: white; }
-    .btn-dark { background: var(--card); color: var(--accent); border: 1px solid var(--border); }
+    
+    /* Vurgulu Arşivden Getir Butonu */
+    .btn-highlight { 
+      background: linear-gradient(135deg, #10b981, #2563eb); 
+      color: white; 
+      border: none; 
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); 
+      font-size: 16px; 
+      transition: all 0.3s ease; 
+      animation: pulse 2s infinite;
+      padding: 12px 32px;
+    }
+    .btn-highlight:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6); 
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+
     select { padding: 12px; border-radius: 12px; border: 1px solid var(--border); font-family: inherit; background: var(--card); color: var(--accent); }
   </style>
 </head>
@@ -224,10 +227,6 @@
 <div class="filter-zone">
   <button class="filter-btn" id="filterMainBtn" title="Filtrele ve Sırala"><span>📊</span></button>
   <div class="filter-menu" id="filterMenu">
-    <div class="filter-header">
-      <button class="mode-switch active" id="modeRate" onclick="setSortMode('RATE')">Oy Oranı</button>
-      <button class="mode-switch" id="modeProx" onclick="setSortMode('PROX')">+1 MV Yakınlığı</button>
-    </div>
     <div id="filterList" style="padding-top: 5px;">
       <div style="padding:15px; text-align:center; color:var(--muted)">Veri bekleniyor...</div>
     </div>
@@ -252,7 +251,7 @@
   <header>
     <div class="header-main">
       <div>
-        <h1 style="margin:0; font-size:36px; letter-spacing:-1px;">Seçim Görselleştirici Pro</h1>
+        <h1 style="margin:0; font-size:36px; letter-spacing:-1px;">PGM Analiz - Seçim Çevresi Arayüzü</h1>
         <p id="cityCount" style="color:var(--muted); margin:5px 0; font-size:16px;">Veri bekleniyor...</p>
       </div>
       <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi ara...">
@@ -272,7 +271,7 @@
   <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/mart2026_3.txt">Mart 2026 (#3)</option>
   <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/nisan2026_1.txt">Nisan 2026 (#1)</option>
 </select>
-      <button id="btnFetch" class="btn btn-dark">Arşivden Getir</button>
+      <button id="btnFetch" class="btn btn-highlight">🚀 Arşivden Getir</button>
     </div>
   </header>
   <main id="previews"></main>
@@ -324,7 +323,7 @@ function trLower(s) { return s.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCa
 /* --- VERİ YÖNETİMİ --- */
 let originalData = [];
 let disabledParties = new Set(); // Devre dışı bırakılan partiler
-let sortMode = 'RATE'; // 'RATE' (oy oranı) veya 'PROX' (yakınlık)
+let sortMode = 'RATE'; 
 let activeSortParty = null;
 let svgs = [];
 let currentIdx = 0;
@@ -347,8 +346,6 @@ document.getElementById('filterMenu').onclick = (e) => e.stopPropagation();
 
 function setSortMode(mode) {
   sortMode = mode;
-  document.getElementById('modeRate').className = `mode-switch ${mode==='RATE'?'active':''}`;
-  document.getElementById('modeProx').className = `mode-switch ${mode==='PROX'?'active':''}`;
   // Sıralamayı yenile
   if(activeSortParty) applySort(activeSortParty);
   else updateFilterMenu(originalData); // Listeyi yenile
@@ -426,7 +423,6 @@ function updateFilterMenu(data) {
         <span class="filter-party-name">${label}</span>
         <div style="display:flex; flex-direction:column; align-items:flex-end">
           <span class="filter-party-rate">%${rate}</span>
-          ${isActive && sortMode === 'PROX' ? '<span class="filter-proximity-tag">Yakınlık Sıralı</span>' : ''}
         </div>
       </div>
     `;
@@ -452,20 +448,6 @@ function applySort(pCode) {
       return rateB - rateA;
     });
   } 
-  else if (sortMode === 'PROX') {
-    // "Bir vekil daha kazanmaya" en yakınlık
-    // Mantık: (Son kazananın oyu - Partinin bir sonraki vekil için oyu) = Fark
-    // Fark ne kadar küçükse o kadar yakın. Negatifse zaten kazanmış ve fark açmış demektir (güvenli).
-    
-    sortedData.sort((a, b) => {
-      const proxA = calculateProximity(a, pCode);
-      const proxB = calculateProximity(b, pCode);
-      
-      // prox değeri: Pozitif sayı = Gereken Oy Miktarı (Yakınlık).
-      // Bu sayı ne kadar küçükse (0'a yakınsa) o kadar iyi.
-      return proxA - proxB; 
-    });
-  }
 
   renderCards(sortedData);
 }
@@ -542,20 +524,6 @@ async function renderCards(data) {
     const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
     const winnerLabel = PARTY_LABELS[winnerCode] || winnerCode;
     
-    // Proximity Badge (Eğer mod açıksa ve bir parti seçiliyse)
-    let proxBadgeHTML = '';
-    if(sortMode === 'PROX' && activeSortParty) {
-      const needed = calculateProximity(item, activeSortParty);
-      const isWon = (alloc[activeSortParty]||0) > 0;
-      // Gösterim: Eğer 1000 oy lazımsa "+1000 Oy Lazım". Eğer almışsa "X MV Cepte"
-      // Sadece pozitifleri (kazanmaya yakınları) vurgulayalım.
-      if(needed > 0) {
-        proxBadgeHTML = `<div class="proximity-badge" style="display:inline-block; background:${isWon?'#10b981':'#f59e0b'}">+1 MV için: <strong>${Math.ceil(needed)}</strong> oy</div>`;
-      } else {
-         proxBadgeHTML = `<div class="proximity-badge" style="display:inline-block; background:#10b981">Güvenli</div>`;
-      }
-    }
-
     const card = document.createElement('div');
     card.className = 'card';
     card.style.borderLeftColor = winnerColor;
@@ -565,7 +533,6 @@ async function renderCards(data) {
            <h3 class="city-name">${item.city}</h3>
            <div class="winner-badge" style="background:${winnerColor}">${winnerLabel}</div>
         </div>
-        ${proxBadgeHTML}
       </div>
       <div class="mini-results">
         ${sorted.map(([p,v]) => {
@@ -687,12 +654,7 @@ function openFullscreen(idx) {
 }
 // Helper to get current rendered data array
 function currentData() {
-  if (sortMode === 'PROX' && activeSortParty) {
-     let d = [...originalData];
-     d.sort((a,b) => calculateProximity(a, activeSortParty) - calculateProximity(b, activeSortParty));
-     return d;
-  }
-  else if (activeSortParty) {
+  if (activeSortParty) {
      let d = [...originalData];
      d.sort((a, b) => {
         const tA=Object.values(a.votes).reduce((x,y)=>x+y,0)||1;
