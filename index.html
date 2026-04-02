@@ -292,23 +292,31 @@ const savedIcon = localStorage.getItem('pref-icon') || '⚙️';
 changeTheme(savedTheme, savedIcon);
 
 const PARTY_COLORS = {
-  'AKP':{base:'#f29118'}, 'CHP':{base:'#e60017'}, 'DEM':{base:'#9c11a6'}, 'YYP':{base:'#006ca6'}, 'İMAMOĞLU':{base:'#e60017'}, 'ERDOĞAN':{base:'#f29118'}, 'AĞIRALİOĞLU':{base:'#16b8d9'}, 'ERBAKAN':{base:'#179945'}, 'BABACAN':{base:'#0064a6'}, 'ÖZDAĞ':{base:'#1470cc'}, 'BAKIRHAN':{base:'#9c11a6'},
-  'YRP':{base:'#1c8c38'}, 'MHP':{base:'#a60042'}, 'ANP':{base:'#0f4599'}, 'HAK':{base:'#d92121'}, 'ALT':{base:'#1470cc'}, 'YEŞİLLER':{base:'#3fb36d'},
-  'ANAP':{base:'#ffcc00'}, 'TİP':{base:'#e62274'}, 'İYİ':{base:'#39b8e6'}, 'TKP':{base:'#bf131c'},
-  'BBP':{base:'#e64500'}, 'ZP':{base:'#404040'}, 'HÜDA':{base:'#86bf0a'}, 'HKP':{base:'#f25524'}, 'YCP':{base:'#0abfbf'},
-  'SP':{base:'#bf6a4d'}, 'SP1':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'DEVA1':{base:'#0064a6'}, 'GP':{base:'#0b734b'}, 'GP1':{base:'#0b734b'}, 'SOL':{base:'#006bb3'},
-  'MP':{base:'#115ba6'}, 'DP':{base:'#e61789'}, 'GENÇ':{base:'#f2499d'}, 'AP':{base:'#401380'}, 'DEFAULT':{base:'#cccccc'}
+  'CHP':{base:'#e60017'}, 'AKP':{base:'#f29118'}, 'MHP':{base:'#a6114a'}, 'BBP':{base:'#f2550c'}, 'HÜDA':{base:'#7cbc0c'},
+  'İYİ':{base:'#2eace6'}, 'ZP':{base:'#404040'}, 'DP':{base:'#e61789'},
+  'DEM':{base:'#a112b3'}, 'TİP':{base:'#f2247a'},
+  'YRP':{base:'#179945'}, 'ANP':{base:'#1f4599'},
+  'YYP':{base:'#006ca6'}, 'SP':{base:'#bf6a4d'}, 'SP1':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'DEVA1':{base:'#0064a6'}, 'GP':{base:'#0b734b'}, 'GP1':{base:'#0b734b'},
+  'TKP':{base:'#bf131c'}, 'SOL':{base:'#006bb3'}, 'HKP':{base:'#f25524'},
+    
+  'MP':{base:'#115ba6'}, 'AP':{base:'#401380'}, 'GENÇ':{base:'#f2499d'}, 'ANAP':{base:'#ffcc00'}, 'HAK':{base:'#d92121'},
+  
+  'ALT':{base:'#1470cc'}, 'YEŞİLLER':{base:'#3fb36d'}, 'YCP':{base:'#0abfbf'},
+
+  'DEFAULT':{base:'#cccccc'},
+
+  'İMAMOĞLU':{base:'#e60017'}, 'ERDOĞAN':{base:'#f29118'}, 'AĞIRALİOĞLU':{base:'#16b8d9'}, 'ERBAKAN':{base:'#179945'}, 'BABACAN':{base:'#0064a6'}, 'ÖZDAĞ':{base:'#1470cc'}, 'BAKIRHAN':{base:'#9c11a6'}
 };
 
 const PARTY_LABELS = {
-  'AKP': 'AK Parti', 'CHP': 'CHP', 'MHP': 'MHP', 'İYİ': 'İYİ Parti', 'BBP': 'Büyük Birlik', 'ALT': 'Üçüncü Blok',
-  'HÜDA': 'HÜDA PAR', 'DSP': 'DSP', 'DEM': 'DEM Parti', 'EMEP': 'EMEP', 'TİP': 'TİP',
+  'AKP': 'AK Parti', 'İYİ': 'İYİ Parti', 'BBP': 'Büyük Birlik', 'ALT': 'Üçüncü Blok',
+  'HÜDA': 'HÜDA PAR', 'DEM': 'DEM Parti',
   'YRP': 'Yeniden Refah', 'SP': 'Saadet', 'DEVA': 'DEVA Partisi', 'GP': 'Gelecek Partisi',
   'YYP': 'Yeni Yol', 'SP1': 'Saadet', 'DEVA1': 'DEVA Partisi', 'GP1': 'Gelecek Partisi',
-  'ANP': 'A Parti', 'ZP': 'Zafer Partisi', 'BTP': 'BTP', 'TKP': 'TKP', 'SOL': 'SOL Parti',
-  'TKH': 'TKH', 'AP': 'AP', 'GENÇ': 'Genç Parti', 'MP': 'Memleket', 'ANAP': 'ANAP',
-  'DP': 'DP', 'VP': 'Vatan Partisi', 'MİL': 'Millet', 'HAK': 'HAK PAR', 'AB': 'AB Parti',
-  'MYP': 'Milli Yol', 'ABP': 'ABP', 'DYP': 'DYP', 'GBP': 'GBP', 'YP': 'YP', 'YTP': 'YTP'
+  'ANP': 'A Parti', 'ZP': 'Zafer Partisi', 'SOL': 'SOL Parti',
+  'GENÇ': 'Genç Parti', 'MP': 'Memleket',
+  'VP': 'Vatan Partisi', 'MİL': 'Millet', 'HAK': 'HAK PAR', 'AB': 'AB Parti',
+  'MYP': 'Milli Yol'
 };
 
 function trLower(s) { return s.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); }
