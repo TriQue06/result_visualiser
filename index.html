@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PGM Analiz - Seçim Çevresi Arayüzü</title>
+  <title>Seçim Simülatörü - Gelişmiş Analiz Ekranı</title>
   <style>
     :root {
-      --bg: #f0f2f5;
+      --bg: #f8fafc;
       --card: #ffffff;
       --muted: #64748b;
       --accent: #0f172a;
@@ -14,8 +14,8 @@
       --danger: #ef4444;
       --success: #10b981;
       --border: #e2e8f0;
-      --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-      --hover-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 10px 10px -5px rgb(0 0 0 / 0.1);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --hover-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
       --svg-bg: #ffffff;
     }
 
@@ -57,18 +57,20 @@
       border-radius: 12px; cursor: pointer; padding: 0;
       display: flex; align-items: center; justify-content: center;
       box-shadow: var(--shadow); width: 44px; height: 44px; font-size: 20px;
+      transition: 0.2s;
     }
+    .theme-btn:hover { transform: scale(1.05); }
     .theme-menu {
-      position: absolute; top: 50px; right: 0; background: var(--card);
+      position: absolute; top: 54px; right: 0; background: var(--card);
       border: 1px solid var(--border); border-radius: 12px; display: none;
-      box-shadow: var(--shadow); overflow: hidden; min-width: 150px;
+      box-shadow: var(--hover-shadow); overflow: hidden; min-width: 150px;
     }
     .theme-menu button {
       width: 100%; padding: 12px; border: none; background: none;
       color: var(--accent); font-family: inherit; cursor: pointer;
-      text-align: left; transition: background 0.2s; display: flex; align-items: center; gap: 10px;
+      text-align: left; transition: background 0.2s; display: flex; align-items: center; gap: 10px; font-weight: bold;
     }
-    .theme-menu button:hover { background: rgba(0,0,0,0.1); }
+    .theme-menu button:hover { background: rgba(100,100,100,0.1); }
 
     /* Filtre Menüsü */
     .filter-zone { position: fixed; top: 20px; left: 20px; z-index: 5000; }
@@ -77,34 +79,33 @@
       border-radius: 12px; cursor: pointer; padding: 0;
       display: flex; align-items: center; justify-content: center;
       box-shadow: var(--shadow); width: 44px; height: 44px; font-size: 20px;
+      transition: 0.2s;
     }
+    .filter-btn:hover { transform: scale(1.05); }
     .filter-menu {
-      position: absolute; top: 50px; left: 0; background: var(--card);
+      position: absolute; top: 54px; left: 0; background: var(--card);
       border: 1px solid var(--border); border-radius: 12px; display: none;
-      box-shadow: var(--shadow); overflow-y: auto; max-height: 80vh; min-width: 320px;
+      box-shadow: var(--hover-shadow); overflow-y: auto; max-height: 80vh; min-width: 320px;
       padding-bottom: 10px;
     }
 
     .filter-item {
-      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
       display: flex; align-items: center; gap: 12px;
       transition: background 0.2s; font-size: 14px; color: var(--accent);
     }
-    .filter-item:hover { background: rgba(0,0,0,0.05); }
+    .filter-item:hover { background: rgba(100,100,100,0.05); }
     .filter-item:last-child { border-bottom: none; }
     
-    /* Disabled state visualization */
     .filter-item.disabled { opacity: 0.5; background: rgba(0,0,0,0.02); }
     .filter-item.disabled .filter-party-name { text-decoration: line-through; }
-
-    /* Active sort state */
     .filter-item.sort-active { background: rgba(37, 99, 235, 0.1); border-left: 4px solid var(--primary); }
 
     .filter-actions { display: flex; align-items: center; gap: 8px; }
     .visibility-btn {
       background: none; border: 1px solid var(--border); border-radius: 6px;
       width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--muted); transition: 0.2s;
+      cursor: pointer; color: var(--muted); transition: 0.2s; font-size: 12px; font-weight:bold;
     }
     .visibility-btn:hover { background: var(--border); color: var(--accent); }
     .visibility-btn.is-hidden { color: var(--danger); border-color: var(--danger); background: rgba(239, 68, 68, 0.1); }
@@ -113,104 +114,89 @@
     .filter-party-name { font-weight: bold; }
     .filter-party-rate { font-size: 13px; color: var(--muted); font-weight: 500; }
 
-    /* Türkiye Geneli Bar */
+    /* Türkiye Geneli Bar - UZATILDI VE BÜYÜTÜLDÜ */
     .overall-stats {
-      background: var(--card); padding: 30px; border-radius: 28px; margin-bottom: 35px;
+      background: var(--card); padding: 24px 30px; border-radius: 20px; margin-bottom: 30px;
       box-shadow: var(--shadow); border: 1px solid var(--border);
     }
-    .overall-title { font-size: 20px; margin-bottom: 20px; font-weight: bold; letter-spacing: -0.2px; }
+    .overall-title { font-size: 20px; margin-bottom: 20px; font-weight: bold; color: var(--accent); display:flex; justify-content:space-between; }
     .overall-bar {
-      display: flex; height: 60px; border-radius: 16px; overflow: visible; background: var(--border);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); position: relative;
+      display: flex; height: 64px; border-radius: 14px; overflow: visible; background: var(--border);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); position: relative; width: 100%;
     }
     .overall-segment {
       height: 100%; position: relative; cursor: pointer;
       display: flex; align-items: center; justify-content: center; color: white;
-      font-size: 13px; font-weight: bold; overflow: visible;
-      min-width: 15px; 
+      font-size: 15px; font-weight: bold; overflow: visible; min-width: 20px; 
+      transition: opacity 0.2s, transform 0.1s; border-right: 1px solid rgba(255,255,255,0.1);
     }
+    .overall-segment:hover { opacity: 0.95; transform: scaleY(1.08); border-radius: 6px; z-index: 10; box-shadow: var(--shadow); }
     .overall-segment .tooltip {
-      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(10px);
-      background: #1e293b; color: white; padding: 18px 24px; border-radius: 18px;
-      font-size: 15px; white-space: nowrap; visibility: hidden; opacity: 0;
+      position: absolute; bottom: 75px; left: 50%; transform: translateX(-50%) translateY(10px);
+      background: #1e293b; color: white; padding: 14px 20px; border-radius: 12px;
+      font-size: 14px; white-space: nowrap; visibility: hidden; opacity: 0;
       transition: all 0.2s ease-out; pointer-events: none;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);
-      z-index: 1000; line-height: 1.6; letter-spacing: 0.3px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+      z-index: 1000; line-height: 1.5; text-shadow: none; font-weight: normal;
     }
     .overall-segment:hover .tooltip { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* Kart Tasarımı */
-    .container { max-width: 1440px; margin: 0 auto; padding: 30px 24px; }
-    #previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .container { max-width: 1500px; margin: 0 auto; padding: 30px 24px; }
+    #previews { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
     
     .card { 
-      background: var(--card); border-radius: 26px; padding: 26px; 
-      box-shadow: var(--shadow); border: 1px solid transparent; 
-      border-left: 10px solid transparent; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+      background: var(--card); border-radius: 20px; padding: 22px; 
+      box-shadow: var(--shadow); border: 1px solid var(--border); 
+      border-top: 6px solid var(--primary); cursor: pointer; transition: 0.2s; 
     }
-    .card:hover { transform: translateY(-8px); border-color: var(--border); box-shadow: var(--hover-shadow); }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--hover-shadow); }
     
-    .city-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
-    .city-name { font-size: 26px; margin: 0; line-height: 1; letter-spacing: -0.5px; }
+    .city-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 12px;}
+    .city-name { font-size: 22px; margin: 0; font-weight: bold; }
     
     .winner-badge { 
       font-size: 11px; font-weight: bold; color: white; 
-      padding: 7px 16px; border-radius: 50px; text-transform: uppercase; 
-      letter-spacing: 0.8px; width: fit-content; margin-top: 10px;
+      padding: 6px 12px; border-radius: 8px; text-transform: uppercase; 
     }
 
-    .mini-results { display: flex; flex-direction: column; gap: 12px; }
-    .mini-row { display: flex; align-items: center; gap: 12px; font-size: 14px; transition: opacity 0.2s; }
-    .mini-row.no-seat { opacity: 0.45; }
-    .mini-label { width: 90px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .mini-bar-bg { flex: 1; height: 10px; background: var(--border); border-radius: 10px; }
-    .mini-bar-fill { height: 100%; border-radius: 10px; }
-    .mini-mv { width: 45px; font-weight: 800; text-align: right; }
+    .mini-results { display: flex; flex-direction: column; gap: 10px; }
+    .mini-row { display: flex; align-items: center; gap: 10px; font-size: 13px; transition: opacity 0.2s; }
+    .mini-row.no-seat { opacity: 0.5; }
+    .mini-label { width: 100px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mini-bar-bg { flex: 1; height: 8px; background: var(--border); border-radius: 4px; }
+    .mini-bar-fill { height: 100%; border-radius: 4px; }
+    .mini-pct { font-size: 11px; color: var(--muted); font-weight: bold; width: 35px; text-align:right;}
+    .mini-mv { width: 30px; font-weight: 900; text-align: right; font-size: 14px; color: var(--primary); }
 
     /* Tam Ekran */
     #fsOverlay { display:none; position:fixed; inset:0; background:var(--bg); z-index:4000; flex-direction:column; align-items:center; }
-    .fs-window-bar { width: 100%; height: 85px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-sizing: border-box; flex-shrink: 0; }
-    .fs-city-title { font-size: 34px; font-weight: bold; margin: 0; color: var(--accent); letter-spacing: -1px; }
-    .fs-color-accent { width: 100%; height: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+    .fs-window-bar { width: 100%; height: 80px; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-sizing: border-box; flex-shrink: 0; box-shadow: var(--shadow); }
+    .fs-city-title { font-size: 28px; font-weight: bold; margin: 0; color: var(--accent); }
+    .fs-color-accent { width: 100%; height: 6px; }
 
-    .btn { padding: 12px 28px; border-radius: 12px; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
-    .btn-red { background: #ef4444; color: white; }
+    .btn { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-family: inherit; font-weight: bold; font-size: 14px; transition: 0.2s; }
+    .btn-red { background: var(--danger); color: white; }
+    .btn-red:hover { opacity: 0.9; }
     
     #fsInner { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; padding: 40px; overflow: hidden; }
-    #fsInner svg { max-height: 100%; max-width: 95%; height: auto; background: var(--svg-bg); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+    #fsInner svg { max-height: 100%; max-width: 95%; height: auto; background: var(--svg-bg); border-radius: 20px; box-shadow: var(--shadow); }
 
-    .nav-zone { position: fixed; top: 85px; bottom: 0; width: 8%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 70px; color: var(--muted); transition: 0.2s; user-select: none; z-index: 4050; }
-    .nav-zone:hover { color: var(--accent); background: rgba(0,0,0,0.03); }
+    .nav-zone { position: fixed; top: 80px; bottom: 0; width: 8%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 60px; color: var(--muted); transition: 0.2s; user-select: none; z-index: 4050; }
+    .nav-zone:hover { color: var(--accent); background: rgba(100,100,100,0.05); }
 
     /* Kontroller */
-    header { margin-bottom: 30px; }
-    .header-main { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin-bottom: 25px; }
-    .search-box { padding: 14px 24px; border-radius: 16px; border: 1px solid var(--border); width: 340px; font-family: inherit; font-size: 15px; outline: none; box-shadow: var(--shadow); background: var(--card); color: var(--accent); }
-    .controls-wrapper { display:flex; gap:12px; flex-wrap:wrap; align-items:center; background:var(--card); padding:18px; border-radius:22px; border:1px solid var(--border); }
-    .btn-primary { background: var(--primary); color: white; }
+    header { margin-bottom: 20px; }
+    .header-main { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+    .search-box { padding: 12px 20px; border-radius: 12px; border: 1px solid var(--border); width: 300px; font-family: inherit; font-size: 14px; outline: none; background: var(--card); color: var(--accent); transition: 0.2s; }
+    .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
     
-    /* Vurgulu Arşivden Getir Butonu */
-    .btn-highlight { 
-      background: linear-gradient(135deg, #10b981, #2563eb); 
-      color: white; 
-      border: none; 
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); 
-      font-size: 16px; 
-      transition: all 0.3s ease; 
-      animation: pulse 2s infinite;
-      padding: 12px 32px;
-    }
-    .btn-highlight:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6); 
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
-      70% { box-shadow: 0 0 0 12px rgba(37, 99, 235, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
-    }
-
-    select { padding: 12px; border-radius: 12px; border: 1px solid var(--border); font-family: inherit; background: var(--card); color: var(--accent); }
+    .controls-wrapper { display:flex; gap:16px; align-items:center; background:var(--card); padding:16px 24px; border-radius:16px; border:1px solid var(--border); box-shadow: var(--shadow); }
+    .btn-primary { background: var(--primary); color: white; display: flex; align-items: center; gap: 8px;}
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    
+    .meta-tag { background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; border: 1px solid #e2e8f0; }
+    [data-theme="dark"] .meta-tag { background: #1e293b; color: #cbd5e1; border-color: #334155; }
   </style>
 </head>
 <body>
@@ -235,11 +221,11 @@
 
 <div id="fsOverlay">
   <div class="fs-window-bar">
-    <div class="fs-window-title" style="display:flex; align-items:center; gap:25px;">
+    <div class="fs-window-title" style="display:flex; align-items:center; gap:20px;">
       <h2 id="fsCityName" class="fs-city-title">---</h2>
-      <div id="fsWinnerBadge" class="winner-badge" style="font-size: 15px; padding: 10px 22px;">---</div>
+      <div id="fsWinnerBadge" class="winner-badge">---</div>
     </div>
-    <button class="btn btn-red" id="closeBtn">Kapat</button>
+    <button class="btn btn-red" id="closeBtn">Arayüze Dön</button>
   </div>
   <div id="fsLine" class="fs-color-accent"></div>
   <div id="navL" class="nav-zone" style="left:0;">‹</div>
@@ -251,34 +237,38 @@
   <header>
     <div class="header-main">
       <div>
-        <h1 style="margin:0; font-size:36px; letter-spacing:-1px;">PGM Analiz - Seçim Çevresi Arayüzü</h1>
-        <p id="cityCount" style="color:var(--muted); margin:5px 0; font-size:16px;">Veri bekleniyor...</p>
+        <h1 style="margin:0; font-size:32px; letter-spacing:-0.5px;">Gelişmiş Analiz Ekranı</h1>
+        <p id="cityCount" style="color:var(--muted); margin:6px 0 0 0; font-size:15px; font-weight:bold;">Seçim simülatöründen alınan .txt dosyasını yükleyin.</p>
       </div>
-      <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi ara...">
+      <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi veya il ara...">
     </div>
-    <div class="overall-stats" id="overallSection" style="display:none;">
-      <div class="overall-title">Simülasyon Sonucu: Meclis Dağılımı</div>
-      <div class="overall-bar" id="overallBar"></div>
-    </div>
+    
     <div class="controls-wrapper">
-      <input id="fileTxt" type="file" accept=".txt">
-      <button id="btnGen" class="btn btn-primary">Dosyayı Analiz Et</button>
-      <div style="width: 1px; height: 40px; background: var(--border); margin: 0 10px;"></div>
-      <select id="serverFiles">
-  <option value="">Arşivden Seç...</option>
-  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/ocak2026_3.txt">Ocak 2026 (#3)</option>
-  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/subat2026_1.txt">Şubat 2026 (#1)</option>
-  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/mart2026_3.txt">Mart 2026 (#3)</option>
-  <option value="https://raw.githubusercontent.com/TriQue06/result_visualiser/refs/heads/main/nisan2026_1.txt">Nisan 2026 (#1)</option>
-</select>
-      <button id="btnFetch" class="btn btn-highlight">🚀 Arşivden Getir</button>
+      <input id="fileTxt" type="file" accept=".txt" style="display:none;">
+      <label for="fileTxt" class="btn btn-primary" style="margin:0; cursor: pointer;">📁 Gelişmiş .TXT Yükle</label>
+      <div id="fileStatus" style="font-size: 14px; font-weight:bold; color: var(--muted);">Dosya bekleniyor...</div>
+      
+      <div style="flex:1;"></div>
+      <div id="metaInfo" style="display:none; gap:10px;">
+        <span class="meta-tag" id="metaThreshold">Baraj: -</span>
+        <span class="meta-tag" id="metaSystem">Sistem: -</span>
+      </div>
     </div>
   </header>
+  
+  <div class="overall-stats" id="overallSection" style="display:none;">
+    <div class="overall-title">
+      <span>Türkiye Geneli Meclis Dağılımı</span>
+      <span id="totalSeatsDisplay" style="color:var(--primary); font-size: 24px;">0 MV</span>
+    </div>
+    <div class="overall-bar" id="overallBar"></div>
+  </div>
+  
   <main id="previews"></main>
 </div>
 
 <script>
-/* --- AYARLAR VE SABİTLER --- */
+/* --- TEMA AYARLARI --- */
 function changeTheme(theme, icon) {
   document.documentElement.setAttribute('data-theme', theme);
   document.getElementById('themeIcon').innerText = icon;
@@ -290,51 +280,8 @@ const savedTheme = localStorage.getItem('pref-theme') || 'auto';
 const savedIcon = localStorage.getItem('pref-icon') || '⚙️';
 changeTheme(savedTheme, savedIcon);
 
-const PARTY_COLORS = {
-  'CHP':{base:'#e60017'}, 'AKP':{base:'#f29118'}, 'MHP':{base:'#a6114a'}, 'BBP':{base:'#f2550c'}, 'HÜDA':{base:'#7cbc0c'},
-  'İYİ':{base:'#2eace6'}, 'ZP':{base:'#404040'}, 'DP':{base:'#e61789'}, 'Milliyetçi Blok':{base:'#2eace6'},
-  'DEM':{base:'#a112b3'}, 'TİP':{base:'#f2247a'},
-  'YRP':{base:'#179945'}, 'ANP':{base:'#1f4599'}, 'Saadet - Refah':{base:'#179945'},
-  'YYP':{base:'#006ca6'}, 'SP':{base:'#bf6a4d'}, 'DEVA':{base:'#0064a6'}, 'GP':{base:'#0b734b'}, 'DEVA - Gelecek':{base:'#066c80'},
-  'TKP':{base:'#bf131c'}, 'SOL':{base:'#006bb3'}, 'HKP':{base:'#f25524'},
-    
-  'MP':{base:'#115ba6'}, 'AP':{base:'#401380'}, 'GENÇ':{base:'#f2499d'}, 'ANAP':{base:'#ffcc00'}, 'HAK':{base:'#d92121'},
-  
-  'ALT':{base:'#1470cc'}, 'YEŞİLLER':{base:'#3fb36d'}, 'YCP':{base:'#0abfbf'},
-
-  'DEFAULT':{base:'#cccccc'},
-
-  'İMAMOĞLU':{base:'#e60017'}, 'ERDOĞAN':{base:'#f29118'}, 'AĞIRALİOĞLU':{base:'#16b8d9'}, 'ERBAKAN':{base:'#179945'}, 'BABACAN':{base:'#0064a6'}, 'ÖZDAĞ':{base:'#1470cc'}, 'BAKIRHAN':{base:'#9c11a6'}
-};
-
-const PARTY_LABELS = {
-  'AKP': 'AK Parti', 'İYİ': 'İYİ Parti', 'BBP': 'Büyük Birlik', 'ALT': 'Üçüncü Blok',
-  'HÜDA': 'HÜDA PAR', 'DEM': 'DEM Parti',
-  'YRP': 'Yeniden Refah', 'SP': 'Saadet', 'DEVA': 'DEVA Partisi', 'GP': 'Gelecek Partisi',
-  'YYP': 'Yeni Yol',
-  'ANP': 'Anahtar Parti', 'ZP': 'Zafer Partisi', 'SOL': 'SOL Parti',
-  'GENÇ': 'Genç Parti', 'MP': 'Memleket',
-  'VP': 'Vatan Partisi', 'MİL': 'Millet', 'HAK': 'HAK PAR', 'AB': 'AB Parti',
-  'MYP': 'Milli Yol'
-};
-
-function trLower(s) { return s.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); }
-
-/* --- VERİ YÖNETİMİ --- */
-let originalData = [];
-let disabledParties = new Set(); // Devre dışı bırakılan partiler
-let sortMode = 'RATE'; 
-let activeSortParty = null;
-let svgs = [];
-let currentIdx = 0;
-
-/* --- UI ETKİLEŞİMLERİ --- */
-document.getElementById('themeMainBtn').onclick = (e) => {
-  toggleMenu('themeMenu'); e.stopPropagation();
-};
-document.getElementById('filterMainBtn').onclick = (e) => {
-  toggleMenu('filterMenu'); e.stopPropagation();
-};
+document.getElementById('themeMainBtn').onclick = (e) => { toggleMenu('themeMenu'); e.stopPropagation(); };
+document.getElementById('filterMainBtn').onclick = (e) => { toggleMenu('filterMenu'); e.stopPropagation(); };
 function toggleMenu(id) {
   const el = document.getElementById(id);
   const isVis = el.style.display === 'block';
@@ -344,41 +291,258 @@ function toggleMenu(id) {
 window.onclick = () => document.querySelectorAll('.theme-menu, .filter-menu').forEach(x=>x.style.display='none');
 document.getElementById('filterMenu').onclick = (e) => e.stopPropagation();
 
-function setSortMode(mode) {
-  sortMode = mode;
-  // Sıralamayı yenile
-  if(activeSortParty) applySort(activeSortParty);
-  else updateFilterMenu(originalData); // Listeyi yenile
+/* --- DİNAMİK & PARSE EDİLEN RENK SİSTEMİ --- */
+const colorPalette = [
+  '#2563eb', '#ef4444', '#f59e0b', '#10b981', '#8b5cf6',
+  '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#84cc16',
+  '#0ea5e9', '#d946ef', '#eab308', '#22c55e', '#a855f7',
+  '#1e40af', '#b91c1c', '#4338ca', '#15803d', '#be123c'
+];
+let parsedColors = {}; // TXT dosyasından okunan renkler
+let dynamicColors = {}; // Yedek (otomatik) atanan renkler
+let colorIndex = 0;
+
+function getPartyColor(name) {
+  // 1. Öncelik: Simülatörden gelen kayıtlı renk (TXT dosyasından okunan)
+  if (parsedColors[name]) return parsedColors[name];
+  
+  // 2. Öncelik: Daha önce atanmış otomatik renk
+  if (!dynamicColors[name]) {
+    dynamicColors[name] = colorPalette[colorIndex % colorPalette.length];
+    colorIndex++;
+  }
+  return dynamicColors[name];
 }
 
-/* --- ANA MANTIK --- */
+/* --- STATE (DURUM) --- */
+let parsedProject = null;
+let disabledParties = new Set();
+let activeSortParty = null;
+let currentDistResults = [];
+let svgs = [];
+let currentIdx = 0;
 
-async function renderDashboard(txt) {
-  const data = parseResults(txt);
-  if(!data.length) return;
-  originalData = data;
+/* --- GELİŞMİŞ TXT PARSER --- */
+function parseAdvancedTxt(txt) {
+  const data = {
+    settings: { threshold: 7, method: 'classic' },
+    alliances: [],
+    coalitions: [],
+    colors: {}, // Yeni Eklenen Renkler Objesi
+    districts: []
+  };
+  let currentSection = '';
+  const lines = txt.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  let currentDistrict = null;
+
+  for (let line of lines) {
+    if (line.startsWith('[')) {
+      currentSection = line;
+      continue;
+    }
+
+    if (currentSection === '[AYARLAR]') {
+      const parts = line.split('=');
+      if (parts.length === 2) {
+        if (parts[0] === 'Baraj') data.settings.threshold = parseFloat(parts[1]);
+        if (parts[0] === 'Sistem') data.settings.method = parts[1];
+      }
+    } 
+    else if (currentSection === '[ITTIFAKLAR]') {
+      const parts = line.split('=');
+      if(parts.length === 2) data.alliances.push({ name: parts[0], members: parts[1].split(',') });
+    } 
+    else if (currentSection === '[ORTAK_LISTELER]') {
+      const parts = line.split('=');
+      if(parts.length === 2) data.coalitions.push({ name: parts[0], members: parts[1].split(',') });
+    }
+    // YENİ: Renkleri yakalayan bölüm
+    else if (currentSection === '[RENKLER]') {
+      const parts = line.split('=');
+      if(parts.length === 2) {
+          data.colors[parts[0].trim()] = parts[1].trim();
+      }
+    }
+    else if (currentSection === '[SONUCLAR]') {
+      if (line === '-') {
+        if (currentDistrict) {
+          data.districts.push(currentDistrict);
+          currentDistrict = null;
+        }
+      } else {
+        const match = line.match(/^(.*)-(\d+)$/);
+        if (match && !currentDistrict) {
+          currentDistrict = { city: match[1].trim(), seats: parseInt(match[2]), votes: {} };
+        } else if (currentDistrict) {
+          const lastSpace = line.lastIndexOf(' ');
+          if (lastSpace !== -1) {
+            const pName = line.substring(0, lastSpace).trim();
+            const pVote = parseInt(line.substring(lastSpace + 1).trim());
+            if (pName && !isNaN(pVote)) currentDistrict.votes[pName] = pVote;
+          }
+        }
+      }
+    }
+  }
+  if (currentDistrict) data.districts.push(currentDistrict);
+  return data;
+}
+
+/* --- D'HONDT ALGORİTMASI --- */
+function runDhondt(votes, seats) {
+  const res = {}; Object.keys(votes).forEach(p=>res[p]=0);
+  for(let i=0; i<seats; i++){
+    let maxQ = -1, winP = null;
+    for(let p in votes){
+      let q = votes[p] / (res[p]+1);
+      if(q > maxQ){ maxQ = q; winP = p; }
+    }
+    if(winP) res[winP]++;
+  }
+  return res;
+}
+
+/* --- ANA HESAPLAMA MOTORU --- */
+function computeResults(project, disabled) {
+  const threshold = project.settings.threshold;
+  const method = project.settings.method;
+
+  let natTotal = 0;
+  let natVotes = {};
+  let distResults = [];
+
+  // 1. Oyları filtrele ve Ortak Listeleri birleştir
+  project.districts.forEach(d => {
+    let activeRaw = {};
+    Object.entries(d.votes).forEach(([p, v]) => {
+      if (!disabled.has(p)) activeRaw[p] = v;
+    });
+
+    let merged = {};
+    Object.assign(merged, activeRaw);
+    
+    project.coalitions.forEach(c => {
+      let sum = 0;
+      c.members.forEach(m => {
+        if (merged[m] !== undefined) { sum += merged[m]; delete merged[m]; }
+      });
+      if (sum > 0) merged[c.name] = (merged[c.name] || 0) + sum;
+    });
+
+    Object.entries(merged).forEach(([p, v]) => {
+      natVotes[p] = (natVotes[p] || 0) + v;
+      natTotal += v;
+    });
+
+    distResults.push({ city: d.city, seats: d.seats, mergedVotes: merged, origVotes: activeRaw });
+  });
+
+  // 2. Baraj Kontrolü (İttifaklar dahil)
+  let passed = new Set();
+  project.alliances.forEach(a => {
+    let aSum = 0;
+    a.members.forEach(m => { if (natVotes[m]) aSum += natVotes[m]; });
+    if ((aSum / (natTotal||1)) * 100 >= threshold) {
+      a.members.forEach(m => { if (natVotes[m]) passed.add(m); });
+    }
+  });
+  
+  Object.entries(natVotes).forEach(([p, v]) => {
+    if ((v / (natTotal||1)) * 100 >= threshold) passed.add(p);
+  });
+
+  // 3. Seçim Çevresi D'Hondt Dağıtımı
+  distResults.forEach(dr => {
+    let eligible = {};
+    let distTotal = 0;
+    Object.entries(dr.mergedVotes).forEach(([p, v]) => {
+      distTotal += v;
+      if (passed.has(p) || threshold === 0) eligible[p] = v;
+    });
+    dr.totalVotes = distTotal;
+
+    let alloc = {};
+    if (method === 'classic') {
+      alloc = runDhondt(eligible, dr.seats);
+    } else {
+      let allianceVotes = {};
+      let partyToAll = {};
+      project.alliances.forEach(a => {
+        let sum = 0;
+        a.members.forEach(m => {
+          if (eligible[m]) { sum += eligible[m]; partyToAll[m] = a.name; }
+        });
+        if (sum > 0) allianceVotes[a.name] = sum;
+      });
+      Object.keys(eligible).forEach(p => {
+        if (!partyToAll[p]) allianceVotes[p] = eligible[p];
+      });
+
+      let aSeats = runDhondt(allianceVotes, dr.seats);
+      Object.keys(aSeats).forEach(winner => {
+        if (aSeats[winner] > 0) {
+          const allObj = project.alliances.find(a => a.name === winner);
+          if (allObj) {
+            let intVotes = {};
+            allObj.members.forEach(m => { if (eligible[m]) intVotes[m] = eligible[m]; });
+            Object.assign(alloc, runDhondt(intVotes, aSeats[winner]));
+          } else {
+            alloc[winner] = aSeats[winner];
+          }
+        }
+      });
+    }
+    dr.alloc = alloc;
+  });
+
+  return { natVotes, natTotal, distResults, passed };
+}
+
+/* --- UI GÜNCELLEME --- */
+document.getElementById('fileTxt').addEventListener('change', async (e) => {
+  const f = e.target.files[0];
+  if(!f) return;
+  document.getElementById('fileStatus').innerText = f.name + " yüklendi.";
+  const txt = await f.text();
+  
+  parsedProject = parseAdvancedTxt(txt);
+  
+  // Renkleri sisteme yükle
+  parsedColors = parsedProject.colors || {};
+  
   disabledParties.clear();
   activeSortParty = null;
-  sortMode = 'RATE'; // Reset
-  setSortMode('RATE'); // UI Reset
+  
+  // Meta bilgileri göster
+  document.getElementById('metaThreshold').innerText = "Baraj: %" + parsedProject.settings.threshold;
+  const sysName = parsedProject.settings.method === 'classic' ? 'Klasik (Parti)' : 'İttifak İçi Dağıtım';
+  document.getElementById('metaSystem').innerText = "Sistem: " + sysName;
+  document.getElementById('metaInfo').style.display = 'flex';
   
   refreshAll();
-}
+});
 
 function refreshAll() {
-  // 1. D'Hondt hesapla ve global istatistikleri çıkar
-  document.getElementById('cityCount').innerText = `${originalData.length} seçim çevresi aktif.`;
-  calculateOverall(originalData);
+  if(!parsedProject) return;
+  const results = computeResults(parsedProject, disabledParties);
+  currentDistResults = results.distResults;
   
-  // 2. Filtre menüsünü güncelle (sıralama bozulmasın diye dikkatli)
-  updateFilterMenu(originalData);
+  document.getElementById('cityCount').innerText = `${currentDistResults.length} seçim çevresi aktif.`;
   
-  // 3. Kartları çiz (Mevcut sıralama veya varsayılan sıralama ile)
-  if (activeSortParty) {
-    applySort(activeSortParty);
-  } else {
-    renderCards(originalData);
+  updateFilterMenu(parsedProject);
+  renderOverallBar(results.distResults);
+  
+  // Sıralama uygula
+  let displayData = [...currentDistResults];
+  if(activeSortParty) {
+    displayData.sort((a,b) => {
+      const pctA = (a.mergedVotes[activeSortParty]||0) / (a.totalVotes||1);
+      const pctB = (b.mergedVotes[activeSortParty]||0) / (b.totalVotes||1);
+      return pctB - pctA;
+    });
   }
+  
+  renderCards(displayData);
 }
 
 function togglePartyVisibility(pCode) {
@@ -387,13 +551,13 @@ function togglePartyVisibility(pCode) {
   refreshAll();
 }
 
-function updateFilterMenu(data) {
+function updateFilterMenu(project) {
   const list = document.getElementById('filterList');
   const totals = {};
   let grandTotal = 0;
 
-  data.forEach(item => {
-    Object.entries(item.votes).forEach(([p, v]) => {
+  project.districts.forEach(d => {
+    Object.entries(d.votes).forEach(([p, v]) => {
       totals[p] = (totals[p] || 0) + v;
       grandTotal += v;
     });
@@ -403,8 +567,7 @@ function updateFilterMenu(data) {
   list.innerHTML = '';
 
   sortedParties.forEach(([p, v]) => {
-    const rate = ((v / grandTotal) * 100).toFixed(2);
-    const label = PARTY_LABELS[p] || p;
+    const rate = ((v / (grandTotal||1)) * 100).toFixed(2);
     const isDisabled = disabledParties.has(p);
     const isActive = (activeSortParty === p);
     
@@ -416,11 +579,11 @@ function updateFilterMenu(data) {
         <button class="visibility-btn ${isDisabled?'is-hidden':''}" 
           onclick="togglePartyVisibility('${p}'); event.stopPropagation();" 
           title="${isDisabled?'Partiyi Aç':'Partiyi Kapat'}">
-          ${isDisabled ? '✕' : '👁️'}
+          ${isDisabled ? '✕' : 'Açık'}
         </button>
       </div>
       <div class="filter-content" onclick="applySort('${p}')">
-        <span class="filter-party-name">${label}</span>
+        <span class="filter-party-name">${p}</span>
         <div style="display:flex; flex-direction:column; align-items:flex-end">
           <span class="filter-party-rate">%${rate}</span>
         </div>
@@ -432,72 +595,54 @@ function updateFilterMenu(data) {
 
 function applySort(pCode) {
   activeSortParty = pCode;
+  refreshAll();
+}
+
+function renderOverallBar(districts) {
+  const totals = {};
+  let globalSeats = 0;
   
-  // UI Güncelleme
-  updateFilterMenu(originalData); // Highlight için tekrar render etmek en kolayı
-
-  let sortedData = [...originalData];
-
-  if (sortMode === 'RATE') {
-    // Klasik oy oranına göre sırala
-    sortedData.sort((a, b) => {
-      const totA = Object.values(a.votes).reduce((x,y)=>x+y,0)||1;
-      const totB = Object.values(b.votes).reduce((x,y)=>x+y,0)||1;
-      const rateA = (a.votes[pCode]||0)/totA;
-      const rateB = (b.votes[pCode]||0)/totB;
-      return rateB - rateA;
+  districts.forEach(d => {
+    Object.entries(d.alloc).forEach(([p, s]) => {
+      totals[p] = (totals[p] || 0) + s;
+      globalSeats += s;
     });
-  } 
+  });
+  
+  document.getElementById('totalSeatsDisplay').innerText = globalSeats + " MV";
+  const sortedTotals = Object.entries(totals).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  const bar = document.getElementById('overallBar');
+  bar.innerHTML = '';
 
-  renderCards(sortedData);
+  sortedTotals.forEach(([p, s]) => {
+    const weight = (s / globalSeats);
+    const percent = weight * 100;
+    const pColor = getPartyColor(p);
+    
+    const segment = document.createElement('div');
+    segment.className = 'overall-segment';
+    
+    // Küçük partilerin de tıklanabilir ve görünür olması için visual boost
+    const displayWeight = Math.max(s, globalSeats * 0.02); 
+    segment.style.flex = `${displayWeight} 1 0%`; 
+    segment.style.background = pColor;
+    
+    // Eğer dilim yeterince genişse yazıyı göster
+    if (percent > 4) {
+      segment.innerHTML = `<span style="text-shadow: 0px 1px 3px rgba(0,0,0,0.5);">${s > 10 ? p + ': ' + s : s}</span>`;
+    }
+    
+    segment.innerHTML += `
+      <div class="tooltip">
+        <strong style="font-size:16px; display:block; margin-bottom:8px; color:#fff">${p}</strong>
+        <div style="display:flex; justify-content:space-between; gap:20px;"><span>Milletvekili:</span> <strong>${s}</strong></div>
+        <div style="display:flex; justify-content:space-between; gap:20px; margin-top:4px;"><span>Meclis Payı:</span> <strong>%${percent.toFixed(1)}</strong></div>
+      </div>
+    `;
+    bar.appendChild(segment);
+  });
+  document.getElementById('overallSection').style.display = 'block';
 }
-
-function calculateProximity(item, pCode) {
-  // Bu ildeki parti oyu
-  const myVotes = item.votes[pCode] || 0;
-  if(disabledParties.has(pCode)) return 999999999; // Devre dışıysa listenin sonuna at
-
-  // Mevcut D'Hondt tablosunu simüle et
-  const alloc = dhondt(item.votes, item.seats, true); // Detaylı allocation al
-  const myWon = alloc.distribution[pCode] || 0;
-  
-  // Bir sonraki sandalye için bölenimiz:
-  const myNextDivisor = myWon + 1;
-  const myNextQuotient = myVotes / myNextDivisor;
-
-  // Şu anki sandalye kazanan en düşük böleni bul (Threshold)
-  // alloc.lastSeatQuotient bu ilde vekil çıkaran son kişinin oy/bölen oranıdır.
-  // Bir vekil daha kapmak için bu değeri geçmek gerekir.
-  
-  const threshold = alloc.lastSeatQuotient;
-  
-  // Eğer partim zaten son sandalyeyi aldıysa? 
-  // O zaman threshold kendisidir. Bir sonrakini (seats+1. sandalyeyi) hedefliyordur.
-  // Ancak basitlik adına: "Threshold - MyNextQuotient" bize farkı verir.
-  
-  let gapQuotient = threshold - myNextQuotient;
-  
-  // Bunu oya çevirmek daha anlaşılır sıralama sağlar:
-  // Gereken Oy = Threshold * myNextDivisor
-  // Eksik Oy = Gereken Oy - Mevcut Oy
-  
-  const votesNeeded = (threshold * myNextDivisor) - myVotes;
-  
-  // votesNeeded negatifse: Zaten o sandalyeyi almışız veya eşik değerden yüksekteyiz.
-  // Sıralamada en üste "az farkla kaçırılanlar" (küçük pozitifler) gelsin istiyoruz.
-  // Negatifler (zaten kazanılmış güçlü yerler) en alta gidebilir veya listenin başına.
-  // İstenen: "Bir mv daha kazanmaya en yakın". Yani 0'ın hemen üstündeki sayılar.
-  
-  // Düzenleme: Çok güçlü kazanılmışsa (votesNeeded negatif) bu "bir sonraki" mv için değil,
-  // "elindekini koruma" analizidir. Biz "Kazanmaya Yakınlık" istiyoruz.
-  // Eğer votesNeeded < 0 ise, demek ki sıradaki vekili zaten almışız (veya sonuncuyu almışız).
-  // O zaman bir sonrakine bakarız.
-  
-  return votesNeeded;
-}
-
-
-/* --- GÖRSELLEŞTİRME --- */
 
 async function renderCards(data) {
   svgs = [];
@@ -506,164 +651,72 @@ async function renderCards(data) {
 
   for(let i=0; i<data.length; i++) {
     const item = data[i];
-    const totalVotes = Object.values(item.votes).reduce((a,b)=>a+b,0) || 1;
-    // Sıralama (görsel için) - Disabled partiler de görünür ama soluk olabilir
-    const sorted = Object.entries(item.votes).sort((a,b)=>b[1]-a[1]).slice(0,5);
     
-    // Hesaplama (Kazanma)
-    const dResult = dhondt(item.votes, item.seats);
-    const alloc = dResult.distribution;
+    const sorted = Object.entries(item.mergedVotes).sort((a,b)=>b[1]-a[1]).slice(0,5);
     
-    // Kazananı belirle (En çok vekil çıkaran, eşitse oyu çok olan)
-    const winnerEntry = Object.entries(alloc).sort((a,b) => {
+    const winnerEntry = Object.entries(item.alloc).sort((a,b) => {
        if(b[1] !== a[1]) return b[1] - a[1];
-       return (item.votes[b[0]]||0) - (item.votes[a[0]]||0);
+       return (item.mergedVotes[b[0]]||0) - (item.mergedVotes[a[0]]||0);
     })[0];
     
-    const winnerCode = winnerEntry ? winnerEntry[0] : (sorted[0]?sorted[0][0]:'DEFAULT');
-    const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
-    const winnerLabel = PARTY_LABELS[winnerCode] || winnerCode;
+    const winnerCode = winnerEntry ? winnerEntry[0] : (sorted[0]?sorted[0][0]:'Bağımsız');
+    const winnerColor = getPartyColor(winnerCode);
     
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.borderLeftColor = winnerColor;
+    card.style.borderTopColor = winnerColor;
     card.innerHTML = `
       <div class="city-info">
         <div>
            <h3 class="city-name">${item.city}</h3>
-           <div class="winner-badge" style="background:${winnerColor}">${winnerLabel}</div>
+           <div style="font-size:12px; color:var(--muted); margin-top:4px; font-weight:bold;">${item.seats} Milletvekili</div>
         </div>
+        <div class="winner-badge" style="background:${winnerColor}">${winnerCode}</div>
       </div>
       <div class="mini-results">
         ${sorted.map(([p,v]) => {
-          const pColor = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
-          const pPct = (v/totalVotes*100).toFixed(1);
-          const pMv = alloc[p] || 0;
-          const isDisabled = disabledParties.has(p);
+          const pColor = getPartyColor(p);
+          const pPct = (v/(item.totalVotes||1)*100).toFixed(1);
+          const pMv = item.alloc[p] || 0;
           return `
-            <div class="mini-row ${pMv === 0 ? 'no-seat' : ''}" style="${isDisabled?'opacity:0.3; filter:grayscale(1)':''}">
-              <span class="mini-label">${PARTY_LABELS[p]||p}</span>
+            <div class="mini-row ${pMv === 0 ? 'no-seat' : ''}">
+              <span class="mini-label">${p}</span>
               <div class="mini-bar-bg"><div class="mini-bar-fill" style="width:${pPct}%; background:${pColor}"></div></div>
               <span class="mini-pct">%${pPct}</span>
-              <span class="mini-mv">${pMv}</span>
+              <span class="mini-mv" style="color:${pMv>0?pColor:'var(--muted)'}">${pMv}</span>
             </div>
           `;
         }).join('')}
       </div>
     `;
-    card.onclick = () => openFullscreen(i);
+    card.onclick = () => openFullscreen(i, data);
     previews.appendChild(card);
-    svgs.push(await buildSVG(item, alloc)); // Alloc'u gönderiyoruz ki SVG'de tekrar hesaplamasın
+    svgs.push(await buildSVG(item));
   }
 }
 
-function dhondt(votes, seats, returnDetails = false) {
-  // 1. Aktif oyları filtrele
-  const activeVotes = {};
-  Object.keys(votes).forEach(p => {
-    if (!disabledParties.has(p)) activeVotes[p] = votes[p];
-  });
-
-  // 2. Tablo oluştur
-  const table = [];
-  Object.entries(activeVotes).forEach(([p,v]) => { 
-    for(let i=1; i<=seats; i++) table.push({p, q:v/i, div:i}); 
-  });
-  
-  // 3. Sırala (Büyükten küçüğe)
-  table.sort((a,b) => b.q - a.q);
-  
-  // 4. Dağıt
-  const winners = table.slice(0,seats);
-  const distribution = {};
-  winners.forEach(x => distribution[x.p] = (distribution[x.p]||0) + 1);
-  
-  if(returnDetails) {
-    // Son kazananın katsayısı (Threshold)
-    const lastWinner = winners[winners.length-1];
-    const lastSeatQuotient = lastWinner ? lastWinner.q : 0;
-    return { distribution, lastSeatQuotient };
-  }
-  
-  return { distribution };
-}
-
-function calculateOverall(data) {
-  const totals = {};
-  let globalSeats = 0;
-  data.forEach(item => {
-    const { distribution } = dhondt(item.votes, item.seats);
-    Object.entries(distribution).forEach(([p, s]) => {
-      totals[p] = (totals[p] || 0) + s;
-      globalSeats += s;
-    });
-  });
-  
-  const sortedTotals = Object.entries(totals).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
-  const bar = document.getElementById('overallBar');
-  bar.innerHTML = '';
-
-  sortedTotals.forEach(([p, s]) => {
-    const weight = (s / globalSeats);
-    const percent = weight * 100;
-    const pColor = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
-    const pLabel = PARTY_LABELS[p] || p;
-    
-    const segment = document.createElement('div');
-    segment.className = 'overall-segment';
-    
-    const displayWeight = Math.max(s, 8); 
-    segment.style.flex = `${displayWeight} 1 0%`; 
-    segment.style.background = pColor;
-    
-    if (percent > 6) segment.innerHTML = `<span>${pLabel}: ${s}</span>`;
-    segment.innerHTML += `
-      <div class="tooltip">
-        <strong style="font-size:18px; display:block; margin-bottom:8px; color:#fff">${pLabel}</strong>
-        <div style="display:flex; justify-content:space-between; gap:20px;"><span>Milletvekili:</span> <strong>${s}</strong></div>
-        <div style="display:flex; justify-content:space-between; gap:20px; margin-top:6px;"><span>Meclis Payı:</span> <strong>%${percent.toFixed(1)}</strong></div>
-      </div>
-    `;
-    bar.appendChild(segment);
-  });
-  document.getElementById('overallSection').style.display = 'block';
-}
-
-/* --- DİĞER YARDIMCILAR --- */
-function openFullscreen(idx) {
+/* --- TAM EKRAN VE SVG YÖNETİMİ --- */
+let activeDataset = [];
+function openFullscreen(idx, dataArray) {
+  activeDataset = dataArray;
   currentIdx = idx;
-  const item = currentData()[idx]; // Güncel sıralı listeden al
-  // D'Hondt tekrar hesapla (disabled durumuna göre)
-  const { distribution } = dhondt(item.votes, item.seats);
+  const item = activeDataset[idx];
   
-  // Kazanan (Disabled olmayanlardan)
-  const winnerEntry = Object.entries(distribution).sort((a,b)=>b[1]-a[1])[0];
-  const winnerCode = winnerEntry ? winnerEntry[0] : 'DEFAULT';
-  const winnerColor = (PARTY_COLORS[winnerCode] || PARTY_COLORS.DEFAULT).base;
+  const winnerEntry = Object.entries(item.alloc).sort((a,b)=>b[1]-a[1])[0];
+  const winnerCode = winnerEntry ? winnerEntry[0] : 'Bağımsız';
+  const winnerColor = getPartyColor(winnerCode);
 
-  document.getElementById('fsCityName').innerText = item.city;
+  document.getElementById('fsCityName').innerText = item.city + " (" + item.seats + " MV)";
   const badge = document.getElementById('fsWinnerBadge');
-  badge.innerText = PARTY_LABELS[winnerCode] || winnerCode;
+  badge.innerText = winnerCode;
   badge.style.background = winnerColor;
   document.getElementById('fsLine').style.background = winnerColor;
   document.getElementById('fsInner').innerHTML = svgs[idx];
+  
   document.getElementById('fsOverlay').style.display = 'flex';
   document.body.style.overflow = 'hidden';
   document.querySelector('.theme-zone').style.display = 'none';
   document.querySelector('.filter-zone').style.display = 'none';
-}
-// Helper to get current rendered data array
-function currentData() {
-  if (activeSortParty) {
-     let d = [...originalData];
-     d.sort((a, b) => {
-        const tA=Object.values(a.votes).reduce((x,y)=>x+y,0)||1;
-        const tB=Object.values(b.votes).reduce((x,y)=>x+y,0)||1;
-        return ((b.votes[activeSortParty]||0)/tB) - ((a.votes[activeSortParty]||0)/tA);
-     });
-     return d;
-  }
-  return originalData;
 }
 
 function closeFullscreen() {
@@ -674,77 +727,43 @@ function closeFullscreen() {
 }
 
 document.getElementById('closeBtn').onclick = closeFullscreen;
-document.getElementById('navL').onclick = (e) => { e.stopPropagation(); if(currentIdx > 0) openFullscreen(currentIdx - 1); };
-document.getElementById('navR').onclick = (e) => { e.stopPropagation(); if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); };
+document.getElementById('navL').onclick = (e) => { e.stopPropagation(); if(currentIdx > 0) openFullscreen(currentIdx - 1, activeDataset); };
+document.getElementById('navR').onclick = (e) => { e.stopPropagation(); if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1, activeDataset); };
 
 document.addEventListener('keydown', (e) => {
   if (document.getElementById('fsOverlay').style.display === 'flex') {
-    if (e.key === "ArrowRight") { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1); }
-    else if (e.key === "ArrowLeft") { if(currentIdx > 0) openFullscreen(currentIdx - 1); }
+    if (e.key === "ArrowRight") { if(currentIdx < svgs.length - 1) openFullscreen(currentIdx + 1, activeDataset); }
+    else if (e.key === "ArrowLeft") { if(currentIdx > 0) openFullscreen(currentIdx - 1, activeDataset); }
     else if (e.key === "Escape") { closeFullscreen(); }
   }
 });
 
-function parseNumber(s){ return parseInt(String(s||'0').replace(/\./g,'').replace(/,/g,'').trim()) || 0; }
-function parseResults(txt){
-  const blocks = txt.split(/\n(?:-+\s*\n|\s*\n){1,}/).filter(Boolean);
-  return blocks.map(b => {
-    const lines = b.trim().split('\n').map(l=>l.trim());
-    let m = lines[0].match(/^(.+?)\s*[-:(]\s*(\d+)/);
-    const city = m ? m[1] : lines[0];
-    const seats = m ? parseNumber(m[2]) : 1;
-    const votes = {};
-    lines.slice(1).forEach(l => {
-      let vm = l.match(/^(.+?)[\s:–-]+([\d\.,]+)/);
-      if(vm) votes[vm[1].trim()] = parseNumber(vm[2]);
-    });
-    return {city, seats, votes};
-  });
-}
-
-async function buildSVG(obj, alloc){
+async function buildSVG(item){
   const W=1365, H=768;
-  const total = Object.values(obj.votes).reduce((a,b)=>a+b,0)||1;
-  const items = Object.entries(obj.votes).sort((a,b)=>b[1]-a[1]).slice(0,9);
+  const items = Object.entries(item.mergedVotes).sort((a,b)=>b[1]-a[1]).slice(0,9);
   
   let s = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
   items.forEach(([p,v], i) => {
     const y = 60 + i*72;
-    const w = (v/total) * 850;
-    const color = (PARTY_COLORS[p] || PARTY_COLORS.DEFAULT).base;
-    const seatCount = alloc[p] || 0;
-    const isDisabled = disabledParties.has(p);
-    
-    // Disabled ise gri yap
-    const fill = isDisabled ? '#999' : color;
-    const opacity = isDisabled ? '0.3' : '1';
+    const w = (v/(item.totalVotes||1)) * 800;
+    const color = getPartyColor(p);
+    const seatCount = item.alloc[p] || 0;
+    const opacity = seatCount === 0 ? '0.6' : '1';
 
     s += `<g opacity="${opacity}">`;
-    s += `<text x="320" y="${y+32}" font-family="ProductSans" font-size="30" text-anchor="end" fill="var(--accent)">${PARTY_LABELS[p]||p}</text>`;
-    s += `<rect x="340" y="${y}" width="${w}" height="48" rx="8" fill="${fill}" />`;
-    s += `<text x="${355+w}" y="${y+32}" font-family="ProductSans" font-size="26" font-weight="bold" fill="var(--accent)">%${(v/total*100).toFixed(2)}</text>`;
-    s += `<text x="1300" y="${y+40}" font-family="ProductSans" font-size="52" font-weight="bold" text-anchor="end" fill="var(--accent)">${seatCount}</text>`;
+    s += `<text x="320" y="${y+32}" font-family="ProductSans" font-weight="bold" font-size="26" text-anchor="end" fill="var(--accent)">${p}</text>`;
+    s += `<rect x="340" y="${y}" width="${Math.max(w, 5)}" height="46" rx="10" fill="${color}" />`;
+    s += `<text x="${355+w}" y="${y+32}" font-family="ProductSans" font-size="24" font-weight="bold" fill="var(--muted)">%${(v/(item.totalVotes||1)*100).toFixed(1)}</text>`;
+    s += `<text x="1300" y="${y+38}" font-family="ProductSans" font-size="46" font-weight="bold" text-anchor="end" fill="${seatCount > 0 ? color : 'var(--muted)'}">${seatCount}</text>`;
     s += `</g>`;
   });
   return s + `</svg>`;
 }
 
-document.getElementById('btnGen').onclick = async () => {
-  const f = document.getElementById('fileTxt').files[0];
-  if(f) renderDashboard(await f.text());
-};
-document.getElementById('btnFetch').onclick = async () => {
-  const fileName = document.getElementById('serverFiles').value;
-  if(!fileName) return;
-  try {
-    const res = await fetch(fileName);
-    renderDashboard(await res.text());
-  } catch(e) { alert("Dosya getirilemedi."); }
-};
 document.getElementById('citySearch').oninput = (e) => {
-  const query = trLower(e.target.value);
+  const query = e.target.value.toLowerCase().replace(/i/g, 'i').replace(/ı/g, 'ı');
   document.querySelectorAll('.card').forEach(card => {
-    const cityName = trLower(card.querySelector('.city-name').innerText);
+    const cityName = card.querySelector('.city-name').innerText.toLowerCase().replace(/i/g, 'i').replace(/ı/g, 'ı');
     card.style.display = cityName.includes(query) ? 'block' : 'none';
   });
 };
