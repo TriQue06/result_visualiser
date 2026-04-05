@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Seçim Simülatörü - Gelişmiş Analiz Ekranı</title>
+  <title>PGM Analiz - Gelişmiş Analiz Ekranı</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -114,7 +114,7 @@
     .filter-party-name { font-weight: bold; }
     .filter-party-rate { font-size: 13px; color: var(--muted); font-weight: 500; }
 
-    /* Türkiye Geneli Bar - UZATILDI VE BÜYÜTÜLDÜ */
+    /* Türkiye Geneli Bar */
     .overall-stats {
       background: var(--card); padding: 24px 30px; border-radius: 20px; margin-bottom: 30px;
       box-shadow: var(--shadow); border: 1px solid var(--border);
@@ -193,10 +193,53 @@
     
     .controls-wrapper { display:flex; gap:16px; align-items:center; background:var(--card); padding:16px 24px; border-radius:16px; border:1px solid var(--border); box-shadow: var(--shadow); }
     .btn-primary { background: var(--primary); color: white; display: flex; align-items: center; gap: 8px;}
-    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
     
     .meta-tag { background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; border: 1px solid #e2e8f0; }
     [data-theme="dark"] .meta-tag { background: #1e293b; color: #cbd5e1; border-color: #334155; }
+    
+    /* Gelişmiş Arşiv Bölümü (YENİ) */
+    .archive-box {
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .archive-controls { display: flex; gap: 12px; flex-wrap: wrap; }
+    .archive-select {
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      color: #0f172a;
+      background: white;
+      outline: none;
+      cursor: pointer;
+      min-width: 280px;
+      font-size: 14px;
+    }
+    .archive-btn {
+      background: #ffffff;
+      color: #0f172a;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 900;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .archive-btn:hover {
+      background: #f8fafc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
@@ -238,15 +281,34 @@
     <div class="header-main">
       <div>
         <h1 style="margin:0; font-size:32px; letter-spacing:-0.5px;">Gelişmiş Analiz Ekranı</h1>
-        <p id="cityCount" style="color:var(--muted); margin:6px 0 0 0; font-size:15px; font-weight:bold;">Seçim simülatöründen alınan .txt dosyasını yükleyin.</p>
+        <p id="cityCount" style="color:var(--muted); margin:6px 0 0 0; font-size:15px; font-weight:bold;">Seçim simülatöründen alınan .txt dosyasını yükleyin veya arşivden çekin.</p>
       </div>
       <input type="text" id="citySearch" class="search-box" placeholder="Seçim çevresi veya il ara...">
     </div>
     
+    <div class="archive-box">
+      <div style="display:flex; align-items:center; gap: 16px;">
+        <span style="font-size: 38px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">☁️</span>
+        <div>
+          <h2 style="margin:0; font-size: 22px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Bulut Arşivinden Getir</h2>
+          <p style="margin:6px 0 0 0; font-size: 14px; color: rgba(255,255,255,0.9);">GitHub üzerinde kayıtlı geçmiş senaryoları tek tıkla analiz edin.</p>
+        </div>
+      </div>
+      <div class="archive-controls">
+        <select id="archiveSelect" class="archive-select">
+          <option value="nisan2026_2.txt">📂 Nisan 2026 Senaryosu 2 (nisan2026_2.txt)</option>
+        </select>
+        <button onclick="fetchFromArchive()" id="btnFetchArchive" class="archive-btn">📥 İndir & İncele</button>
+      </div>
+    </div>
+    
     <div class="controls-wrapper">
-      <input id="fileTxt" type="file" accept=".txt" style="display:none;">
-      <label for="fileTxt" class="btn btn-primary" style="margin:0; cursor: pointer;">📁 Gelişmiş .TXT Yükle</label>
-      <div id="fileStatus" style="font-size: 14px; font-weight:bold; color: var(--muted);">Dosya bekleniyor...</div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:14px; font-weight:bold; color:var(--muted);">Yerel Dosya:</span>
+        <input id="fileTxt" type="file" accept=".txt" style="display:none;">
+        <label for="fileTxt" class="btn btn-primary" style="margin:0; cursor: pointer;">📁 Bilgisayardan Yükle</label>
+        <div id="fileStatus" style="font-size: 14px; font-weight:bold; color: var(--muted);">Dosya bekleniyor...</div>
+      </div>
       
       <div style="flex:1;"></div>
       <div id="metaInfo" style="display:none; gap:10px;">
@@ -298,15 +360,12 @@ const colorPalette = [
   '#0ea5e9', '#d946ef', '#eab308', '#22c55e', '#a855f7',
   '#1e40af', '#b91c1c', '#4338ca', '#15803d', '#be123c'
 ];
-let parsedColors = {}; // TXT dosyasından okunan renkler
-let dynamicColors = {}; // Yedek (otomatik) atanan renkler
+let parsedColors = {}; 
+let dynamicColors = {}; 
 let colorIndex = 0;
 
 function getPartyColor(name) {
-  // 1. Öncelik: Simülatörden gelen kayıtlı renk (TXT dosyasından okunan)
   if (parsedColors[name]) return parsedColors[name];
-  
-  // 2. Öncelik: Daha önce atanmış otomatik renk
   if (!dynamicColors[name]) {
     dynamicColors[name] = colorPalette[colorIndex % colorPalette.length];
     colorIndex++;
@@ -328,7 +387,7 @@ function parseAdvancedTxt(txt) {
     settings: { threshold: 7, method: 'classic' },
     alliances: [],
     coalitions: [],
-    colors: {}, // Yeni Eklenen Renkler Objesi
+    colors: {}, 
     districts: []
   };
   let currentSection = '';
@@ -356,7 +415,6 @@ function parseAdvancedTxt(txt) {
       const parts = line.split('=');
       if(parts.length === 2) data.coalitions.push({ name: parts[0], members: parts[1].split(',') });
     }
-    // YENİ: Renkleri yakalayan bölüm
     else if (currentSection === '[RENKLER]') {
       const parts = line.split('=');
       if(parts.length === 2) {
@@ -411,7 +469,6 @@ function computeResults(project, disabled) {
   let natVotes = {};
   let distResults = [];
 
-  // 1. Oyları filtrele ve Ortak Listeleri birleştir
   project.districts.forEach(d => {
     let activeRaw = {};
     Object.entries(d.votes).forEach(([p, v]) => {
@@ -437,7 +494,6 @@ function computeResults(project, disabled) {
     distResults.push({ city: d.city, seats: d.seats, mergedVotes: merged, origVotes: activeRaw });
   });
 
-  // 2. Baraj Kontrolü (İttifaklar dahil)
   let passed = new Set();
   project.alliances.forEach(a => {
     let aSum = 0;
@@ -451,7 +507,6 @@ function computeResults(project, disabled) {
     if ((v / (natTotal||1)) * 100 >= threshold) passed.add(p);
   });
 
-  // 3. Seçim Çevresi D'Hondt Dağıtımı
   distResults.forEach(dr => {
     let eligible = {};
     let distTotal = 0;
@@ -498,30 +553,65 @@ function computeResults(project, disabled) {
   return { natVotes, natTotal, distResults, passed };
 }
 
-/* --- UI GÜNCELLEME --- */
-document.getElementById('fileTxt').addEventListener('change', async (e) => {
-  const f = e.target.files[0];
-  if(!f) return;
-  document.getElementById('fileStatus').innerText = f.name + " yüklendi.";
-  const txt = await f.text();
+/* --- ORTAK YÜKLEME FONKSİYONU --- */
+function loadFromText(txt, filename) {
+  document.getElementById('fileStatus').innerText = filename + " yüklendi.";
   
   parsedProject = parseAdvancedTxt(txt);
-  
-  // Renkleri sisteme yükle
   parsedColors = parsedProject.colors || {};
-  
   disabledParties.clear();
   activeSortParty = null;
   
-  // Meta bilgileri göster
   document.getElementById('metaThreshold').innerText = "Baraj: %" + parsedProject.settings.threshold;
   const sysName = parsedProject.settings.method === 'classic' ? 'Klasik (Parti)' : 'İttifak İçi Dağıtım';
   document.getElementById('metaSystem').innerText = "Sistem: " + sysName;
   document.getElementById('metaInfo').style.display = 'flex';
   
   refreshAll();
+}
+
+/* --- YEREL DOSYA YÜKLEME --- */
+document.getElementById('fileTxt').addEventListener('change', async (e) => {
+  const f = e.target.files[0];
+  if(!f) return;
+  const txt = await f.text();
+  loadFromText(txt, f.name);
 });
 
+/* --- BULUT ARŞİVİNDEN ÇEKME (YENİ) --- */
+async function fetchFromArchive() {
+  const filename = document.getElementById('archiveSelect').value;
+  const btn = document.getElementById('btnFetchArchive');
+  const originalText = btn.innerHTML;
+  
+  btn.innerHTML = '⏳ Yükleniyor...';
+  btn.disabled = true;
+  btn.style.opacity = '0.8';
+
+  try {
+    const url = filename; 
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Sunucuda bulunamadı (HTTP " + response.status + ")");
+    
+    const txt = await response.text();
+    loadFromText(txt, filename + " (Arşiv)");
+    
+    const successMsg = document.createElement('div');
+    successMsg.innerText = "✅ Arşivden aktarım başarılı: " + filename;
+    successMsg.style.cssText = "position:fixed; top:20px; right:20px; background:var(--success); color:white; padding:12px 20px; border-radius:12px; box-shadow:var(--shadow); z-index:9999; font-weight:bold; transition:0.5s;";
+    document.body.appendChild(successMsg);
+    setTimeout(() => { successMsg.style.opacity='0'; setTimeout(()=>successMsg.remove(),500); }, 3000);
+    
+  } catch (err) {
+    alert("❌ Hata: Dosya arşivden çekilemedi.\nDetay: " + err.message);
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+}
+
+/* --- UI GÜNCELLEME ALT FONKSİYONLARI --- */
 function refreshAll() {
   if(!parsedProject) return;
   const results = computeResults(parsedProject, disabledParties);
@@ -532,7 +622,6 @@ function refreshAll() {
   updateFilterMenu(parsedProject);
   renderOverallBar(results.distResults);
   
-  // Sıralama uygula
   let displayData = [...currentDistResults];
   if(activeSortParty) {
     displayData.sort((a,b) => {
@@ -622,12 +711,10 @@ function renderOverallBar(districts) {
     const segment = document.createElement('div');
     segment.className = 'overall-segment';
     
-    // Küçük partilerin de tıklanabilir ve görünür olması için visual boost
     const displayWeight = Math.max(s, globalSeats * 0.02); 
     segment.style.flex = `${displayWeight} 1 0%`; 
     segment.style.background = pColor;
     
-    // Eğer dilim yeterince genişse yazıyı göster
     if (percent > 4) {
       segment.innerHTML = `<span style="text-shadow: 0px 1px 3px rgba(0,0,0,0.5);">${s > 10 ? p + ': ' + s : s}</span>`;
     }
@@ -651,7 +738,6 @@ async function renderCards(data) {
 
   for(let i=0; i<data.length; i++) {
     const item = data[i];
-    
     const sorted = Object.entries(item.mergedVotes).sort((a,b)=>b[1]-a[1]).slice(0,5);
     
     const winnerEntry = Object.entries(item.alloc).sort((a,b) => {

@@ -1,0 +1,3279 @@
+[AYARLAR]
+Baraj=7
+Sistem=classic
+
+[ITTIFAKLAR]
+Cumhur İttifakı=Büyük Birlik,MHP,AK Parti,HÜDA PAR,DSP
+Birlik İttifakı=Anahtar Parti,Saadet - Refah
+Emek ve Özgürlük İttifakı=DEM Parti,TİP
+
+[ORTAK_LISTELER]
+Saadet - Refah=Yeniden Refah,Saadet
+Milliyetçi Blok=İYİ Parti,Zafer Partisi
+AK Parti=AK Parti,DSP
+DEM Parti=DEM Parti,EMEP
+
+[RENKLER]
+CHP=#e60017
+AK Parti=#f29118
+DEM Parti=#a112b3
+MHP=#a6114a
+İYİ Parti=#2eace6
+Anahtar Parti=#1f4599
+Yeniden Refah=#179945
+Zafer Partisi=#404040
+TİP=#f2247a
+Büyük Birlik=#f2550c
+Saadet=#bf6a4d
+HÜDA PAR=#7cbc0c
+BTP=#000000
+DEVA Partisi=#000000
+TKP=#000000
+SOL Parti=#000000
+DP=#000000
+AP=#000000
+Gelecek Partisi=#000000
+HKP=#000000
+ANAP=#000000
+Genç Parti=#000000
+Vatan Partisi=#000000
+Millet=#000000
+HAK PAR=#000000
+EMEP=#000000
+DYP=#000000
+Milli Yol=#000000
+TEK Parti=#000000
+TKH=#000000
+AB Parti=#000000
+İttifak=#000000
+YMP=#000000
+DSP=#000000
+ABP=#000000
+GBP=#000000
+Ocak=#000000
+YP=#000000
+YTP=#000000
+Saadet - Refah=#179945
+Milliyetçi Blok=#2eace6
+AK Parti=#f29118
+DEM Parti=#a112b3
+
+[SONUCLAR]
+ADANA-15
+CHP 494204
+AK Parti 335824
+DEM Parti 121868
+MHP 94850
+İYİ Parti 78271
+Anahtar Parti 60513
+Zafer Partisi 44342
+Yeniden Refah 29886
+TİP 17211
+Büyük Birlik 13110
+HÜDA PAR 10726
+Saadet 10391
+DEVA Partisi 3685
+ANAP 3644
+BTP 2745
+SOL Parti 2436
+TKP 2170
+Genç Parti 2052
+HKP 1701
+Vatan Partisi 1524
+Ocak 1505
+EMEP 1337
+Gelecek Partisi 1290
+DP 1206
+Millet 1117
+HAK PAR 750
+AB Parti 562
+TEK Parti 409
+DYP 353
+TKH 350
+İttifak 272
+YMP 257
+DSP 170
+Milli Yol 24
+-
+ADIYAMAN-5
+AK Parti 124124
+CHP 69363
+DEM Parti 32214
+Yeniden Refah 17826
+Anahtar Parti 17544
+MHP 8398
+HÜDA PAR 7986
+İYİ Parti 5850
+Saadet 4306
+Büyük Birlik 2961
+Zafer Partisi 2758
+TİP 1503
+AB Parti 1453
+DEVA Partisi 1305
+SOL Parti 880
+Gelecek Partisi 739
+TKP 595
+HKP 584
+BTP 470
+Millet 443
+HAK PAR 320
+Vatan Partisi 257
+Genç Parti 161
+TKH 100
+DP 98
+DYP 78
+TEK Parti 77
+YP 75
+İttifak 58
+YMP 55
+GBP 49
+EMEP 7
+ANAP 5
+Ocak 1
+Milli Yol 1
+-
+AFYONKARAHİSAR-6
+AK Parti 180861
+CHP 114844
+MHP 50737
+İYİ Parti 31963
+Anahtar Parti 30519
+Yeniden Refah 17889
+Zafer Partisi 15884
+Büyük Birlik 5307
+Saadet 4446
+DEM Parti 1647
+DP 1423
+HÜDA PAR 1160
+DEVA Partisi 1010
+BTP 948
+Millet 747
+HKP 740
+TİP 728
+TKP 543
+Gelecek Partisi 436
+HAK PAR 387
+Vatan Partisi 385
+DYP 195
+SOL Parti 166
+TEK Parti 151
+İttifak 134
+TKH 113
+YMP 107
+GBP 68
+YP 65
+ANAP 7
+Ocak 6
+EMEP 3
+Milli Yol 2
+-
+AĞRI-4
+DEM Parti 109405
+AK Parti 43893
+CHP 29363
+Anahtar Parti 5805
+Yeniden Refah 5532
+MHP 3043
+HÜDA PAR 2990
+Zafer Partisi 1979
+İYİ Parti 1976
+Saadet 1348
+SOL Parti 1334
+DEVA Partisi 1299
+Büyük Birlik 660
+BTP 491
+TKP 434
+Gelecek Partisi 422
+HKP 385
+DP 380
+AP 271
+HAK PAR 249
+Vatan Partisi 211
+YP 166
+TKH 137
+Millet 104
+Genç Parti 96
+DYP 42
+TEK Parti 28
+İttifak 23
+YMP 21
+EMEP 16
+ANAP 2
+-
+AKSARAY-4
+AK Parti 95107
+MHP 34841
+CHP 31885
+İYİ Parti 31852
+Anahtar Parti 19455
+Yeniden Refah 8092
+Zafer Partisi 5679
+Büyük Birlik 5254
+Saadet 2274
+DEM Parti 1480
+HÜDA PAR 1006
+DEVA Partisi 841
+BTP 735
+TİP 411
+HKP 391
+SOL Parti 366
+Millet 314
+TKP 262
+Vatan Partisi 235
+Gelecek Partisi 234
+DP 219
+HAK PAR 197
+Genç Parti 166
+Milli Yol 155
+AB Parti 107
+DYP 103
+TEK Parti 82
+İttifak 81
+YMP 64
+YP 52
+TKH 51
+DSP 19
+Ocak 4
+ANAP 3
+EMEP 1
+-
+AMASYA-3
+CHP 84780
+AK Parti 76605
+MHP 24200
+Anahtar Parti 12118
+İYİ Parti 9009
+Yeniden Refah 5259
+Zafer Partisi 5067
+Büyük Birlik 1865
+Saadet 1770
+DEM Parti 944
+TİP 527
+BTP 461
+AP 435
+DEVA Partisi 413
+HÜDA PAR 411
+EMEP 406
+ANAP 370
+Milli Yol 313
+HKP 308
+Gelecek Partisi 293
+TKP 219
+HAK PAR 216
+DP 197
+SOL Parti 193
+Millet 143
+Vatan Partisi 141
+Genç Parti 114
+TEK Parti 74
+DYP 68
+TKH 57
+İttifak 55
+YMP 46
+GBP 30
+YP 24
+DSP 8
+Ocak 2
+-
+ANKARA 1. BÖLGE-13
+CHP 673278
+AK Parti 268670
+İYİ Parti 89379
+MHP 67112
+Zafer Partisi 58198
+Anahtar Parti 52785
+DEM Parti 52014
+Yeniden Refah 32136
+Saadet 12244
+Büyük Birlik 11421
+TKP 5345
+HÜDA PAR 2275
+DEVA Partisi 1821
+BTP 1787
+SOL Parti 1548
+ANAP 1522
+AP 1427
+Vatan Partisi 1138
+Genç Parti 994
+HKP 969
+DP 938
+Millet 872
+Gelecek Partisi 772
+Milli Yol 528
+TKH 492
+TEK Parti 466
+HAK PAR 386
+DYP 352
+AB Parti 284
+YMP 274
+İttifak 247
+GBP 151
+EMEP 20
+Ocak 16
+-
+ANKARA 2. BÖLGE-11
+AK Parti 408125
+CHP 299192
+MHP 87983
+Anahtar Parti 71920
+İYİ Parti 70265
+Zafer Partisi 59521
+Yeniden Refah 51532
+DEM Parti 25123
+Büyük Birlik 16650
+Saadet 12664
+TİP 7822
+HÜDA PAR 2598
+DEVA Partisi 2041
+ANAP 1726
+AP 1686
+BTP 1577
+TKP 1390
+Genç Parti 1084
+Gelecek Partisi 1034
+Millet 957
+SOL Parti 821
+DP 752
+HKP 694
+Vatan Partisi 610
+Milli Yol 589
+HAK PAR 391
+DYP 387
+TEK Parti 360
+İttifak 305
+AB Parti 300
+YMP 256
+TKH 192
+GBP 113
+YP 65
+Ocak 16
+EMEP 14
+-
+ANKARA 3. BÖLGE-13
+CHP 459755
+AK Parti 359409
+İYİ Parti 97128
+MHP 90778
+Anahtar Parti 72709
+Zafer Partisi 71770
+Yeniden Refah 46148
+DEM Parti 33328
+Büyük Birlik 21136
+TİP 19258
+Saadet 13977
+HÜDA PAR 2821
+DEVA Partisi 2096
+TKP 2040
+BTP 1938
+AP 1870
+ANAP 1563
+Genç Parti 1288
+Millet 1076
+Gelecek Partisi 967
+SOL Parti 954
+DP 946
+Vatan Partisi 895
+HKP 811
+Milli Yol 564
+TEK Parti 434
+DYP 417
+HAK PAR 369
+İttifak 316
+YMP 290
+AB Parti 283
+TKH 263
+GBP 137
+YP 92
+EMEP 25
+Ocak 19
+-
+ANTALYA-18
+CHP 669251
+AK Parti 395357
+İYİ Parti 101422
+MHP 97454
+DEM Parti 71892
+Zafer Partisi 68817
+Anahtar Parti 66145
+TİP 41901
+Yeniden Refah 25596
+Saadet 11487
+Büyük Birlik 10984
+DP 6493
+AP 4717
+HÜDA PAR 4539
+BTP 3984
+TKP 3982
+DEVA Partisi 3514
+Genç Parti 2829
+ANAP 2167
+SOL Parti 2049
+HKP 1848
+Millet 1528
+Vatan Partisi 1510
+Gelecek Partisi 1330
+YTP 1311
+HAK PAR 923
+Milli Yol 701
+EMEP 668
+DYP 650
+TKH 561
+AB Parti 537
+TEK Parti 529
+İttifak 334
+YMP 331
+GBP 321
+DSP 232
+Ocak 192
+YP 155
+-
+ARDAHAN-2
+CHP 19000
+AK Parti 14677
+DEM Parti 10089
+Anahtar Parti 1813
+MHP 1392
+İYİ Parti 1321
+Zafer Partisi 832
+Yeniden Refah 767
+TİP 671
+DEVA Partisi 478
+SOL Parti 412
+Saadet 337
+HÜDA PAR 237
+Büyük Birlik 180
+HKP 177
+ANAP 155
+TKP 143
+BTP 113
+AP 108
+HAK PAR 66
+Vatan Partisi 59
+TKH 52
+Millet 39
+Gelecek Partisi 35
+AB Parti 34
+Milli Yol 29
+DP 27
+Genç Parti 24
+YP 20
+GBP 16
+TEK Parti 14
+DYP 12
+YMP 8
+İttifak 7
+DSP 7
+EMEP 2
+-
+ARTVİN-2
+CHP 43616
+AK Parti 35656
+İYİ Parti 7471
+MHP 7091
+Anahtar Parti 5440
+Yeniden Refah 3360
+Zafer Partisi 1993
+DEM Parti 1136
+TİP 1096
+Saadet 1054
+SOL Parti 641
+TKP 635
+Büyük Birlik 488
+ANAP 394
+HÜDA PAR 362
+HKP 299
+AP 260
+BTP 254
+DEVA Partisi 203
+DP 192
+HAK PAR 131
+Vatan Partisi 93
+Millet 90
+Gelecek Partisi 90
+Genç Parti 83
+TKH 74
+DYP 39
+TEK Parti 38
+İttifak 25
+YMP 25
+GBP 20
+YP 13
+EMEP 2
+Ocak 1
+-
+AYDIN-8
+CHP 332974
+AK Parti 171479
+İYİ Parti 51976
+DEM Parti 48357
+MHP 42053
+Anahtar Parti 29369
+Zafer Partisi 24988
+TİP 8655
+Yeniden Refah 7204
+Büyük Birlik 5908
+Saadet 4632
+HÜDA PAR 2352
+TKP 1881
+DP 1830
+BTP 1703
+DEVA Partisi 1488
+ANAP 1378
+SOL Parti 1270
+Vatan Partisi 1233
+Genç Parti 1230
+AP 1167
+HKP 1044
+HAK PAR 594
+Millet 593
+EMEP 544
+Ocak 457
+Gelecek Partisi 433
+TKH 297
+TEK Parti 250
+DYP 247
+YMP 153
+İttifak 144
+YP 131
+DSP 94
+Milli Yol 22
+-
+BALIKESİR-9
+CHP 351638
+AK Parti 257509
+İYİ Parti 65770
+Anahtar Parti 40830
+MHP 40415
+Zafer Partisi 27393
+Yeniden Refah 22681
+DEM Parti 16689
+Saadet 7749
+TİP 6545
+Büyük Birlik 5928
+DEVA Partisi 2034
+BTP 1969
+HÜDA PAR 1856
+AP 1775
+Vatan Partisi 1371
+TKP 1367
+HKP 1288
+Genç Parti 1249
+DP 969
+HAK PAR 968
+EMEP 923
+SOL Parti 843
+Millet 820
+Gelecek Partisi 776
+YTP 453
+TEK Parti 300
+DYP 289
+AB Parti 256
+ABP 252
+TKH 240
+YMP 195
+İttifak 183
+YP 135
+Milli Yol 16
+ANAP 9
+Ocak 9
+DSP 7
+-
+BARTIN-2
+CHP 49001
+AK Parti 39393
+MHP 17604
+Anahtar Parti 6431
+Yeniden Refah 3125
+Zafer Partisi 2953
+İYİ Parti 2934
+Saadet 1389
+TİP 714
+Büyük Birlik 609
+DEM Parti 469
+HKP 432
+DEVA Partisi 429
+ANAP 424
+TKP 416
+HÜDA PAR 410
+AP 380
+BTP 281
+Gelecek Partisi 271
+HAK PAR 228
+Genç Parti 219
+Millet 218
+Vatan Partisi 207
+SOL Parti 149
+EMEP 129
+AB Parti 112
+TKH 98
+DP 90
+YP 47
+TEK Parti 40
+DYP 35
+GBP 34
+İttifak 34
+YMP 24
+Ocak 1
+-
+BATMAN-5
+DEM Parti 170292
+AK Parti 68861
+CHP 33537
+HÜDA PAR 15160
+Anahtar Parti 7840
+Yeniden Refah 4444
+Saadet 2858
+Zafer Partisi 2322
+MHP 2269
+SOL Parti 1780
+İYİ Parti 1763
+DEVA Partisi 946
+Büyük Birlik 932
+HAK PAR 440
+BTP 353
+TKP 328
+DP 266
+HKP 264
+AP 263
+YP 179
+Gelecek Partisi 174
+Vatan Partisi 123
+Millet 119
+Milli Yol 107
+TKH 71
+DYP 49
+GBP 47
+TEK Parti 37
+İttifak 27
+YMP 27
+EMEP 25
+ANAP 3
+Ocak 1
+-
+BAYBURT-1
+AK Parti 25006
+MHP 6020
+İYİ Parti 3895
+Anahtar Parti 3723
+CHP 3702
+Yeniden Refah 1976
+Zafer Partisi 1110
+Saadet 835
+Büyük Birlik 398
+DEVA Partisi 295
+DEM Parti 215
+HÜDA PAR 153
+DP 100
+ANAP 96
+BTP 94
+Gelecek Partisi 94
+TİP 69
+HKP 57
+TKP 46
+AP 38
+Millet 35
+HAK PAR 25
+DYP 22
+SOL Parti 19
+Vatan Partisi 18
+İttifak 16
+AB Parti 15
+TEK Parti 15
+Milli Yol 14
+YMP 12
+Genç Parti 11
+TKH 6
+GBP 6
+YP 5
+Ocak 1
+-
+BİLECİK-2
+CHP 50600
+AK Parti 45571
+İYİ Parti 10517
+MHP 9566
+Anahtar Parti 7910
+Yeniden Refah 6031
+Zafer Partisi 4798
+DEM Parti 3694
+Saadet 1416
+Büyük Birlik 1311
+TİP 748
+HÜDA PAR 626
+DEVA Partisi 391
+BTP 367
+ANAP 335
+AP 302
+Genç Parti 283
+TKP 180
+HKP 176
+Millet 165
+DP 162
+Vatan Partisi 161
+SOL Parti 125
+Gelecek Partisi 121
+HAK PAR 84
+DYP 50
+TEK Parti 48
+AB Parti 47
+İttifak 36
+YMP 33
+TKH 31
+GBP 18
+YP 17
+EMEP 2
+Ocak 2
+-
+BİNGÖL-3
+AK Parti 43594
+DEM Parti 29857
+Yeniden Refah 15709
+HÜDA PAR 10998
+CHP 9891
+MHP 9853
+Anahtar Parti 8378
+DEVA Partisi 1882
+Saadet 1610
+İYİ Parti 1473
+Zafer Partisi 1068
+Büyük Birlik 758
+SOL Parti 609
+Gelecek Partisi 223
+HKP 215
+BTP 186
+TKP 184
+AP 183
+HAK PAR 161
+ANAP 158
+Millet 95
+Vatan Partisi 83
+Milli Yol 79
+DP 72
+AB Parti 58
+TKH 53
+Genç Parti 51
+DYP 35
+İttifak 32
+TEK Parti 22
+GBP 21
+YMP 20
+YP 17
+DSP 11
+EMEP 4
+Ocak 1
+-
+BİTLİS-3
+DEM Parti 67036
+AK Parti 54534
+İYİ Parti 10711
+CHP 9090
+Anahtar Parti 7558
+Yeniden Refah 5333
+MHP 4084
+HÜDA PAR 3388
+Saadet 1831
+SOL Parti 1112
+Zafer Partisi 914
+Gelecek Partisi 849
+Büyük Birlik 773
+DEVA Partisi 581
+TKP 448
+BTP 378
+HKP 309
+HAK PAR 283
+ANAP 269
+AP 184
+Vatan Partisi 144
+Millet 140
+DP 128
+AB Parti 127
+Genç Parti 121
+TKH 104
+YP 59
+DYP 48
+GBP 40
+TEK Parti 32
+İttifak 28
+YMP 27
+DSP 13
+EMEP 10
+Ocak 1
+-
+BOLU-3
+AK Parti 68567
+CHP 60880
+MHP 30071
+Anahtar Parti 12577
+Yeniden Refah 8391
+İYİ Parti 8109
+Zafer Partisi 6175
+Saadet 2145
+Büyük Birlik 1984
+DEM Parti 1715
+TİP 764
+ANAP 619
+HÜDA PAR 494
+AP 490
+BTP 476
+DEVA Partisi 476
+TKP 294
+HKP 294
+Genç Parti 286
+DP 222
+Millet 183
+Vatan Partisi 180
+HAK PAR 176
+SOL Parti 175
+Gelecek Partisi 167
+AB Parti 99
+Milli Yol 85
+DYP 66
+TEK Parti 63
+İttifak 62
+TKH 53
+YMP 43
+YP 27
+GBP 26
+DSP 11
+Ocak 2
+EMEP 2
+-
+BURDUR-3
+CHP 67691
+AK Parti 55757
+MHP 16170
+İYİ Parti 11285
+Anahtar Parti 8835
+Zafer Partisi 4011
+Yeniden Refah 2839
+Saadet 1618
+Büyük Birlik 1252
+DEM Parti 1104
+TİP 1028
+HÜDA PAR 642
+AP 464
+DEVA Partisi 399
+BTP 380
+HKP 320
+ANAP 312
+TKP 280
+Vatan Partisi 231
+DP 213
+HAK PAR 212
+Millet 186
+Genç Parti 180
+Milli Yol 160
+Gelecek Partisi 130
+SOL Parti 123
+AB Parti 118
+TEK Parti 60
+DYP 59
+TKH 55
+İttifak 41
+YMP 38
+GBP 34
+DSP 29
+YP 27
+EMEP 2
+Ocak 2
+-
+BURSA 1. BÖLGE-11
+CHP 369556
+AK Parti 325461
+İYİ Parti 78738
+Zafer Partisi 61098
+Anahtar Parti 55798
+MHP 54533
+Yeniden Refah 43208
+DEM Parti 32149
+Saadet 12113
+Büyük Birlik 9208
+TİP 8612
+HÜDA PAR 3440
+Genç Parti 2191
+DEVA Partisi 1829
+AP 1827
+BTP 1622
+ANAP 1584
+Vatan Partisi 1429
+TKP 1402
+HKP 1073
+Millet 1062
+SOL Parti 923
+Gelecek Partisi 872
+DP 772
+HAK PAR 592
+TEK Parti 360
+DYP 357
+AB Parti 279
+Milli Yol 273
+İttifak 261
+YMP 248
+TKH 215
+YP 84
+EMEP 17
+Ocak 15
+-
+BURSA 2. BÖLGE-10
+AK Parti 357177
+CHP 270823
+MHP 58528
+Anahtar Parti 56858
+İYİ Parti 54254
+DEM Parti 52839
+Zafer Partisi 52413
+Yeniden Refah 51744
+Saadet 12060
+Büyük Birlik 7237
+HÜDA PAR 5365
+TKP 1843
+DEVA Partisi 1796
+AP 1763
+ANAP 1602
+Genç Parti 1448
+BTP 1353
+HKP 1249
+SOL Parti 1148
+Millet 1031
+Vatan Partisi 1003
+Gelecek Partisi 930
+DP 627
+HAK PAR 571
+AB Parti 396
+DYP 332
+TEK Parti 309
+TKH 281
+İttifak 259
+YMP 223
+YP 105
+Ocak 13
+EMEP 13
+Milli Yol 2
+-
+ÇANAKKALE-4
+CHP 170603
+AK Parti 103867
+İYİ Parti 35011
+MHP 16589
+Anahtar Parti 16010
+Zafer Partisi 12027
+DEM Parti 7137
+Yeniden Refah 4890
+TİP 2983
+Saadet 2737
+Büyük Birlik 1747
+HÜDA PAR 941
+TKP 888
+BTP 831
+DEVA Partisi 818
+ANAP 770
+AP 754
+HKP 642
+Genç Parti 606
+DP 510
+Vatan Partisi 408
+HAK PAR 384
+Gelecek Partisi 341
+Millet 339
+SOL Parti 309
+AB Parti 166
+TEK Parti 140
+TKH 140
+DYP 131
+Milli Yol 109
+GBP 89
+YMP 87
+İttifak 74
+YP 41
+DSP 41
+EMEP 6
+Ocak 4
+-
+ÇANKIRI-2
+AK Parti 48463
+MHP 25740
+CHP 12600
+İYİ Parti 11217
+Anahtar Parti 9425
+Yeniden Refah 4758
+Zafer Partisi 2958
+Büyük Birlik 1302
+Saadet 1180
+DEVA Partisi 437
+DEM Parti 397
+BTP 296
+HÜDA PAR 267
+ANAP 255
+TİP 214
+AP 213
+HKP 171
+HAK PAR 165
+DP 140
+SOL Parti 139
+Millet 137
+Vatan Partisi 136
+TKP 131
+Gelecek Partisi 115
+Genç Parti 88
+Milli Yol 77
+DYP 51
+YP 47
+İttifak 47
+TEK Parti 37
+TKH 32
+YMP 29
+DSP 3
+Ocak 2
+-
+ÇORUM-4
+CHP 122690
+AK Parti 113353
+MHP 41013
+Anahtar Parti 19524
+Yeniden Refah 13774
+İYİ Parti 12913
+Zafer Partisi 8006
+Saadet 3155
+Büyük Birlik 2723
+DEM Parti 1978
+DEVA Partisi 854
+TİP 756
+AP 751
+BTP 724
+HÜDA PAR 669
+ANAP 577
+EMEP 577
+Vatan Partisi 519
+HKP 467
+Gelecek Partisi 446
+TKP 430
+DP 410
+HAK PAR 401
+Millet 351
+Genç Parti 221
+Milli Yol 157
+SOL Parti 154
+TEK Parti 109
+DYP 108
+İttifak 89
+TKH 77
+YMP 69
+YP 45
+DSP 29
+Ocak 3
+-
+DENİZLİ-7
+CHP 283985
+AK Parti 198053
+İYİ Parti 52422
+Anahtar Parti 34805
+MHP 34352
+Zafer Partisi 27309
+DEM Parti 15414
+Yeniden Refah 12553
+Büyük Birlik 10083
+Saadet 4909
+TİP 4028
+HÜDA PAR 2023
+DEVA Partisi 1857
+BTP 1615
+Genç Parti 1427
+DP 996
+HKP 946
+Vatan Partisi 913
+TKP 782
+Millet 780
+EMEP 687
+SOL Parti 668
+Gelecek Partisi 536
+HAK PAR 530
+ABP 405
+TEK Parti 241
+DYP 221
+TKH 170
+YMP 156
+İttifak 149
+YP 125
+GBP 125
+DSP 31
+Ocak 8
+ANAP 7
+Milli Yol 3
+-
+DİYARBAKIR-12
+DEM Parti 494616
+AK Parti 151114
+CHP 90852
+HÜDA PAR 55773
+Anahtar Parti 18871
+Yeniden Refah 16480
+İYİ Parti 9329
+MHP 5530
+Saadet 5245
+SOL Parti 4813
+Zafer Partisi 4156
+DEVA Partisi 3821
+Büyük Birlik 1821
+HAK PAR 1777
+TKP 1478
+HKP 1126
+BTP 793
+EMEP 521
+Vatan Partisi 508
+YP 506
+Gelecek Partisi 428
+Genç Parti 420
+Millet 381
+Milli Yol 306
+TKH 298
+DP 208
+DSP 170
+GBP 137
+DYP 98
+TEK Parti 91
+İttifak 68
+YMP 67
+ANAP 6
+Ocak 1
+-
+DÜZCE-3
+AK Parti 103826
+CHP 67154
+MHP 25569
+Anahtar Parti 16617
+Yeniden Refah 13373
+İYİ Parti 10782
+Zafer Partisi 8103
+Saadet 2854
+Büyük Birlik 2303
+DEM Parti 2264
+DEVA Partisi 964
+ANAP 703
+TİP 653
+AP 547
+BTP 517
+HÜDA PAR 470
+HKP 391
+Genç Parti 373
+TKP 337
+Millet 329
+DP 285
+Vatan Partisi 267
+Gelecek Partisi 255
+HAK PAR 200
+SOL Parti 177
+Milli Yol 115
+AB Parti 96
+DYP 91
+TEK Parti 80
+İttifak 74
+TKH 62
+YMP 57
+DSP 44
+YP 30
+GBP 28
+Ocak 3
+EMEP 2
+-
+EDİRNE-4
+CHP 140579
+AK Parti 57456
+İYİ Parti 29034
+MHP 12346
+Anahtar Parti 9800
+Zafer Partisi 7078
+DEM Parti 4586
+Yeniden Refah 2422
+TİP 2115
+Saadet 2114
+Genç Parti 814
+HÜDA PAR 754
+HKP 685
+Büyük Birlik 681
+BTP 588
+SOL Parti 523
+ANAP 459
+TKP 427
+AP 421
+Vatan Partisi 421
+DEVA Partisi 420
+DP 389
+HAK PAR 325
+Millet 284
+Gelecek Partisi 262
+Milli Yol 250
+TEK Parti 104
+TKH 100
+DYP 91
+AB Parti 80
+YMP 62
+İttifak 48
+YP 42
+DSP 28
+EMEP 5
+Ocak 3
+-
+ELAZIĞ-5
+AK Parti 116395
+CHP 83410
+MHP 25353
+DEM Parti 22435
+Anahtar Parti 17469
+Yeniden Refah 17011
+HÜDA PAR 7804
+İYİ Parti 4940
+Saadet 4846
+Zafer Partisi 3387
+Büyük Birlik 1765
+DEVA Partisi 1255
+TİP 923
+HAK PAR 737
+ANAP 595
+SOL Parti 511
+BTP 490
+EMEP 445
+HKP 426
+Vatan Partisi 385
+TKP 316
+Gelecek Partisi 291
+Millet 175
+DP 118
+Milli Yol 95
+TKH 89
+Genç Parti 89
+TEK Parti 83
+DYP 77
+İttifak 70
+YMP 55
+YP 30
+Ocak 2
+-
+ERZİNCAN-2
+CHP 61714
+AK Parti 46166
+MHP 18506
+Anahtar Parti 7043
+Yeniden Refah 2759
+İYİ Parti 2722
+Zafer Partisi 2020
+DEM Parti 1815
+Saadet 1175
+Büyük Birlik 650
+TİP 545
+BTP 464
+DEVA Partisi 363
+DP 359
+HÜDA PAR 302
+ANAP 255
+AP 178
+HKP 124
+Gelecek Partisi 103
+SOL Parti 84
+Vatan Partisi 79
+TKP 66
+Millet 66
+DSP 63
+HAK PAR 61
+TEK Parti 46
+DYP 45
+Genç Parti 34
+İttifak 34
+YMP 26
+TKH 21
+GBP 18
+YP 7
+EMEP 2
+Ocak 1
+-
+ERZURUM-5
+AK Parti 161447
+MHP 42406
+DEM Parti 39932
+CHP 38545
+Anahtar Parti 31351
+Yeniden Refah 27952
+İYİ Parti 24146
+Zafer Partisi 16812
+Büyük Birlik 8395
+Saadet 5412
+DEVA Partisi 1956
+HÜDA PAR 1368
+ANAP 1089
+DP 1074
+SOL Parti 863
+BTP 848
+TKP 648
+TİP 646
+AP 605
+HKP 583
+Gelecek Partisi 425
+HAK PAR 336
+Milli Yol 326
+Vatan Partisi 270
+Millet 253
+AB Parti 194
+DYP 172
+İttifak 122
+TKH 118
+TEK Parti 107
+YMP 87
+YP 53
+EMEP 7
+Ocak 5
+-
+ESKİŞEHİR-7
+CHP 258000
+AK Parti 165934
+İYİ Parti 41392
+Zafer Partisi 27670
+Anahtar Parti 27448
+MHP 25701
+DEM Parti 11203
+Yeniden Refah 10764
+Büyük Birlik 6476
+TİP 5360
+Saadet 4608
+HKP 3649
+BTP 1409
+DEVA Partisi 1303
+TKP 1095
+Genç Parti 986
+HÜDA PAR 973
+DSP 668
+Millet 644
+DP 601
+Vatan Partisi 499
+SOL Parti 472
+EMEP 459
+Gelecek Partisi 431
+ANAP 348
+HAK PAR 292
+TEK Parti 209
+Milli Yol 186
+DYP 176
+YMP 131
+TKH 130
+İttifak 122
+GBP 82
+YP 53
+Ocak 7
+-
+GAZİANTEP-14
+AK Parti 400661
+CHP 278256
+DEM Parti 90461
+MHP 61428
+Anahtar Parti 60647
+Yeniden Refah 58610
+Zafer Partisi 51346
+İYİ Parti 30679
+HÜDA PAR 15517
+Saadet 10825
+Büyük Birlik 7921
+TİP 4036
+DEVA Partisi 3700
+BTP 2395
+ANAP 1932
+TKP 1887
+SOL Parti 1854
+Gelecek Partisi 1543
+AP 1424
+ABP 1416
+Millet 1234
+HKP 1039
+DP 1008
+HAK PAR 681
+Milli Yol 648
+Vatan Partisi 623
+AB Parti 398
+DYP 333
+TKH 331
+TEK Parti 307
+İttifak 258
+DSP 221
+YMP 215
+YP 183
+GBP 154
+EMEP 20
+Ocak 11
+-
+GİRESUN-4
+AK Parti 112906
+CHP 81655
+MHP 29978
+İYİ Parti 20655
+Anahtar Parti 17730
+Yeniden Refah 9760
+Zafer Partisi 7109
+Saadet 3096
+Büyük Birlik 1960
+HÜDA PAR 1002
+DEM Parti 894
+AP 879
+TİP 816
+BTP 738
+DEVA Partisi 688
+HKP 640
+ANAP 605
+HAK PAR 517
+TKP 494
+DP 420
+Gelecek Partisi 318
+Vatan Partisi 282
+Millet 271
+SOL Parti 234
+Milli Yol 143
+DYP 114
+TEK Parti 97
+İttifak 80
+TKH 80
+YMP 68
+GBP 34
+YP 23
+DSP 6
+Ocak 3
+EMEP 2
+-
+GÜMÜŞHANE-2
+AK Parti 33189
+MHP 13959
+CHP 8463
+İYİ Parti 7310
+Anahtar Parti 5903
+Yeniden Refah 2901
+Zafer Partisi 1538
+Saadet 930
+Büyük Birlik 752
+DP 459
+HÜDA PAR 444
+DEM Parti 263
+DEVA Partisi 225
+ANAP 185
+BTP 165
+TİP 142
+HKP 109
+Millet 89
+AP 87
+Milli Yol 83
+Gelecek Partisi 78
+TKP 76
+HAK PAR 67
+SOL Parti 65
+ABP 62
+DYP 45
+Vatan Partisi 43
+AB Parti 32
+İttifak 28
+TKH 27
+TEK Parti 24
+YMP 19
+YP 12
+GBP 12
+DSP 2
+Ocak 1
+-
+HAKKARİ-3
+DEM Parti 86346
+AK Parti 24837
+CHP 14413
+Yeniden Refah 3750
+Anahtar Parti 3499
+MHP 2417
+Zafer Partisi 2168
+HÜDA PAR 1372
+SOL Parti 905
+İYİ Parti 611
+Saadet 606
+Büyük Birlik 463
+Gelecek Partisi 404
+ANAP 275
+HKP 272
+BTP 238
+DEVA Partisi 227
+AP 201
+TKP 189
+HAK PAR 184
+Vatan Partisi 118
+Millet 105
+TKH 61
+DSP 56
+GBP 31
+DP 29
+YP 28
+DYP 18
+TEK Parti 15
+İttifak 15
+EMEP 12
+YMP 12
+-
+HATAY-10
+CHP 313522
+AK Parti 243937
+MHP 63092
+TİP 47129
+Anahtar Parti 40031
+İYİ Parti 35178
+DEM Parti 27068
+Yeniden Refah 20538
+Zafer Partisi 18225
+AP 10297
+Büyük Birlik 7986
+Saadet 7118
+TKP 5637
+DP 2431
+DEVA Partisi 2316
+HÜDA PAR 2066
+BTP 1575
+SOL Parti 1426
+HKP 906
+Gelecek Partisi 748
+Genç Parti 644
+EMEP 564
+TKH 551
+Vatan Partisi 483
+Millet 433
+DYP 379
+HAK PAR 371
+TEK Parti 255
+Milli Yol 229
+İttifak 168
+YMP 155
+YP 129
+GBP 129
+ANAP 9
+Ocak 7
+DSP 6
+-
+IĞDIR-2
+DEM Parti 44037
+AK Parti 28834
+CHP 9375
+MHP 4526
+Anahtar Parti 3619
+İYİ Parti 3527
+Zafer Partisi 1453
+Yeniden Refah 856
+Saadet 624
+SOL Parti 605
+DEVA Partisi 495
+HÜDA PAR 406
+Büyük Birlik 319
+TKP 226
+BTP 207
+HKP 173
+Gelecek Partisi 159
+ANAP 158
+AP 135
+HAK PAR 91
+Vatan Partisi 66
+AB Parti 46
+Millet 46
+DP 40
+TKH 38
+Genç Parti 31
+Milli Yol 30
+DYP 22
+GBP 22
+YP 18
+TEK Parti 18
+İttifak 15
+YMP 13
+EMEP 6
+Ocak 1
+-
+ISPARTA-4
+AK Parti 86446
+CHP 81093
+MHP 37040
+İYİ Parti 27156
+Anahtar Parti 15952
+Zafer Partisi 9776
+Yeniden Refah 6850
+Saadet 2754
+DEM Parti 2092
+Büyük Birlik 1661
+DP 1016
+HÜDA PAR 891
+BTP 760
+DEVA Partisi 741
+AP 692
+TİP 591
+ANAP 439
+HKP 391
+Vatan Partisi 369
+TKP 332
+Millet 301
+Genç Parti 266
+HAK PAR 245
+Gelecek Partisi 214
+Milli Yol 159
+DYP 130
+SOL Parti 98
+TEK Parti 96
+İttifak 83
+TKH 75
+YMP 66
+YP 31
+Ocak 4
+EMEP 2
+-
+İSTANBUL 1. BÖLGE-35
+CHP 1450032
+AK Parti 1050725
+DEM Parti 223694
+Anahtar Parti 172577
+İYİ Parti 151070
+Zafer Partisi 146004
+MHP 140768
+Yeniden Refah 138285
+TİP 100999
+Saadet 37643
+Büyük Birlik 37257
+HÜDA PAR 9631
+TKP 7807
+DEVA Partisi 5522
+AP 4396
+SOL Parti 4366
+BTP 4132
+ANAP 3745
+Genç Parti 3542
+Gelecek Partisi 2770
+Vatan Partisi 2616
+HKP 2354
+DP 2035
+Millet 1952
+HAK PAR 1272
+TEK Parti 1141
+TKH 1106
+DYP 969
+YMP 721
+AB Parti 715
+İttifak 713
+Milli Yol 694
+GBP 394
+YP 167
+EMEP 118
+Ocak 35
+-
+İSTANBUL 2. BÖLGE-25
+CHP 903895
+AK Parti 861129
+DEM Parti 194209
+Anahtar Parti 135375
+Yeniden Refah 132209
+İYİ Parti 121737
+Zafer Partisi 113519
+MHP 97968
+TİP 59569
+Saadet 29759
+Büyük Birlik 19719
+HÜDA PAR 10041
+TKP 5135
+DEVA Partisi 4466
+SOL Parti 3686
+AP 3627
+Genç Parti 3363
+ANAP 3216
+BTP 3083
+Gelecek Partisi 2305
+HKP 1866
+Vatan Partisi 1696
+Millet 1556
+DP 1504
+HAK PAR 962
+TEK Parti 819
+DYP 780
+TKH 732
+Milli Yol 667
+İttifak 568
+YMP 551
+AB Parti 531
+GBP 295
+YP 145
+EMEP 79
+Ocak 27
+-
+İSTANBUL 3. BÖLGE-36
+CHP 1164939
+AK Parti 1038706
+DEM Parti 354805
+Anahtar Parti 163171
+Zafer Partisi 149254
+İYİ Parti 148992
+MHP 143893
+Yeniden Refah 139317
+TİP 77198
+Saadet 33959
+Büyük Birlik 25064
+HÜDA PAR 12926
+SOL Parti 5723
+TKP 5559
+DEVA Partisi 5434
+Genç Parti 4406
+ANAP 4149
+BTP 3946
+HKP 2756
+Gelecek Partisi 2733
+Millet 2273
+Vatan Partisi 2184
+DP 1613
+HAK PAR 1324
+TEK Parti 1026
+AB Parti 934
+Milli Yol 899
+DYP 894
+TKH 869
+İttifak 711
+YMP 679
+GBP 417
+EMEP 117
+Ocak 35
+-
+İZMİR 1. BÖLGE-14
+CHP 753391
+AK Parti 295758
+DEM Parti 122861
+İYİ Parti 89040
+Zafer Partisi 49856
+Anahtar Parti 46538
+MHP 42118
+Yeniden Refah 15915
+Saadet 9875
+Büyük Birlik 6982
+TKP 6779
+HÜDA PAR 4226
+Genç Parti 3293
+SOL Parti 2667
+AP 2167
+DEVA Partisi 1916
+BTP 1823
+ANAP 1492
+Vatan Partisi 1458
+HKP 1336
+Millet 1043
+DP 998
+Gelecek Partisi 790
+TKH 738
+HAK PAR 605
+TEK Parti 496
+AB Parti 367
+DYP 361
+GBP 313
+Milli Yol 286
+YMP 286
+İttifak 227
+YP 126
+EMEP 32
+Ocak 14
+-
+İZMİR 2. BÖLGE-14
+CHP 770008
+AK Parti 309927
+İYİ Parti 88440
+DEM Parti 88212
+Zafer Partisi 53884
+MHP 53850
+Anahtar Parti 49494
+TİP 49333
+Yeniden Refah 18876
+Saadet 10455
+Büyük Birlik 7017
+HÜDA PAR 4566
+TKP 4481
+Genç Parti 3001
+AP 2338
+SOL Parti 2126
+DEVA Partisi 1955
+BTP 1895
+ANAP 1827
+HKP 1703
+Vatan Partisi 1622
+Millet 1303
+DP 1031
+Gelecek Partisi 821
+HAK PAR 804
+TKH 609
+TEK Parti 512
+AB Parti 407
+Milli Yol 396
+DYP 375
+YMP 295
+GBP 295
+İttifak 246
+YP 136
+EMEP 56
+Ocak 15
+-
+KAHRAMANMARAŞ-8
+AK Parti 255609
+CHP 123881
+MHP 59137
+Yeniden Refah 48815
+Anahtar Parti 46429
+İYİ Parti 25010
+Zafer Partisi 16847
+Büyük Birlik 10132
+DEM Parti 7611
+Saadet 7380
+DEVA Partisi 2324
+HÜDA PAR 2061
+BTP 1605
+TİP 1454
+Milli Yol 1416
+AP 967
+ANAP 932
+HKP 921
+Gelecek Partisi 861
+TKP 827
+HAK PAR 566
+Millet 432
+Vatan Partisi 388
+Genç Parti 370
+SOL Parti 369
+DP 358
+DYP 209
+İttifak 182
+TEK Parti 177
+TKH 170
+YMP 136
+DSP 71
+GBP 70
+YP 69
+Ocak 6
+EMEP 4
+-
+KARABÜK-2
+AK Parti 51029
+CHP 41534
+MHP 16053
+Yeniden Refah 15383
+Anahtar Parti 10146
+İYİ Parti 7790
+Zafer Partisi 5032
+Saadet 2209
+Büyük Birlik 707
+DEM Parti 646
+BTP 467
+HÜDA PAR 438
+AP 425
+DEVA Partisi 366
+ANAP 333
+TİP 319
+HKP 224
+Gelecek Partisi 196
+HAK PAR 180
+DP 170
+Genç Parti 168
+TKP 167
+SOL Parti 164
+Milli Yol 157
+Millet 136
+Vatan Partisi 126
+AB Parti 94
+DYP 56
+İttifak 47
+TEK Parti 46
+TKH 44
+YMP 35
+YP 27
+GBP 21
+DSP 12
+Ocak 2
+EMEP 1
+-
+KARAMAN-3
+AK Parti 57690
+CHP 40177
+MHP 20777
+Anahtar Parti 11539
+İYİ Parti 9107
+Yeniden Refah 4828
+Zafer Partisi 4795
+Büyük Birlik 4076
+Saadet 1606
+DEM Parti 828
+HÜDA PAR 450
+BTP 435
+DEVA Partisi 339
+AP 337
+HKP 316
+TİP 300
+TKP 294
+ANAP 236
+Millet 174
+Genç Parti 161
+HAK PAR 157
+Vatan Partisi 151
+SOL Parti 145
+Gelecek Partisi 135
+DP 117
+AB Parti 73
+TKH 68
+DYP 53
+TEK Parti 49
+İttifak 47
+YMP 35
+YP 21
+GBP 19
+Ocak 2
+Milli Yol 1
+EMEP 1
+-
+KARS-3
+DEM Parti 39244
+AK Parti 32116
+CHP 31362
+İYİ Parti 11003
+MHP 9568
+Anahtar Parti 5924
+Yeniden Refah 3596
+Saadet 875
+Büyük Birlik 853
+DEVA Partisi 833
+SOL Parti 825
+HÜDA PAR 581
+Gelecek Partisi 481
+BTP 397
+HKP 378
+TKP 353
+Zafer Partisi 336
+AP 238
+Vatan Partisi 157
+HAK PAR 121
+Milli Yol 109
+AB Parti 101
+Millet 97
+DP 95
+Genç Parti 93
+TKH 75
+YP 39
+DYP 38
+GBP 35
+TEK Parti 34
+İttifak 25
+DSP 25
+YMP 24
+EMEP 6
+ANAP 1
+Ocak 1
+-
+KASTAMONU-3
+AK Parti 96251
+CHP 67826
+MHP 26163
+Anahtar Parti 15716
+Yeniden Refah 12367
+İYİ Parti 9977
+Zafer Partisi 6487
+Saadet 2410
+Büyük Birlik 2269
+ANAP 1005
+HÜDA PAR 904
+AP 807
+HKP 677
+BTP 633
+DEM Parti 618
+DEVA Partisi 532
+TKP 390
+HAK PAR 350
+Vatan Partisi 298
+Millet 282
+Genç Parti 241
+TİP 241
+Gelecek Partisi 236
+DP 225
+Milli Yol 142
+SOL Parti 131
+TKH 104
+DYP 86
+TEK Parti 76
+İttifak 68
+EMEP 64
+YMP 53
+GBP 38
+DSP 31
+YP 30
+Ocak 2
+-
+KAYSERİ-10
+AK Parti 317273
+CHP 192916
+MHP 102302
+Anahtar Parti 63729
+İYİ Parti 55396
+Zafer Partisi 46358
+Yeniden Refah 44607
+Büyük Birlik 18372
+Saadet 13054
+DEM Parti 7546
+DEVA Partisi 2787
+HÜDA PAR 2415
+TİP 2203
+BTP 2167
+Gelecek Partisi 1051
+Vatan Partisi 902
+HKP 838
+TKP 827
+Millet 779
+EMEP 677
+Genç Parti 665
+Milli Yol 533
+DP 525
+SOL Parti 425
+HAK PAR 408
+DYP 292
+TEK Parti 272
+İttifak 271
+YMP 200
+YP 146
+TKH 146
+Ocak 13
+ANAP 11
+-
+KIRIKKALE-3
+CHP 59242
+AK Parti 54265
+MHP 24395
+Anahtar Parti 9668
+İYİ Parti 9490
+Yeniden Refah 4386
+Zafer Partisi 4224
+Saadet 1470
+Büyük Birlik 1314
+DEM Parti 621
+DEVA Partisi 445
+ANAP 411
+HÜDA PAR 378
+BTP 337
+TİP 319
+AP 270
+DP 234
+HKP 205
+Vatan Partisi 160
+Millet 138
+Gelecek Partisi 129
+TKP 114
+Milli Yol 94
+Genç Parti 90
+HAK PAR 76
+SOL Parti 56
+DYP 56
+TEK Parti 56
+İttifak 47
+TKH 37
+YMP 36
+YP 16
+Ocak 2
+EMEP 1
+-
+KIRKLARELİ-3
+CHP 142028
+AK Parti 51469
+İYİ Parti 19638
+Anahtar Parti 8426
+MHP 8332
+Zafer Partisi 6275
+DEM Parti 3986
+TİP 2638
+Yeniden Refah 2146
+Saadet 1576
+Büyük Birlik 1240
+BTP 863
+DP 804
+Genç Parti 532
+DEVA Partisi 476
+HÜDA PAR 467
+HKP 435
+ANAP 407
+AP 401
+SOL Parti 401
+TKP 391
+Millet 236
+Vatan Partisi 211
+HAK PAR 199
+DSP 155
+Gelecek Partisi 138
+EMEP 121
+Milli Yol 116
+TEK Parti 93
+DYP 89
+TKH 67
+AB Parti 60
+GBP 56
+YMP 53
+İttifak 39
+YP 27
+Ocak 2
+-
+KIRŞEHİR-2
+CHP 53992
+AK Parti 47148
+MHP 13838
+Anahtar Parti 7661
+İYİ Parti 5874
+Zafer Partisi 4343
+DEM Parti 3466
+Yeniden Refah 3002
+Büyük Birlik 1589
+Saadet 1144
+TİP 348
+ANAP 343
+BTP 323
+AP 312
+HÜDA PAR 305
+DEVA Partisi 290
+DP 231
+TKP 203
+HKP 175
+Milli Yol 170
+SOL Parti 154
+Gelecek Partisi 109
+Millet 107
+EMEP 94
+HAK PAR 94
+Vatan Partisi 82
+Genç Parti 59
+TEK Parti 47
+DYP 47
+İttifak 34
+TKH 30
+GBP 30
+YMP 29
+YP 14
+Ocak 1
+-
+KİLİS-2
+AK Parti 28871
+CHP 22345
+MHP 13963
+Anahtar Parti 4870
+İYİ Parti 2816
+Yeniden Refah 2473
+Zafer Partisi 2417
+DEM Parti 724
+Saadet 675
+HÜDA PAR 438
+Büyük Birlik 416
+BTP 367
+DEVA Partisi 272
+TİP 224
+TKP 115
+ANAP 110
+HKP 91
+Millet 83
+AP 83
+Genç Parti 69
+Gelecek Partisi 66
+DP 51
+Vatan Partisi 41
+HAK PAR 41
+SOL Parti 35
+İttifak 26
+AB Parti 26
+TEK Parti 25
+DYP 24
+YMP 17
+TKH 14
+GBP 12
+YP 10
+Milli Yol 8
+Ocak 1
+EMEP 1
+-
+KOCAELİ-14
+AK Parti 412633
+CHP 369126
+Yeniden Refah 85214
+Anahtar Parti 74440
+MHP 65353
+İYİ Parti 63702
+DEM Parti 63268
+Zafer Partisi 59543
+TİP 40839
+Saadet 18367
+ANAP 16698
+Büyük Birlik 14082
+DEVA Partisi 3883
+HÜDA PAR 3314
+TKP 3160
+BTP 2994
+AP 2103
+HKP 1951
+Genç Parti 1811
+SOL Parti 1557
+Vatan Partisi 1303
+Gelecek Partisi 1215
+DP 1212
+Millet 970
+EMEP 853
+Milli Yol 738
+HAK PAR 618
+TKH 455
+DYP 413
+TEK Parti 379
+AB Parti 345
+İttifak 311
+YMP 272
+YP 129
+DSP 53
+Ocak 15
+-
+KONYA-15
+AK Parti 569426
+CHP 237358
+MHP 119218
+Anahtar Parti 105183
+Yeniden Refah 96087
+Zafer Partisi 63972
+İYİ Parti 63666
+DEM Parti 33717
+Büyük Birlik 29006
+Saadet 21424
+HÜDA PAR 4606
+DEVA Partisi 4566
+DP 3091
+AP 2981
+BTP 2734
+TİP 2718
+Gelecek Partisi 2500
+ANAP 2149
+HKP 1824
+Milli Yol 1328
+TKP 1324
+Millet 1201
+SOL Parti 1130
+HAK PAR 909
+Vatan Partisi 797
+DYP 566
+İttifak 407
+TEK Parti 395
+YMP 307
+TKH 260
+GBP 138
+Ocak 17
+EMEP 11
+-
+KÜTAHYA-4
+AK Parti 150303
+CHP 80439
+MHP 36057
+Yeniden Refah 33176
+Anahtar Parti 27910
+İYİ Parti 20941
+Zafer Partisi 9831
+Saadet 5414
+Büyük Birlik 4617
+DEM Parti 1132
+DEVA Partisi 1022
+HÜDA PAR 980
+ANAP 895
+AP 875
+BTP 721
+TİP 657
+HKP 655
+Millet 639
+DP 567
+HAK PAR 422
+Gelecek Partisi 420
+Vatan Partisi 404
+TKP 383
+Genç Parti 346
+SOL Parti 154
+DYP 149
+TKH 126
+TEK Parti 112
+İttifak 112
+YMP 86
+Ocak 4
+EMEP 2
+Milli Yol 1
+-
+MALATYA-6
+AK Parti 157562
+CHP 110672
+Yeniden Refah 45189
+MHP 30830
+Anahtar Parti 29865
+DEM Parti 11646
+İYİ Parti 8162
+Zafer Partisi 6971
+Saadet 5634
+Büyük Birlik 5487
+TİP 3228
+HÜDA PAR 2147
+DEVA Partisi 1011
+ANAP 945
+BTP 738
+SOL Parti 562
+TKP 546
+Gelecek Partisi 470
+HKP 460
+Vatan Partisi 254
+HAK PAR 210
+Millet 194
+DP 183
+EMEP 171
+Ocak 164
+DYP 118
+Milli Yol 117
+TEK Parti 113
+TKH 113
+İttifak 107
+YMP 83
+ABP 69
+GBP 36
+-
+MANİSA-10
+CHP 367727
+AK Parti 253454
+MHP 84055
+İYİ Parti 57807
+DEM Parti 48465
+Anahtar Parti 47892
+Zafer Partisi 32416
+Yeniden Refah 19716
+Büyük Birlik 12401
+Saadet 8956
+TİP 4151
+HÜDA PAR 3156
+TKP 2259
+AP 2175
+DP 2146
+DEVA Partisi 2026
+BTP 1911
+HKP 1698
+Genç Parti 1584
+ANAP 1525
+Vatan Partisi 1294
+SOL Parti 1167
+Millet 1100
+Gelecek Partisi 1046
+HAK PAR 963
+YTP 943
+Milli Yol 590
+EMEP 554
+TKH 353
+DYP 329
+TEK Parti 308
+İttifak 216
+YMP 194
+YP 168
+DSP 47
+Ocak 11
+-
+MARDİN-6
+DEM Parti 220972
+AK Parti 86973
+CHP 40351
+HÜDA PAR 13336
+Anahtar Parti 10275
+MHP 7499
+Yeniden Refah 6734
+Zafer Partisi 2936
+DP 2526
+İYİ Parti 2489
+SOL Parti 2052
+Saadet 1931
+DEVA Partisi 1757
+Büyük Birlik 734
+HAK PAR 498
+TKP 439
+BTP 434
+Gelecek Partisi 386
+ANAP 378
+HKP 327
+Vatan Partisi 185
+AB Parti 176
+Millet 143
+DYP 132
+Genç Parti 124
+TKH 91
+Milli Yol 83
+GBP 64
+TEK Parti 48
+İttifak 39
+YMP 34
+EMEP 32
+YP 32
+Ocak 1
+-
+MERSİN-13
+CHP 475978
+AK Parti 235258
+DEM Parti 141420
+MHP 98880
+İYİ Parti 76110
+Anahtar Parti 43625
+Zafer Partisi 33917
+TİP 13792
+Yeniden Refah 13688
+HÜDA PAR 7255
+Saadet 7098
+Büyük Birlik 5558
+DEVA Partisi 3102
+BTP 2726
+SOL Parti 2241
+TKP 1980
+EMEP 1565
+AP 1507
+DP 1468
+Genç Parti 1333
+Gelecek Partisi 1167
+HKP 1093
+Vatan Partisi 836
+Millet 717
+HAK PAR 697
+TEK Parti 361
+AB Parti 323
+DYP 318
+TKH 306
+İttifak 238
+YMP 221
+GBP 168
+YP 93
+DSP 49
+Ocak 12
+ANAP 8
+Milli Yol 2
+-
+MUĞLA-8
+CHP 337737
+AK Parti 143370
+İYİ Parti 62676
+MHP 27268
+Anahtar Parti 23375
+TİP 23366
+DEM Parti 22608
+Zafer Partisi 19185
+Yeniden Refah 5766
+Saadet 4388
+TKP 1918
+Büyük Birlik 1902
+DEVA Partisi 1799
+HÜDA PAR 1696
+BTP 1581
+AP 1499
+Vatan Partisi 1254
+Genç Parti 1157
+SOL Parti 1043
+ANAP 977
+HKP 953
+YTP 815
+EMEP 776
+DP 627
+Millet 532
+HAK PAR 532
+Gelecek Partisi 385
+TEK Parti 246
+Milli Yol 222
+TKH 214
+DYP 207
+YMP 149
+İttifak 120
+YP 84
+DSP 39
+Ocak 7
+-
+MUŞ-3
+DEM Parti 86970
+AK Parti 34267
+MHP 16260
+CHP 11542
+Anahtar Parti 6687
+Yeniden Refah 6521
+İYİ Parti 5300
+HÜDA PAR 4663
+DEVA Partisi 1509
+SOL Parti 1202
+Saadet 1191
+Zafer Partisi 1056
+HAK PAR 1036
+Büyük Birlik 682
+ANAP 470
+BTP 391
+HKP 322
+TKP 247
+Vatan Partisi 194
+AP 178
+Millet 115
+Genç Parti 110
+Gelecek Partisi 102
+TKH 73
+YP 65
+DP 65
+GBP 55
+DYP 32
+İttifak 32
+TEK Parti 23
+DSP 21
+YMP 19
+EMEP 12
+Ocak 1
+-
+NEVŞEHİR-3
+AK Parti 71267
+CHP 46000
+MHP 27257
+İYİ Parti 18172
+Anahtar Parti 12794
+Yeniden Refah 5330
+Zafer Partisi 4568
+Büyük Birlik 2031
+Saadet 1804
+DEM Parti 1070
+TİP 767
+HÜDA PAR 758
+BTP 469
+DEVA Partisi 415
+ANAP 397
+AP 384
+HKP 253
+Vatan Partisi 207
+DP 202
+TKP 202
+Gelecek Partisi 170
+HAK PAR 131
+SOL Parti 127
+Millet 121
+Genç Parti 89
+DYP 76
+TEK Parti 65
+İttifak 59
+TKH 48
+YMP 46
+YP 19
+Ocak 3
+EMEP 1
+Milli Yol 1
+-
+NİĞDE-3
+CHP 68401
+AK Parti 67911
+MHP 32383
+İYİ Parti 14369
+Anahtar Parti 12854
+Yeniden Refah 7405
+Zafer Partisi 5168
+Saadet 2115
+Büyük Birlik 1656
+DEM Parti 1060
+HÜDA PAR 549
+BTP 493
+DEVA Partisi 479
+AP 371
+TİP 308
+HKP 308
+ANAP 306
+Vatan Partisi 213
+TKP 199
+Millet 184
+HAK PAR 181
+DP 171
+Gelecek Partisi 169
+Genç Parti 118
+SOL Parti 107
+EMEP 101
+DYP 71
+TEK Parti 70
+İttifak 64
+Milli Yol 63
+TKH 57
+YMP 47
+GBP 39
+YP 17
+Ocak 3
+-
+ORDU-6
+AK Parti 189073
+CHP 151357
+MHP 37545
+İYİ Parti 31646
+Anahtar Parti 28606
+Yeniden Refah 15063
+Zafer Partisi 11108
+Saadet 4603
+Büyük Birlik 4169
+ANAP 1957
+HÜDA PAR 1489
+AP 1270
+DEM Parti 1250
+HKP 1128
+BTP 1075
+TİP 1047
+HAK PAR 1034
+DEVA Partisi 989
+TKP 691
+SOL Parti 592
+DP 552
+Gelecek Partisi 536
+Vatan Partisi 520
+Millet 432
+DYP 178
+TKH 177
+Ocak 172
+TEK Parti 163
+İttifak 120
+YMP 110
+GBP 82
+YP 65
+DSP 30
+EMEP 4
+Milli Yol 1
+-
+OSMANİYE-4
+AK Parti 98540
+CHP 77774
+MHP 62891
+İYİ Parti 24596
+Anahtar Parti 19968
+Zafer Partisi 9701
+Yeniden Refah 8229
+DEM Parti 6807
+Saadet 2652
+Büyük Birlik 2362
+HÜDA PAR 1826
+DP 1103
+BTP 942
+HKP 758
+TİP 688
+DEVA Partisi 658
+TKP 396
+EMEP 394
+Vatan Partisi 364
+Genç Parti 346
+Gelecek Partisi 323
+Millet 299
+SOL Parti 244
+HAK PAR 177
+DYP 132
+İttifak 108
+AB Parti 103
+TEK Parti 101
+TKH 81
+YMP 70
+YP 27
+Ocak 5
+ANAP 3
+Milli Yol 1
+-
+RİZE-3
+AK Parti 97747
+CHP 55588
+MHP 17884
+Anahtar Parti 15843
+Yeniden Refah 13551
+İYİ Parti 7096
+Zafer Partisi 5751
+Büyük Birlik 3482
+Saadet 3205
+ANAP 1156
+DEVA Partisi 788
+DEM Parti 717
+BTP 556
+AP 520
+TİP 404
+HÜDA PAR 376
+HKP 307
+SOL Parti 248
+Gelecek Partisi 241
+TKP 234
+HAK PAR 232
+DP 188
+Millet 172
+Vatan Partisi 151
+Genç Parti 132
+Milli Yol 103
+EMEP 94
+DYP 77
+TEK Parti 67
+İttifak 61
+TKH 51
+YMP 49
+GBP 28
+YP 21
+Ocak 2
+-
+SAKARYA-8
+AK Parti 278712
+CHP 143539
+MHP 49657
+Anahtar Parti 47906
+Yeniden Refah 44780
+İYİ Parti 39678
+Zafer Partisi 28650
+Saadet 12663
+Büyük Birlik 9744
+DEM Parti 9372
+DEVA Partisi 2619
+TİP 2262
+Genç Parti 2091
+BTP 1806
+HÜDA PAR 1612
+AP 1369
+Gelecek Partisi 878
+HKP 796
+DP 698
+Millet 693
+TKP 667
+Vatan Partisi 649
+SOL Parti 464
+HAK PAR 377
+Milli Yol 296
+DYP 257
+ABP 233
+TEK Parti 209
+İttifak 193
+AB Parti 193
+YMP 158
+TKH 97
+YP 62
+DSP 51
+ANAP 10
+Ocak 8
+EMEP 5
+-
+SAMSUN-9
+AK Parti 322103
+CHP 222608
+MHP 74470
+İYİ Parti 61381
+Anahtar Parti 58358
+Yeniden Refah 47374
+Zafer Partisi 30159
+Büyük Birlik 12514
+Saadet 10064
+TİP 3350
+DEM Parti 3025
+BTP 2578
+DEVA Partisi 2231
+ANAP 1938
+HÜDA PAR 1927
+TKP 1479
+HKP 1429
+Gelecek Partisi 1374
+Genç Parti 971
+Millet 962
+DP 841
+HAK PAR 803
+Vatan Partisi 705
+SOL Parti 605
+AB Parti 417
+Milli Yol 354
+DYP 303
+TEK Parti 278
+İttifak 243
+TKH 233
+YMP 204
+EMEP 138
+DSP 122
+GBP 82
+Ocak 10
+-
+SİİRT-3
+DEM Parti 70728
+AK Parti 47225
+CHP 15672
+Anahtar Parti 5397
+MHP 4043
+HÜDA PAR 2974
+Yeniden Refah 2476
+Zafer Partisi 2304
+DEVA Partisi 1312
+İYİ Parti 1209
+Saadet 836
+SOL Parti 709
+Büyük Birlik 482
+HKP 262
+BTP 241
+TKP 197
+ANAP 187
+HAK PAR 172
+Vatan Partisi 137
+AP 134
+Gelecek Partisi 110
+DP 102
+AB Parti 84
+Millet 70
+Genç Parti 68
+TKH 55
+DYP 31
+TEK Parti 24
+İttifak 21
+YMP 18
+EMEP 10
+Ocak 1
+-
+SİNOP-2
+AK Parti 50418
+CHP 45057
+Anahtar Parti 10602
+MHP 8692
+İYİ Parti 6883
+Büyük Birlik 5761
+Yeniden Refah 4250
+Zafer Partisi 3244
+Saadet 1345
+TİP 671
+DEM Parti 564
+AP 551
+HÜDA PAR 531
+HKP 454
+HAK PAR 386
+DEVA Partisi 377
+ANAP 375
+BTP 336
+TKP 301
+Vatan Partisi 215
+Millet 197
+EMEP 151
+Genç Parti 121
+DP 121
+Gelecek Partisi 120
+SOL Parti 118
+TKH 94
+YP 89
+DYP 47
+TEK Parti 44
+İttifak 31
+GBP 31
+YMP 29
+DSP 7
+Milli Yol 2
+Ocak 1
+-
+SİVAS-5
+AK Parti 131225
+CHP 78382
+Anahtar Parti 48059
+MHP 43847
+Büyük Birlik 41109
+Yeniden Refah 16132
+İYİ Parti 13893
+Zafer Partisi 10194
+Saadet 3692
+DEM Parti 1844
+TİP 1005
+DEVA Partisi 924
+Milli Yol 864
+BTP 788
+HÜDA PAR 654
+Gelecek Partisi 476
+TKP 340
+HKP 324
+DP 232
+HAK PAR 221
+SOL Parti 208
+Vatan Partisi 201
+Millet 196
+DYP 105
+TEK Parti 100
+İttifak 100
+YMP 71
+TKH 61
+EMEP 60
+GBP 60
+DSP 29
+YP 26
+ANAP 5
+Ocak 4
+-
+ŞANLIURFA-15
+AK Parti 345639
+DEM Parti 232203
+CHP 94916
+MHP 52611
+Anahtar Parti 48593
+Yeniden Refah 45202
+İYİ Parti 20632
+HÜDA PAR 19969
+Saadet 8369
+Büyük Birlik 4856
+SOL Parti 3434
+DEVA Partisi 2579
+TİP 2184
+Gelecek Partisi 1642
+Zafer Partisi 1173
+ANAP 1161
+TKP 1120
+BTP 1004
+HKP 890
+HAK PAR 725
+Milli Yol 603
+EMEP 579
+Millet 517
+DP 489
+Vatan Partisi 473
+AB Parti 435
+TKH 244
+DYP 227
+İttifak 183
+TEK Parti 182
+YMP 143
+GBP 134
+DSP 66
+Ocak 3
+-
+ŞIRNAK-4
+DEM Parti 152616
+AK Parti 44005
+CHP 29548
+HÜDA PAR 8195
+Anahtar Parti 5017
+Zafer Partisi 4560
+Gelecek Partisi 3529
+MHP 3487
+Yeniden Refah 2057
+İYİ Parti 1548
+SOL Parti 1142
+Saadet 730
+DEVA Partisi 544
+BTP 434
+Büyük Birlik 416
+HAK PAR 293
+TKP 237
+HKP 207
+ANAP 182
+Vatan Partisi 137
+AP 120
+AB Parti 118
+Genç Parti 86
+TKH 80
+Millet 73
+DP 40
+GBP 40
+YP 33
+TEK Parti 29
+DYP 28
+EMEP 22
+İttifak 21
+YMP 19
+Ocak 1
+-
+TEKİRDAĞ-8
+CHP 335236
+AK Parti 185553
+İYİ Parti 42779
+DEM Parti 39910
+Anahtar Parti 28481
+MHP 26894
+Zafer Partisi 25862
+Yeniden Refah 14857
+TİP 6452
+Saadet 4872
+Büyük Birlik 3910
+Genç Parti 1941
+DEVA Partisi 1877
+BTP 1514
+HÜDA PAR 1447
+Gelecek Partisi 1077
+AP 1041
+TKP 1040
+HKP 976
+Vatan Partisi 933
+SOL Parti 781
+Millet 606
+DP 584
+HAK PAR 549
+ABP 378
+EMEP 330
+TEK Parti 246
+DSP 212
+DYP 201
+TKH 194
+YMP 151
+AB Parti 144
+İttifak 136
+Milli Yol 93
+Ocak 7
+ANAP 7
+-
+TOKAT-5
+AK Parti 128798
+CHP 104312
+MHP 57507
+Anahtar Parti 28244
+İYİ Parti 22415
+Yeniden Refah 11540
+Büyük Birlik 10736
+Zafer Partisi 8161
+Saadet 3408
+DEM Parti 1512
+TİP 1355
+DEVA Partisi 890
+HÜDA PAR 829
+BTP 777
+ANAP 677
+HKP 559
+Millet 447
+Gelecek Partisi 345
+TKP 342
+HAK PAR 311
+SOL Parti 302
+DP 258
+Vatan Partisi 231
+TEK Parti 118
+DYP 115
+İttifak 112
+YMP 80
+TKH 64
+GBP 45
+Ocak 4
+DSP 4
+Milli Yol 3
+EMEP 3
+-
+TRABZON-6
+AK Parti 212422
+CHP 122009
+Anahtar Parti 36047
+MHP 33981
+İYİ Parti 33959
+Yeniden Refah 30364
+Zafer Partisi 15182
+Saadet 8943
+Büyük Birlik 7993
+BTP 2672
+DP 2109
+DEM Parti 1713
+DEVA Partisi 1364
+AP 1074
+HÜDA PAR 956
+TİP 823
+HKP 782
+HAK PAR 587
+Gelecek Partisi 545
+Vatan Partisi 526
+Millet 462
+TKP 449
+SOL Parti 392
+DYP 249
+TEK Parti 163
+İttifak 137
+TKH 122
+YMP 121
+YP 81
+DSP 25
+Milli Yol 25
+ANAP 8
+Ocak 5
+EMEP 3
+-
+TUNCELİ-2
+CHP 19753
+DEM Parti 18663
+AK Parti 5311
+EMEP 3271
+TİP 1685
+MHP 1607
+Anahtar Parti 898
+SOL Parti 624
+Yeniden Refah 569
+İYİ Parti 529
+Zafer Partisi 494
+TKP 228
+Saadet 170
+Büyük Birlik 148
+BTP 146
+DEVA Partisi 126
+HÜDA PAR 98
+ANAP 60
+TKH 57
+HKP 47
+DP 40
+Vatan Partisi 36
+HAK PAR 35
+AP 30
+Genç Parti 27
+Millet 19
+Gelecek Partisi 17
+DSP 13
+YP 11
+TEK Parti 10
+Milli Yol 10
+GBP 8
+DYP 6
+YMP 5
+İttifak 4
+-
+UŞAK-3
+CHP 92974
+AK Parti 75087
+İYİ Parti 23048
+MHP 15311
+Anahtar Parti 12101
+Zafer Partisi 6373
+Yeniden Refah 4585
+DEM Parti 3136
+Saadet 2186
+Büyük Birlik 1668
+HÜDA PAR 712
+DEVA Partisi 628
+BTP 623
+TİP 540
+AP 523
+ANAP 472
+SOL Parti 423
+HKP 422
+Vatan Partisi 354
+DP 328
+Genç Parti 323
+EMEP 240
+TKP 231
+Millet 231
+HAK PAR 197
+Gelecek Partisi 187
+DYP 89
+TEK Parti 87
+AB Parti 81
+TKH 59
+YMP 57
+İttifak 54
+DSP 17
+Ocak 3
+-
+VAN-8
+DEM Parti 260394
+AK Parti 109983
+CHP 56887
+Yeniden Refah 19336
+Anahtar Parti 17704
+MHP 14716
+HÜDA PAR 8192
+Zafer Partisi 5864
+Büyük Birlik 4005
+SOL Parti 3048
+İYİ Parti 2976
+Saadet 2911
+DEVA Partisi 2006
+HKP 1941
+HAK PAR 1440
+TKP 1159
+Gelecek Partisi 1009
+BTP 724
+Vatan Partisi 436
+EMEP 289
+TKH 249
+Milli Yol 234
+Millet 215
+AB Parti 162
+DP 79
+DYP 70
+TEK Parti 64
+İttifak 64
+YMP 50
+ANAP 4
+Ocak 1
+-
+YALOVA-3
+CHP 63742
+AK Parti 50640
+MHP 11528
+DEM Parti 8486
+İYİ Parti 8241
+Anahtar Parti 7921
+Zafer Partisi 6119
+Yeniden Refah 4481
+Saadet 1523
+Büyük Birlik 1083
+TİP 1077
+DEVA Partisi 624
+HÜDA PAR 548
+DP 385
+BTP 382
+ANAP 316
+AP 297
+Gelecek Partisi 239
+SOL Parti 224
+Genç Parti 212
+Millet 206
+TKP 186
+HKP 177
+Vatan Partisi 127
+EMEP 96
+HAK PAR 86
+DYP 58
+Milli Yol 57
+TEK Parti 54
+İttifak 44
+AB Parti 41
+YMP 38
+TKH 31
+GBP 27
+YP 12
+Ocak 2
+-
+YOZGAT-3
+AK Parti 94355
+MHP 39019
+CHP 38028
+İYİ Parti 27584
+Anahtar Parti 19900
+Yeniden Refah 13987
+Zafer Partisi 5138
+Büyük Birlik 4284
+Saadet 2725
+DEM Parti 911
+ANAP 836
+DEVA Partisi 759
+BTP 556
+HÜDA PAR 542
+HKP 489
+TİP 330
+Millet 302
+Vatan Partisi 276
+Gelecek Partisi 274
+TKP 271
+SOL Parti 262
+DP 251
+HAK PAR 251
+Genç Parti 150
+DYP 101
+İttifak 85
+TEK Parti 81
+YMP 63
+TKH 54
+YP 28
+DSP 18
+Ocak 3
+Milli Yol 1
+EMEP 1
+-
+ZONGULDAK-5
+CHP 154560
+AK Parti 127665
+MHP 20407
+İYİ Parti 19934
+Anahtar Parti 19446
+Yeniden Refah 12198
+Zafer Partisi 10504
+Saadet 4276
+Büyük Birlik 3132
+DEM Parti 1458
+TİP 1350
+AP 1200
+ANAP 1065
+HÜDA PAR 1035
+HKP 811
+DEVA Partisi 764
+BTP 761
+TKP 574
+Genç Parti 570
+HAK PAR 558
+Vatan Partisi 532
+Gelecek Partisi 524
+DP 491
+Millet 460
+SOL Parti 385
+AB Parti 218
+TKH 153
+TEK Parti 129
+DYP 129
+YMP 82
+İttifak 81
+EMEP 69
+YP 68
+GBP 66
+Milli Yol 58
+DSP 51
+Ocak 3
+-
